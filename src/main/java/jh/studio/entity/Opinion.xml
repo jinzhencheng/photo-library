@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="jh.studio.entity.Opinion" table="opinion">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="content" type="string">
+            <column name="content" not-null="true" />
+        </property>
+        <property name="theDate" type="java.lang.Date">
+            <column name="the_date"/>
+        </property>
+        <many-to-one name="userId" column="user_id" class="jh.studio.entity.User">  
+        </many-to-one>
+    </class>
+</hibernate-mapping>
