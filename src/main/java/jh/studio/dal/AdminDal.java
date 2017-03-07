@@ -5,6 +5,7 @@ import java.util.List;
 import jh.studio.entity.Admin;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
+import jh.studio.inter.IDal;
 
 public class AdminDal extends BaseDal implements IDal<Admin>{
 

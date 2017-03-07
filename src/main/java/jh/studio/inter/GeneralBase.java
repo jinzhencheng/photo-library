@@ -1,4 +1,4 @@
-package jh.studio.dal;
+package jh.studio.inter;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +20,7 @@ public class GeneralBase {
 	}
 	
 	/*ÀÁººµ¥Àý*/
-	protected Session openSession(){
+	public Session openSession(){
 		if(session!=null)
 			return session;
 		if(factory!=null){
@@ -29,7 +29,7 @@ public class GeneralBase {
 		return session;
 	}
 	
-	protected void closeSession(){
+	public void closeSession(){
 		if(session!=null)
 			session.close();
 	}

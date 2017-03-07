@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="photo_library" match-name="admin"/>
+  <table-filter match-catalog="photo_library" match-name="category"/>
+  <table-filter match-catalog="photo_library" match-name="category_agent"/>
+  <table-filter match-catalog="photo_library" match-name="collection"/>
+  <table-filter match-catalog="photo_library" match-name="my_user"/>
+  <table-filter match-catalog="photo_library" match-name="opinion"/>
+  <table-filter match-catalog="photo_library" match-name="photo"/>
+  <table-filter match-catalog="photo_library" match-name="photo_agent"/>
+  <table-filter match-catalog="photo_library" match-name="record"/>
+  <table-filter match-catalog="photo_library" match-name="setting"/>
+  <table-filter match-catalog="photo_library" match-name="tag"/>
+</hibernate-reverse-engineering>

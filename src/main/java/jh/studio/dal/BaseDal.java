@@ -2,6 +2,8 @@ package jh.studio.dal;
 
 import org.hibernate.Session;
 
+import jh.studio.inter.GeneralBase;
+
 /**
  * @author jinzhencheng
  * @email jinzhencheng@outlook.com

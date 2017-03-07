@@ -1,4 +1,4 @@
-package jh.studio.dal;
+package jh.studio.inter;
 
 import java.util.List;
 
