@@ -6,6 +6,12 @@ public class Admin {
 	private String username;
 	private String password;
 	
+	
+	public Admin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Admin(int id ,String username,String password){
 		this.id=id;
 		this.username=username;
