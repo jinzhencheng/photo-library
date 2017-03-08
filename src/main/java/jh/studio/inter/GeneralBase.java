@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 /**
  * @author jinzhencheng
  * @email jinzhencheng@outlook.com
- * @description hibernate»ù´¡Àà
+ * @description hibernateæ“ä½œç±»
  */
 public class GeneralBase {
 	
@@ -19,7 +19,6 @@ public class GeneralBase {
 		factory=conf.buildSessionFactory();
 	}
 	
-	/*ÀÁººµ¥Àı*/
 	public Session openSession(){
 		if(session!=null)
 			return session;
