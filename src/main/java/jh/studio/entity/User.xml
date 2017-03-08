@@ -11,5 +11,9 @@
         <property name="openId" type="string">
             <column name="open_id" length="20" not-null="true" />
         </property>
+		<set name="photos" table="collection">
+			<key column="user_id"></key>  
+            <many-to-many column="photo_id" class="jh.studio.entity.Photo"/>  
+		</set>
     </class>
 </hibernate-mapping>

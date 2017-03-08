@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
     <class name="jh.studio.entity.Photo" table="photo">
@@ -14,5 +15,9 @@
         <property name="theDate" type="java.lang.Date">
             <column name="the_date"/>
         </property>
+		<set name="users" table="collection">
+			<key column="photo_id"></key>  
+            <many-to-many column="user_id" class="jh.studio.entity.User"/>  
+		</set>
     </class>
 </hibernate-mapping>
