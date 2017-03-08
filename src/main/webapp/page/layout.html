@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>SunCool后台管理</title>
+	<style>
+		#the-north{height:80px;background:#003366;color:white;padding-left:20px;line-height:70px;font-size:35px;font-family:'华文行楷'}
+		#the-west{width:150px;padding:10px;}
+	</style>
+	<link rel="stylesheet" type="text/css" href="../css/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../css/icon.css">
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#nav-tree").tree({
+				onClick:function(node){
+					if($("#nav-tree").tree("isLeaf",node.target)){
+						$("#main").load("http://www.baidu.com");
+					}
+				}
+			});
+		});
+	</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false" id="the-north">SunCool图库分享公众平台</div>
+	<div data-options="region:'west',split:true,title:'导航栏',iconCls:'icon-tip'" id="the-west">
+	<ul class="easyui-tree" data-options="animate:true" id="nav-tree">
+			
+			<li>
+				<span>数据字典</span>
+				<ul>
+					<li><span>图片仓库 </span></li>
+					<li><span>所属类别</span></li>
+					<li><span>标签管理</span></li>
+				</ul>
+			</li>
+			<li data-options="state:'closed'">
+				<span>系统用户</span>
+				<ul>
+					<li><span>管理员信息</span></li>
+					<li><span>用户列表</span></li>
+				</ul>
+			</li>
+			<li data-options="state:'closed'">
+				<span>系统设置</span>
+				<ul>
+					<li><span>免责声明</span></li>
+					<li><span>关于我们</span></li>
+				</ul>
+			</li>
+			<li>退出登录</li>
+		</ul>	
+	</div>
+	<div id="main" data-options="region:'center',title:'操作台',iconCls:'icon-man',href:'test.html'"></div>
+</body>
+</html>
