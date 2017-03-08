@@ -2,34 +2,22 @@ package jh.studio.dal;
 
 import java.util.List;
 
+import org.hibernate.query.Query;
+
 import jh.studio.entity.Admin;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.inter.IDal;
 
-public class AdminDal extends BaseDal implements IDal<Admin>{
+public class AdminDal extends BaseDal {
 
-	public int add(Admin t) {
-		//session.save(arg0)
-		return 0;
-	}
-
-	@Override
-	public int update(Admin t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delete(Admin t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<Admin> search(Condition condition, Pagination page) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isExist(Admin admin) {
+		String sql = "from Admin where password=" + admin.getPassword();
+		System.out.println(admin.getPassword());
+		Query result = (Query) session.createQuery(sql);
+		admin =(Admin) result.uniqueResult();
+		return (admin!=null);
+		
 	}
 
 }
