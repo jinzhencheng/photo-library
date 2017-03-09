@@ -68,6 +68,37 @@
 	background:url('icons/more.png') no-repeat center center;
 }
 
+/*Defined by jinzhencheng at 2017/03/09*/
+
+.icon-picture{
+	background:url('icons/picture.png') no-repeat center center;
+}
+.icon-tag{
+	background:url('icons/tag.png') no-repeat center center;
+}
+.icon-category{
+	background:url('icons/category.png') no-repeat center center;
+}
+.icon-admin{
+	background:url('icons/admin.png') no-repeat center center;
+}
+.icon-user{
+	background:url('icons/user.png') no-repeat center center;
+}
+.icon-about{
+	background:url('icons/about_us.png') no-repeat center center;
+}
+.icon-statement{
+	background:url('icons/statement.png') no-repeat center center;
+}
+.icon-exit{
+	background:url('icons/exit.png') no-repeat center center;
+}
+.icon-home{
+	background:url('icons/home.png') no-repeat center center;
+}
+/*end*/
+
 
 .icon-mini-add{
 	background:url('icons/mini_add.png') no-repeat center center;
