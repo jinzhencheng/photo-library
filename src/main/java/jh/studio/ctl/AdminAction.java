@@ -32,11 +32,6 @@ public class AdminAction extends ActionSupport {
 		Admin admin = new Admin();
 		admin.setUsername(username);
 		admin.setPassword(password);
-		System.out.println(username);
-		System.out.println(password);
-		System.out.println(admin.getUsername() + ".........");
-		System.out.println(admin.getPassword());
-		System.out.println(".........");
 		boolean find = dal.isExist(admin);
 		if (find)
 			return "SUCCESS";
