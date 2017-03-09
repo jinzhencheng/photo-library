@@ -4,7 +4,10 @@
 <struts>
  	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
-				
+		<action name="admin" class="jh.studio.ctl.AdminAction">
+         <result name="SUCCESS" type="redirect">/page/layout.html</result>
+         <result name="ERROR" type="redirect">login.jsp</result>
+       </action>		
 	</package>
 	
 </struts>  
