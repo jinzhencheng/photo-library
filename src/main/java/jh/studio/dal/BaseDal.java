@@ -7,7 +7,7 @@ import jh.studio.inter.GeneralBase;
 /**
  * @author jinzhencheng
  * @email jinzhencheng@outlook.com
- * @description:逻辑层父类(模板方法）
+ * @description: 鎿嶄綔鍩虹被
  */
 public class BaseDal{
 
@@ -24,5 +24,5 @@ public class BaseDal{
 			return;
 		base.closeSession();
 	}
-	/*将供子类实现的抽象方法解耦至接口中*/
+	/*锟斤拷锟斤拷锟斤拷锟斤拷实锟街的筹拷锟襟方凤拷锟斤拷锟斤拷锟斤拷锟接匡拷锟斤拷*/
 }
