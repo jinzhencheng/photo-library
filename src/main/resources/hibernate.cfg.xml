@@ -11,13 +11,13 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="hibernate.show_sql">true</property>
 		<mapping resource="jh/studio/entity/Admin.hbm.xml" />
-		<mapping resource="jh/studio/entity/Category.hbm.xml" />
+		<!--  <mapping resource="jh/studio/entity/Category.hbm.xml" />
 		<mapping resource="jh/studio/entity/Opinion.hbm.xml" />
 		<mapping resource="jh/studio/entity/Photo.hbm.xml" />
 		<mapping resource="jh/studio/entity/Record.hbm.xml" />
 		<mapping resource="jh/studio/entity/Setting.hbm.xml" />
 		<mapping resource="jh/studio/entity/Tag.hbm.xml" />
-		<mapping resource="jh/studio/entity/User.hbm.xml" />
+		<mapping resource="jh/studio/entity/User.hbm.xml" />-->
 	</session-factory>
 
 
