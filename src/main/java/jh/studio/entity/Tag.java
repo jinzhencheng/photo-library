@@ -10,6 +10,10 @@ public class Tag {
 	private Set<Category> categories=new HashSet<Category>();
 	private Set<Photo> photos=new HashSet<Photo>();
 
+	public Tag(String name){
+		this.name=name;
+	}
+
 	public int getId() {
 		return id;
 	}

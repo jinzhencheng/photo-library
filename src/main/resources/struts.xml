@@ -6,5 +6,10 @@
 	<package name="default" namespace="/" extends="struts-default">
 				
 	</package>
+	<package name="ajax-nav"  extends="json-default">     
+        <action name="tag" class="jh.studio.ctl.TagDll" method="show">
+            <result type="json"></result>
+        </action>
+    </package>
 	
 </struts>  
