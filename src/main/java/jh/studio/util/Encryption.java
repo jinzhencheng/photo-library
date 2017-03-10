@@ -3,8 +3,8 @@ package jh.studio.util;
 /**
  * @author jinzhencheng
  * @email jinzhencheng@outlook.com
- * @description ¼ÓÃÜÀà
+ * @description åŠ å¯†å·¥å…·ç±»
  */
 public class Encryption {
-	//TODO:¼ÓÃÜ´¦Àí
+	//TODO:åŠ å¯†å‡½æ•° MD5
 }

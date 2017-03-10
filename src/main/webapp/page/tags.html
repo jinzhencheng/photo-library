@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>标签管理</title>
-</head>
-<body>
-	<table class="easyui-datagrid" title="标签列表" style="width:700px;height:auto;min-height:300px;"
-			data-options="rownumbers:true,singleSelect:true,url:'tag.action',method:'post',toolbar:'#tb',pagination:true">
+
+	<meta charset="UTF-8">
+	<script type="text/javascript">
+		$(function(){
+			console.log("========");
+		});
+	</script>
+	<table class="easyui-datagrid" title="标签列表" style="width:100%;min-height:300px;"
+			data-options="rownumbers:true,singleSelect:true,url:'tag.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
 		<thead>
 			<tr>
-				<th data-options="field:'name',width:80">名称</th>
-				<th data-options="field:'click-count',width:80">热度<th>
+				<th data-options="field:'name',width:200">名称</th>
+				<th data-options="field:'clickCount',width:100">热度</th>
 			</tr>
 		</thead>
 	</table>
-	<div id="tb" style="padding:5px;height:auto">
-		<input class="easyui-textbox"/>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
+	<div id="tb" style="padding:5px;"> 
+		<input class="easyui-textbox" id="name"/> 
+		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
 	</div>
-</body>
-</html>

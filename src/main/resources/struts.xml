@@ -5,14 +5,16 @@
  	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="admin" class="jh.studio.ctl.AdminAction">
-         <result name="SUCCESS" type="redirect">/page/layout.html</result>
-         <result name="ERROR" type="redirect">login.jsp</result>
+         <result name="success" type="redirect">/page/layout.html</result>
+         <result name="error" type="redirect">login.jsp</result>
        </action>		
 	</package>
-	<package name="ajax-nav"  extends="json-default">     
-        <action name="tag" class="jh.studio.ctl.TagDll" method="show">
-            <result type="json"></result>
+
+	<package name="ajax-nav" namespace="/" extends="json-default">     
+        <action name="tag" class="jh.studio.ctl.TagAction">
+            <result type="json" name="success">
+            	<param name="root">tags</param>
+            </result>
         </action>
     </package>
-	
 </struts>  

@@ -13,6 +13,9 @@
 	<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			$("#search").click(function(){
+				console.log("====");
+			});
 			$("#nav-tree").tree({
 				onClick:function(node){
 					if($("#nav-tree").tree("isLeaf",node.target)){
