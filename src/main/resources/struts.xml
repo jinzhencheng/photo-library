@@ -5,26 +5,36 @@
 	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="admin" class="jh.studio.ctl.AdminAction">
-		     <result name="success" type="redirect">/page/layout.html</result>
-         <result name="error" type="redirect">login.html</result>
+			<result name="success" type="redirect">/page/layout.html</result>
+			<result name="error" type="redirect">login.html</result>
+		</action>
+		<action name="updateAdmin" class="jh.studio.ctl.AdminAction" method="updateAdmin">
+			<result name="success">/page/admin_info.html</result>
 		</action>
 	</package>
 
 	<package name="ajax-nav" namespace="/" extends="json-default">
+		<result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+        </interceptors>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
-				<param name="root">users</param>
+				<param name="root">results</param>
 			</result>
 		</action>
-		<action name="showAdmin" class="jh.studio.ctl.AdminAction" method="showAdmin">
+		<action name="showAdmin" class="jh.studio.ctl.AdminAction"
+			method="showAdmin">
 			<result name="success" type="json">
 				<param name="root">admin</param>
 			</result>
 		</action>
-    <action name="tag" class="jh.studio.ctl.TagAction">
-            <result type="json" name="success">
-            	<param name="root">results</param>
-            </result>
-     </action>
+		<action name="tag" class="jh.studio.ctl.TagAction">
+			<result type="json" name="success">
+				<param name="root">results</param>
+			</result>
+		</action>
 	</package>
 </struts>  

@@ -8,11 +8,8 @@ import jh.studio.entity.Admin;
 public class AdminAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	private String newPass;
 	private Admin admin;
-	
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
-	}
 
 	public String execute() throws Exception {
 		AdminDal dal = new AdminDal();
@@ -21,10 +18,23 @@ public class AdminAction extends ActionSupport {
 	}
 
 	public String showAdmin() {
-
 		AdminDal dal = new AdminDal();
 		admin = dal.findAdmin();
 		return admin!=null? SUCCESS : ERROR;
 	}
+	
+	public String updateAdmin(){
+		AdminDal dal = new AdminDal();
+		return dal.updateAdmin(admin)>0?SUCCESS:ERROR;
+	}
 
+	public void setNewPass(String pass){
+		this.newPass=pass;
+	}
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+	public Admin getAdmin() {
+		return admin;
+	}
 }
