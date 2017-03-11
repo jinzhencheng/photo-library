@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	标签管理展示页
-</body>
-</html>
+
+	<meta charset="UTF-8">
+	<script type="text/javascript">
+		$(function(){
+			console.log("===========");
+		});
+	</script>
+	<table class="easyui-datagrid" title="标签列表" style="width:100%;min-height:300px;"
+			data-options="rownumbers:true,singleSelect:true,url:'tag.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
+		<thead>
+			<tr>
+				<th data-options="field:'name',width:200">名称</th>
+				<th data-options="field:'clickCount',width:100">热度</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="tb" style="padding:5px;"> 
+		<input class="easyui-textbox" id="name"/> 
+		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+	</div>

@@ -8,23 +8,16 @@ import jh.studio.entity.Admin;
 public class AdminAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	Admin admin = new Admin();
-
+	private Admin admin;
+	
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
-	}
-
-	public Admin getAdmin() {
-		return admin;
 	}
 
 	public String execute() throws Exception {
 		AdminDal dal = new AdminDal();
 		boolean find = dal.isExist(admin);
-		if (find)
-			return SUCCESS;
-		return ERROR;
-
+		return find?SUCCESS:ERROR;
 	}
 
 	public String showAdmin() {

@@ -5,8 +5,8 @@
 	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="admin" class="jh.studio.ctl.AdminAction">
-			<result name="SUCCESS" type="redirect">/page/layout.html</result>
-			<result name="ERROR" type="redirect">login.jsp</result>
+		     <result name="success" type="redirect">/page/layout.html</result>
+         <result name="error" type="redirect">login.html</result>
 		</action>
 	</package>
 
@@ -20,11 +20,15 @@
 				<param name="root">users</param>
 			</result>
 		</action>
-		<action name="showAdmin" class="jh.studio.ctl.AdminAction"
-			method="showAdmin">
+		<action name="showAdmin" class="jh.studio.ctl.AdminAction" method="showAdmin">
 			<result name="success" type="json">
 				<param name="root">admin</param>
 			</result>
 		</action>
+    <action name="tag" class="jh.studio.ctl.TagAction">
+            <result type="json" name="success">
+            	<param name="root">results</param>
+            </result>
+     </action>
 	</package>
 </struts>  

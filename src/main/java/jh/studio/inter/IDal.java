@@ -8,13 +8,14 @@ import jh.studio.entity.Pagination;
 /**
  * @author jinzhencheng
  * @email jinzhencheng@outlook.com
- * @description: Âß¼­²ã½Ó¿Ú
+ * @description: åŸºç¡€æ“ä½œæ¥å£
  */
 public interface IDal<T> {
 	
-	abstract int add(T t);
-	abstract int update(T t);
-	abstract int delete(T t);
+	abstract void add(T entity);
+	abstract void update(T entity);
+	abstract void delete(T entity);
+	abstract List<T> getAll(Pagination page);
 	abstract List<T> search(Condition condition,Pagination page);
 
 }
