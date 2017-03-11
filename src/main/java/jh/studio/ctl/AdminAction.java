@@ -20,4 +20,11 @@ public class AdminAction extends ActionSupport {
 		return find?SUCCESS:ERROR;
 	}
 
+	public String showAdmin() {
+
+		AdminDal dal = new AdminDal();
+		admin = dal.findAdmin();
+		return admin!=null? SUCCESS : ERROR;
+	}
+
 }

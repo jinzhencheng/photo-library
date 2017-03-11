@@ -25,5 +25,4 @@ public class Pagination {
 		this.rows = rows;
 	}
 		
-	
 }
