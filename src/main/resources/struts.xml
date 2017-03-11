@@ -11,10 +11,6 @@
 	</package>
 
 	<package name="ajax-nav" namespace="/" extends="json-default">
-		<result-types>
-		<result-type name="json-default" class="org.apache.strurs2.json.JSONResult">
-		</result-type>
-		</result-types>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">users</param>
