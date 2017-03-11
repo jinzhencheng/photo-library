@@ -29,6 +29,9 @@ public class BaseDal<T>{
 	public List<T> toList(Query<T> query,Pagination page){
 		int pageSize=page.getRows();
 		int pageIndex=page.getPage();
+		//TODO:需更改
+		int count=query.getResultList().size();
+		page.setTotal(count);
 		List<T> list=query
 				.setFirstResult((pageIndex - 1) * pageSize)
 				.setMaxResults(pageSize)

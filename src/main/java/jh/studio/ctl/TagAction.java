@@ -1,7 +1,9 @@
 package jh.studio.ctl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -19,19 +21,27 @@ public class TagAction extends ActionSupport{
 	private int rows;
 	private String name;
 	private List<Tag> tags=new ArrayList<Tag>();
+	private Map<String,Object> results=new HashMap<String,Object>();
+
 
 	public String execute(){
 		Condition condition=new TagCond(name); 
 		Pagination pager=new Pagination();
 		pager.setPage(page);
 		pager.setRows(rows);
+
 		TagDal dal=new TagDal();
-		tags=dal.search(condition, pager);
+		List<Tag> tags=dal.search(condition, pager);
 		dal.dispose();
+		int total=pager.getTotal();
+		results.put("rows",tags);
+		results.put("total",total);
 		return SUCCESS;
+	} 
+
+	public Map<String,Object> getResults(){
+		return results;
 	}
-
-
 	public int getPage() {
 		return page;
 	}
@@ -42,7 +52,7 @@ public class TagAction extends ActionSupport{
 		return rows;
 	}
 	public void setRows(int rows) {
-		this.rows = rows;
+		this.rows= rows;
 	}
 	public List<Tag> getTags() {
 		return tags;

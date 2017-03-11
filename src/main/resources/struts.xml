@@ -13,7 +13,7 @@
 	<package name="ajax-nav" namespace="/" extends="json-default">     
         <action name="tag" class="jh.studio.ctl.TagAction">
             <result type="json" name="success">
-            	<param name="root">tags</param>
+            	<param name="root">results</param>
             </result>
         </action>
     </package>
