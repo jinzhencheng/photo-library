@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	管理员信息
-</body>
-</html>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:'showAdmin.action',
+			success:function(data){
+				console.log(data);
+				if(!data){
+					alert("data is null");
+					return;
+				}
+				$("#theName").val(data.username);
+				$("#thePass").val(data.password);
+			},
+			error:function(){
+				alert("error");
+			}
+		});
+		$("#subBtn").click(function(){
+			$(".easyui-form").submit();
+		});
+	});
+</script>
+	<div id="p" class="easyui-panel" title="Basic Panel" style="width:700px;height:200px;padding:10px;">
+	    <form class="easyui-form" method="post" data-options="novalidate:true" action="">
+				用户名:<input class="easyui-textbox" type="text" id="theName" name="admin.username" data-options="required:true"/>
+				密码:<input class="easyui-textbox" type="text" id="thePass" name="admin.password" data-options="required:true"/>
+				<a href="javascript:void(0)" class="easyui-linkbutton" id="subBtn">提交</a>
+	    </form>
+	</div>

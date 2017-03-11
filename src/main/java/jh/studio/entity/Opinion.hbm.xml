@@ -11,7 +11,7 @@
         <property name="content" type="string">
             <column name="content" not-null="true" />
         </property>
-        <property name="theDate" type="java.lang.Date">
+        <property name="theDate" type="java.util.Date">
             <column name="the_date"/>
         </property>
         <many-to-one name="userId" column="user_id" class="jh.studio.entity.User"/>  

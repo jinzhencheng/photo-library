@@ -2,31 +2,36 @@ package jh.studio.entity;
 
 public class Pagination {
 
-	private int index;
+	private int page;
 	private int count;
-	private int pageSize=10;
-	
-	public int getIndex() {
-		return index;
+	private int rows = 10;
+
+	public int getPage() {
+		return page;
 	}
-	public void setIndex(int index) {
-		this.index = index;
+
+	public void setPage(int page) {
+		this.page = page;
 	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
 	public int getCount() {
 		return count;
 	}
+
 	public void setCount(int count) {
 		this.count = count;
 	}
+
 	public int getPageCount() {
-		return (count-1)/pageSize+1;
+		return (count - 1) / rows + 1;
 	}
-	public int getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-	
-	
+
 }

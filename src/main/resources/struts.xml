@@ -2,12 +2,29 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 
 <struts>
- 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="admin" class="jh.studio.ctl.AdminAction">
-         <result name="SUCCESS" type="redirect">/page/layout.html</result>
-         <result name="ERROR" type="redirect">login.jsp</result>
-       </action>		
+			<result name="SUCCESS" type="redirect">/page/layout.html</result>
+			<result name="ERROR" type="redirect">login.jsp</result>
+		</action>
 	</package>
-	
+
+	<package name="ajax-nav" namespace="/" extends="json-default">
+		<result-types>
+		<result-type name="json-default" class="org.apache.strurs2.json.JSONResult">
+		</result-type>
+		</result-types>
+		<action name="user" class="jh.studio.ctl.UserAction">
+			<result name="success" type="json">
+				<param name="root">users</param>
+			</result>
+		</action>
+		<action name="showAdmin" class="jh.studio.ctl.AdminAction"
+			method="showAdmin">
+			<result name="success" type="json">
+				<param name="root">admin</param>
+			</result>
+		</action>
+	</package>
 </struts>  

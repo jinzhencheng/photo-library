@@ -16,5 +16,14 @@ public class AdminDal extends BaseDal {
 		List list = result.getResultList();
 		return list.size()>0;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Admin findAdmin(){
+		Admin admin=new Admin();
+		String sql ="from Admin";
+		Query result = (Query) session.createQuery(sql);
+		List<Admin> list = result.getResultList();
+		admin=list.get(0);
+		return admin;
+	}
 
 }
