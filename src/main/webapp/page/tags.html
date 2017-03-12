@@ -2,20 +2,131 @@
 	<meta charset="UTF-8">
 	<script type="text/javascript">
 		$(function(){
-			console.log("===========");
+			$("#search").click(function(){
+				$(".easyui-datagrid").datagrid("load",{"name":$("#name").val()});
+			});
+
+			$("#editWin").window({
+				onBeforeOpen:function(){
+					var categories=$fetchCategory();
+					$buildCheckbox(categories);
+					$("#clickCount").attr("readonly",true);
+				}
+			});
+
+			$("#add").click(function(){
+				$("#editWin").window("open");
+			});
+
+			var $fetchCategory=function(){
+				var categories="";
+				$.ajax({
+					url:'category!fetchAll.action',
+					dataType:"json",
+					async : false,
+					success:function(data){
+						categories=data;
+					},
+					error:function(error){
+						$.messager.alert('错误','数据初始化失败');
+					}
+				});	
+				return categories;
+			}
+
+			var $buildCheckbox=function(data){
+				if(!data){return;}
+				var ary=new Array();
+				$.each(data,function(index,item){
+					var ck="<input type='checkbox' name='category' value="+item.id+" id='"+item.id+"'>"+item.name;
+					ary.push(ck);
+				})
+				var html=ary.join("");
+				$("#categoryDiv").html(html);
+			}
+			$("#save").click(function(){
+				var tagName=$("#tagName").val();
+				var tagId=$("#tagId").val();
+				var categoryAry=new Array();
+				$('input[name="category"]:checked').each(function(){
+					categoryAry.push($(this).val());
+				}); 
+				categoryIds=categoryAry.join("-");	
+				console.log(tagName);
+				console.log(tagId);
+				console.log(categoryIds);
+				$saveData(tagName,tagId,categoryIds);
+			});
+			var $saveData=function(tagName,tagId,categoryIds){
+				$.ajax({
+					url:'tag!save.action',
+					data:{"id":tagId,"name":tagName,"categoryIds":categoryIds},
+					success:function(data){
+						if(!data){return;}	
+						if(data=="finished"){
+							$(".easyui-datagrid").datagrid("reload");
+							$.messager("提示消息","操作成功");
+						}
+					},
+					error:function(){
+							$.messager("错误","操作失败");
+						}
+				});	
+			}
+			$("#edit").click(function(){
+				var row=$('.easyui-datagrid').datagrid('getSelected');
+				if(!row){
+					$.messager.alert('警告','未选择任何数据行');
+					return;
+				}
+				$.ajax({
+					url:'tag!fetchOne.action',
+					data:{"id":row.id},
+					success:function(data){
+						console.log(data);
+						if(data==null){return;}
+						$("#editWin").window("open");	
+						$("#tagName").val(data.name);
+						$("#tagId").val(data.id);
+						$("#clickCount").val(data.clickCount);
+						$.each(data.categoryIds,function(index,item){
+							$("#"+item).attr("checked",true);
+						})
+					},
+					error:function(data){
+						$.messager("错误","操作失败");
+					}
+				});
+			});
 		});
 	</script>
 	<table class="easyui-datagrid" title="标签列表" style="width:100%;min-height:300px;"
-			data-options="rownumbers:true,singleSelect:true,url:'tag.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
+			data-options="rownumbers:true,singleSelect:true,url:'tag!list.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
 		<thead>
 			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
 				<th data-options="field:'name',width:200">名称</th>
 				<th data-options="field:'clickCount',width:100">热度</th>
+				<th data-options="field:'parentCategories',width:500">所属分类</th>
 			</tr>
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;"> 
 		<input class="easyui-textbox" id="name"/> 
 		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
-		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+		<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+		<a id="edit" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
+	</div>
+
+	<div id="editWin" style="padding:10px;"  class="easyui-window" title="编辑标签" 
+	data-options="iconCls:'icon-edit',width:350,minimizable:false,
+	closed:true,maximizable:false,collapsible:false,modal:true,footer:'#ft'">
+		<input type="hidden" name="tagId" id="tagId"/>
+		名称：<input class="easyui-textbox" id="tagName"/><br/>
+		热度：<input class="easyui-textbox" id="clickCount"/><br/>
+		<span>分类:</span>
+			<div id="categoryDiv"></div>
+	</div>
+	<div id="ft">
+		<a id="save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">保存</a>
 	</div>

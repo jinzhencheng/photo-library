@@ -4,16 +4,16 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="jh.studio.entity.Category" table="category">
+    <class name="jh.studio.entity.CategoryAgent" table="category_agent">
         <id name="id" type="int">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="name" type="string">
-            <column name="name" length="10" not-null="true" />
+        <property name="tagId" type="int">
+            <column name="tag_id" not-null="true" />
         </property>
-        <property name="sequence" type="int">
-            <column name="sequence"/>
+        <property name="categoryId" type="int">
+            <column name="category_id" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

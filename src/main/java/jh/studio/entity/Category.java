@@ -1,30 +1,27 @@
 package jh.studio.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class Category {
 
 	private int id;
 	private String name;
-	private String sequence;
+	private int sequence;
 	private Category parentId;
-	private Set<Tag> tags=new HashSet<Tag>();
+	private List<Tag> tags;
 
-	
+	public Category(){}
 	public Category(int id,String name){
 		this.id=id;
 		this.name=name;
 	}
 	
-	public Set<Tag> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
-
-	public void setTags(Set<Tag> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-
 	public int getId() {
 		return id;
 	}
@@ -37,10 +34,10 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSequence() {
+	public int getSequence() {
 		return sequence;
 	}
-	public void setSequence(String sequence) {
+	public void setSequence(int sequence) {
 		this.sequence = sequence;
 	}
 	public Category getParentId() {

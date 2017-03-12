@@ -2,6 +2,7 @@ package jh.studio.entity;
 
 public class Pagination {
 
+	public static Pagination NULL=null;
 	private int page;
 	private int total;
 	private int rows=10;

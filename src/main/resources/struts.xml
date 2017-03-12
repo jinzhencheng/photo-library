@@ -3,6 +3,8 @@
 
 <struts>
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 		     <result name="success" type="redirect">/page/layout.html</result>
@@ -10,6 +12,7 @@
 		</action>
 	</package>
 
+	<!-- ajax request  -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
@@ -21,10 +24,25 @@
 				<param name="root">admin</param>
 			</result>
 		</action>
-    <action name="tag" class="jh.studio.ctl.TagAction">
-            <result type="json" name="success">
-            	<param name="root">results</param>
-            </result>
-     </action>
+		<action name="tag" class="jh.studio.ctl.TagAction">
+			<result type="json" name="list">
+				<param name="root">resultMap</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="fetchOne">
+				<param name="root">tag</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="edit">
+				<param name="root">result</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		 </action>
+		<action name="category" class="jh.studio.ctl.CategoryAction">
+			<result type="json" name="fetchAll">
+				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		 </action>
 	</package>
 </struts>  
