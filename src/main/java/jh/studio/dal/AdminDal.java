@@ -25,5 +25,14 @@ public class AdminDal extends BaseDal {
 		admin=list.get(0);
 		return admin;
 	}
+	
+	public int updateAdmin(Admin admin){
+	    String sql="update admin set username='"+admin.getUsername()+"'"+",password='"+admin.getPassword()+"'"+" where id="+admin.getId();	
+	    if(session.createNativeQuery(sql).executeUpdate() > 0){
+	    	super.transaction.commit();
+	    	return 1;
+	    }
+			return 0;
+	}
 
 }
