@@ -14,8 +14,10 @@ public class AdminDal extends BaseDal {
 				+ "'";
 		Query result = (Query) session.createNativeQuery(sql);
 		List list = result.getResultList();
-		System.out.println(list.size()+"................");
 		return list.size()>0;
+	}
+	public boolean isValid(Admin admin){
+		return isExist(admin);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Admin findAdmin(){

@@ -4,30 +4,55 @@
 <struts>
 	<constant name="struts.devMode" value="true" />
 	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="checkuserinterceptor"
+				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="checkuser">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 默认执行的拦截器 -->
+		<default-interceptor-ref name="checkuser" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 			<result name="success" type="redirect">/page/layout.html</result>
-			<result name="error" type="redirect">login.html</result>
+			<result name="error" type="redirect">/login.jsp</result>
 		</action>
 	</package>
 
 	<package name="ajax-nav" namespace="/" extends="json-default">
 		<result-types>
-            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
-        </result-types>
-        <interceptors>
-            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
-        </interceptors>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="json"
+				class="org.apache.struts2.json.JSONInterceptor" />
+				<interceptor name="checkuserinterceptor"
+				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="checkuser">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
+			</interceptor-stack>
+			</interceptors>
+			<default-interceptor-ref name="checkuser" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>
 			</result>
 		</action>
-		<action name="updateAdmin" class="jh.studio.ctl.AdminAction" method="updateAdmin">
+		<action name="updateAdmin" class="jh.studio.ctl.AdminAction"
+			method="updateAdmin">
 			<result name="success" type="json">
-				<param name="root">admin</param>
+				<param name="root">result</param>
 			</result>
 			<result name="error" type="json">
-				<param name="root">admin</param>
+				<param name="root">result</param>
 			</result>
 		</action>
 		<action name="showAdmin" class="jh.studio.ctl.AdminAction"
