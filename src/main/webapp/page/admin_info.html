@@ -8,18 +8,25 @@ $(function(){
 				console.log(data);
 				if(!data){return;}
 				$("#username").textbox('setValue',data.username);
+				$("#id").textbox('setValue',data.id);
 			 },
 			error:function(){
 				$.messager("错误","加载数据失败");
 			}
 			});
 		}
-		var $saveAdmin=function(username,newPass,currentPass){
+		var $saveAdmin=function(username,currentPass,newPass,id){
 			$.ajax({
-				url:'',
-				data:{"admin.username":username,"admin.password":currentPass,"newPass":newPass},
+				url:'updateAdmin.action',
+				data:{"admin.username":username,"admin.password":currentPass,"admin.id":id,"newPass":newPass},
 				success:function(data){
+					console.log(data);
 					if(!data){return;}
+					if(data.username!="reject"){
+					alert("密码修改成功");}
+					else{
+					alert("您输入的旧密码有误")
+					}
 				},
 				error:function(){
 					$.messager("错误","更新失败");
@@ -31,13 +38,15 @@ $(function(){
 			var username=$("#username").val();
 			var currentPass=$("#password").val();
 			var newPass=$("#newPass").val();
-			$saveAdmin(username,currentPass,newPass);
+			var id=$("#id").val();
+			$saveAdmin(username,currentPass,newPass,id);
 		});
 		$showAdmin();
 	});
 </script>
 	<div id="thePanel" class="easyui-panel" title="修改密码" data-options="toolbar:'#tb'" style="width:100%;height:200px;padding:10px;">
 		<div style="width:100%;height:25px;color:blue">建议：密码应为大小写字母、数字或特殊符号组合</div>
+		当前ID ：<input class="easyui-textbox" id="id" name="admin.id" data-options="required:true"/><br/>
 		当前户名：<input class="easyui-textbox" id="username" name="admin.username" data-options="required:true"/><br/>
 		当前密码：<input class="easyui-textbox"  id="password" name="admin.password" data-options="required:true"/><br/>
 		最新密码：<input class="easyui-textbox"  id="newPass" name="newPass" data-options="required:true"/><br/>

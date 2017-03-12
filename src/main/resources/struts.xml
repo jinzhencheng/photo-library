@@ -8,9 +8,6 @@
 			<result name="success" type="redirect">/page/layout.html</result>
 			<result name="error" type="redirect">login.html</result>
 		</action>
-		<action name="updateAdmin" class="jh.studio.ctl.AdminAction" method="updateAdmin">
-			<result name="success">/page/admin_info.html</result>
-		</action>
 	</package>
 
 	<package name="ajax-nav" namespace="/" extends="json-default">
@@ -23,6 +20,14 @@
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>
+			</result>
+		</action>
+		<action name="updateAdmin" class="jh.studio.ctl.AdminAction" method="updateAdmin">
+			<result name="success" type="json">
+				<param name="root">admin</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">admin</param>
 			</result>
 		</action>
 		<action name="showAdmin" class="jh.studio.ctl.AdminAction"
