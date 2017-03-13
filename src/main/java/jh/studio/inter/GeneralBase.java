@@ -29,8 +29,10 @@ public class GeneralBase {
 	}
 	
 	public void closeSession(){
-		if(session!=null)
+		if(session!=null){
+			System.out.println("session is closed");
 			session.close();
+		}
 	}
 	
 }

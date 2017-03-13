@@ -12,6 +12,7 @@
 		<property name="hibernate.show_sql">true</property>
 		<mapping resource="jh/studio/entity/Admin.hbm.xml" />
 		<mapping resource="jh/studio/entity/Category.hbm.xml" />
+		<mapping resource="jh/studio/entity/CategoryAgent.hbm.xml" />
 		<mapping resource="jh/studio/entity/Opinion.hbm.xml" />
 		<mapping resource="jh/studio/entity/Photo.hbm.xml" />
 		<mapping resource="jh/studio/entity/Record.hbm.xml" />

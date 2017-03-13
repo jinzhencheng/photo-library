@@ -17,5 +17,6 @@ public interface IDal<T> {
 	abstract void delete(T entity);
 	abstract List<T> getAll(Pagination page);
 	abstract List<T> search(Condition condition,Pagination page);
+	abstract void saveOrUpdate(T entity);
 
 }

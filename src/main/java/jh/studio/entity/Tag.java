@@ -1,23 +1,24 @@
 package jh.studio.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.struts2.json.annotations.JSON;
+import java.util.List;
 
 public class Tag {
 	private int id;
 	private String name;
 	private int clickCount;
-	private Set<Category> categories=new HashSet<Category>();
-	private Set<Photo> photos=new HashSet<Photo>();
+	private String parentCategories;
+	private List<Integer> categoryIds;
 
 	public Tag(){}
-
 	public Tag(String name){
 		this.name=name;
 	}
-
+	public String getParentCategories() {
+		return parentCategories;
+	}
+	public void setParentCategories(String parentCategories) {
+		this.parentCategories = parentCategories;
+	}
 	public int getId() {
 		return id;
 	}
@@ -36,20 +37,11 @@ public class Tag {
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
 	}
-	@JSON(serialize=false)
-	public Set<Category> getCategories() {
-		return categories;
+	public List<Integer> getCategoryIds() {
+		return categoryIds;
 	}
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
+	public void setCategoryIds(List<Integer> categoryIds) {
+		this.categoryIds = categoryIds;
 	}
-	@JSON(serialize=false)
-	public Set<Photo> getPhotos() {
-		return photos;
-	}
-	public void setPhotos(Set<Photo> photos) {
-		this.photos = photos;
-	}
-	
 	
 }

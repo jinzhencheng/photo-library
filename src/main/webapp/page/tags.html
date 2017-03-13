@@ -2,20 +2,169 @@
 	<meta charset="UTF-8">
 	<script type="text/javascript">
 		$(function(){
-			console.log("===========");
+			$("#search").click(function(){
+				$(".easyui-datagrid").datagrid("load",{"tag.name":$("#name").val()});
+			});
+
+			$.parser.parse('#editWinContainer');
+			$.parser.parse('#relWinContainer');
+			$("#editWin").window({
+				onBeforeClose:function(){
+					$("#editForm").form("reset");
+				}
+			});
+			$("#add").click(function(){
+				$("#editWin").window("open");
+			});
+
+			var $fetchCategory=function(){
+				var categories="";
+				$.ajax({
+					url:'category!fetchAll.action',
+					dataType:"json",
+					async : false,
+					success:function(data){
+						categories=data;
+					},
+					error:function(error){
+						$.messager.alert('错误','数据初始化失败',"error");
+					}
+				});	
+				return categories;
+			}
+
+			var $buildCheckbox=function(data){
+				if(!data){return;}
+				var ary=new Array();
+				$.each(data,function(index,item){
+					var ck="<input type='checkbox' name='category' value=''"+item.id+"' id='"+item.id+"'>"+item.name;
+					ary.push(ck);
+				})
+				var html=ary.join("");
+				console.log(html);
+				$("#categoryDiv").html(html);
+			}
+			$("#editForm").form({
+				url:"tag!save.action",
+				success:function(){
+					$(".easyui-datagrid").datagrid("reload",{"tag.name":$("#name").val()});
+					$("#editWin").window("close");
+				}
+			});
+			$("#saveRel").click(function(){
+				$("#relForm").form("submit",{
+					url:"categoryAgent!save.action",
+					onSubmit:function(param){
+						var categoryAry=new Array();
+						$('input[name="category"]:checked').each(function(){
+							categoryAry.push($(this).val());
+						}); 
+						var categoryIds=categoryAry.join("-");
+						var tagId=$("#relTagId").val();
+						param.categoryIds=categoryIds;
+						param.tagId=tagId;
+					},
+					success:function(){
+						$(".easyui-datagrid").datagrid("reload",{"tag.name":$("#name").val()});
+						$("#editWin").window("close");
+					}
+				});
+			});
+			$("#saveTag").click(function(){
+				$("#editForm").submit();
+			});
+			$("#editRel").click(function(){
+				var row=$checkSelected();
+				$.ajax({
+					url:'categoryAgent!fetchByTag.action',
+					dateType:"json",
+					data:{"tagId":row.id},
+					success:function(data){
+						var categories=$fetchCategory();
+						$buildCheckbox(categories);
+						$.each(data,function(index,item){
+							$("#"+item.id).attr("checked", true);
+						});
+						$("#relWin").window("open");
+					},
+					error:function(){
+						$.messager.alert("错误","操作失败","error");
+					}
+				});
+			});
+			var $checkSelected=function(){
+				var row=$('.easyui-datagrid').datagrid('getSelected');
+				if(!row){
+					$.messager.alert('警告','未选择任何数据行',"warning");
+					return;
+				}
+				return row;
+			}
+			$("#editTag").click(function(){
+				var row=$checkSelected();
+				$.ajax({
+					url:'tag!fetchOne.action',
+					data:{"tag.id":row.id},
+					success:function(data){
+						if(data==null){return;}
+						$("#tagName").textbox("setValue",data.name);
+						$("#tagId").val(data.id);
+						$("#clickCount").textbox("setValue",data.clickCount);
+						$("#editWin").window("open");	
+					},
+					error:function(){
+						$.messager.alert("错误","操作失败","error");
+					}
+				});
+			});
 		});
 	</script>
 	<table class="easyui-datagrid" title="标签列表" style="width:100%;min-height:300px;"
-			data-options="rownumbers:true,singleSelect:true,url:'tag.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
+			data-options="rownumbers:true,singleSelect:true,url:'tag!list.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
 		<thead>
 			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
 				<th data-options="field:'name',width:200">名称</th>
 				<th data-options="field:'clickCount',width:100">热度</th>
+				<th data-options="field:'parentCategories',width:500">所属分类</th>
 			</tr>
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;"> 
 		<input class="easyui-textbox" id="name"/> 
 		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
-		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+		<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+		<a id="editTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑标签</a>
+		<a id="editRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-rel',plain:true">编辑关系</a>
+	</div>
+
+	<div id="editWinContainer">
+		<div id="editWin" style="padding:10px;"  class="easyui-window" title="编辑标签" 
+		data-options="iconCls:'icon-edit',width:350,height:400,minimizable:false,
+		closed:true,maximizable:false,collapsible:false,modal:true,toolbar:'#editFooter'">
+			<form id="editForm" method="post">
+				<input type="hidden" name="tag.id" id="tagId"/>
+				名称：<input class="easyui-textbox" type="text" name="tag.name" id="tagName" data-options="required:true"/><br/>
+				热度：<input class="easyui-textbox" type="text" name="tag.clickCount" id="clickCount" data-options="readonly:true"/>
+				<span style="font-size:12;color:blue;">[ 热度 ] 不可编辑</span>
+			</form>
+		</div>
+		<div id="editFooter" style="text-align:right;">
+			<a id="saveTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
+		</div>
+	</div>
+
+
+	<div id="relWinContainer">
+		<div id="relWin" style="padding:10px;"  class="easyui-window" title="编辑关系" 
+		data-options="iconCls:'icon-rel',width:350,minimizable:false,
+		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#relFooter'">
+			<form id="relForm" method="post">
+				<input type="hidden" name="tag.id" id="relTagId"/>
+				<div id="categoryDiv"></div>
+			</form>
+		</div>
+		<div id="relFooter" style="text-align:right;">
+			<a id="saveRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
+		</div>
 	</div>

@@ -1,6 +1,5 @@
 package jh.studio.ctl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +18,13 @@ public class TagAction extends ActionSupport{
 
 	private int page;
 	private int rows;
-	private String name;
-	private List<Tag> tags=new ArrayList<Tag>();
-	private Map<String,Object> results=new HashMap<String,Object>();
+	private Tag tag=new Tag();
+	private String result;
+	private Map<String,Object> resultMap;
 
 
-	public String execute(){
-		Condition condition=new TagCond(name); 
+	public String list(){
+		Condition condition=new TagCond(tag.getName()); 
 		Pagination pager=new Pagination();
 		pager.setPage(page);
 		pager.setRows(rows);
@@ -33,14 +32,32 @@ public class TagAction extends ActionSupport{
 		TagDal dal=new TagDal();
 		List<Tag> tags=dal.search(condition, pager);
 		dal.dispose();
+
 		int total=pager.getTotal();
-		results.put("rows",tags);
-		results.put("total",total);
-		return SUCCESS;
+		resultMap=new HashMap<String,Object>();
+		resultMap.put("rows",tags);
+		resultMap.put("total",total);
+		return "list";
 	} 
 
-	public Map<String,Object> getResults(){
-		return results;
+	public String fetchOne(){
+		TagDal dal=new TagDal();
+		this.tag=dal.getOne(tag.getId());
+		dal.dispose();
+		return "fetchOne";
+	}
+	
+	public String save(){
+		TagDal dal=new TagDal();
+		dal.saveOrUpdate(tag);
+		dal.dispose();
+		result="finished";
+		return "edit";
+	}
+
+	
+	public Map<String,Object> getResultMap(){
+		return resultMap;
 	}
 	public int getPage() {
 		return page;
@@ -54,11 +71,14 @@ public class TagAction extends ActionSupport{
 	public void setRows(int rows) {
 		this.rows= rows;
 	}
-	public List<Tag> getTags() {
-		return tags;
+	public Tag getTag(){
+		return tag;
 	}
-	public String getName() {
-		return name;
+	public void setTag(Tag tag){
+		this.tag=tag;
 	}
-
+	public String getResult() {
+		return result;
 	}
+	
+}

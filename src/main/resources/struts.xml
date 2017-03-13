@@ -3,6 +3,8 @@
 
 <struts>
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
 		<interceptors>
 			<interceptor name="checkuserinterceptor"
@@ -23,24 +25,8 @@
 		</action>
 	</package>
 
+	<!-- ajax request  -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
-		<result-types>
-			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
-		</result-types>
-		<interceptors>
-			<interceptor name="json"
-				class="org.apache.struts2.json.JSONInterceptor" />
-				<interceptor name="checkuserinterceptor"
-				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
-			<interceptor-stack name="checkuser">
-				<interceptor-ref name="defaultStack"></interceptor-ref>
-				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
-			</interceptor-stack>
-			</interceptors>
-			<default-interceptor-ref name="checkuser" />
-		<global-results>
-			<result name="login">/login.jsp</result>
-		</global-results>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>
@@ -62,8 +48,9 @@
 			</result>
 		</action>
 		<action name="tag" class="jh.studio.ctl.TagAction">
-			<result type="json" name="success">
-				<param name="root">results</param>
+			<result type="json" name="list">
+				<param name="root">resultMap</param>
+				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction" method="findInfo">
@@ -76,5 +63,31 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+			<action name="findStatement" class="jh.studio.ctl.StatementAction" method="findStatement">
+			<result type="json" name="success">
+				<param name="root">setting</param>
+			</result>
+		</action>
+		<action name="updateStatement" class="jh.studio.ctl.StatementAction" method="updateStatement">
+			<result type="json" name="success">
+				<param name="root">result</param>
+			</result>
+		</action>
+			
+		 <action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">
+		 	<result name="fetchByTag" type="json">
+		 		<param name="root">agents</param>
+		 	</result>
+		 	<result name="save" type="json">
+		 		<param name="root">result</param>
+		 	</result>
+		 </action>
+
+		<action name="category" class="jh.studio.ctl.CategoryAction">
+			<result type="json" name="fetchAll">
+				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		 </action>
 	</package>
 </struts>  
