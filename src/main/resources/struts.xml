@@ -66,5 +66,15 @@
 				<param name="root">results</param>
 			</result>
 		</action>
+		<action name="findInfo" class="jh.studio.ctl.SetInfoAction" method="findInfo">
+			<result type="json" name="success">
+				<param name="root">setting</param>
+			</result>
+		</action>
+		<action name="updateInfo" class="jh.studio.ctl.SetInfoAction" method="updateInfo">
+			<result type="json" name="success">
+				<param name="root">result</param>
+			</result>
+		</action>
 	</package>
 </struts>  
