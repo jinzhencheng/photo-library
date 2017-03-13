@@ -18,6 +18,18 @@
 			<version>2.3.16</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
@@ -54,6 +66,6 @@
 			<artifactId>struts2-json-plugin</artifactId>
 			<version>2.3.16</version>
 		</dependency>
-		
+
 	</dependencies>
 </project>

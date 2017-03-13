@@ -6,12 +6,22 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
 	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="checkuserinterceptor"
+				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="checkuser">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 默认执行的拦截器 -->
+		<default-interceptor-ref name="checkuser" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 			<result name="success" type="redirect">/page/layout.html</result>
-			<result name="error" type="redirect">login.html</result>
-		</action>
-		<action name="updateAdmin" class="jh.studio.ctl.AdminAction" method="updateAdmin">
-			<result name="success">/page/admin_info.html</result>
+			<result name="error" type="redirect">/login.jsp</result>
 		</action>
 	</package>
 
@@ -20,6 +30,15 @@
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>
+			</result>
+		</action>
+		<action name="updateAdmin" class="jh.studio.ctl.AdminAction"
+			method="updateAdmin">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+			<result name="error" type="json">
+				<param name="root">result</param>
 			</result>
 		</action>
 		<action name="showAdmin" class="jh.studio.ctl.AdminAction"

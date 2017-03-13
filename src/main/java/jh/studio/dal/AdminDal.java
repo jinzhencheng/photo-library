@@ -10,11 +10,14 @@ public class AdminDal extends BaseDal {
 
 	@SuppressWarnings("rawtypes")
 	public boolean isExist(Admin admin) {
-		String sql = "from Admin where username='" + admin.getUsername() + "' and password='" + admin.getPassword()
+		String sql = "select * from admin where username='" + admin.getUsername() + "' and password='" + admin.getPassword()
 				+ "'";
-		Query result = (Query) session.createQuery(sql);
+		Query result = (Query) session.createNativeQuery(sql);
 		List list = result.getResultList();
 		return list.size()>0;
+	}
+	public boolean isValid(Admin admin){
+		return isExist(admin);
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Admin findAdmin(){
@@ -30,6 +33,7 @@ public class AdminDal extends BaseDal {
 	    String sql="update admin set username='"+admin.getUsername()+"'"+",password='"+admin.getPassword()+"'"+" where id="+admin.getId();	
 	    if(session.createNativeQuery(sql).executeUpdate() > 0){
 	    	super.transaction.commit();
+	    	
 	    	return 1;
 	    }
 			return 0;
