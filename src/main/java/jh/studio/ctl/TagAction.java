@@ -1,11 +1,8 @@
 package jh.studio.ctl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -21,17 +18,13 @@ public class TagAction extends ActionSupport{
 
 	private int page;
 	private int rows;
-	private int id;
-	private int clickCount;
-	private String name;
-	private Tag tag;
-	private String categoryIds;
+	private Tag tag=new Tag();
 	private String result;
 	private Map<String,Object> resultMap;
 
 
 	public String list(){
-		Condition condition=new TagCond(name); 
+		Condition condition=new TagCond(tag.getName()); 
 		Pagination pager=new Pagination();
 		pager.setPage(page);
 		pager.setRows(rows);
@@ -49,18 +42,12 @@ public class TagAction extends ActionSupport{
 
 	public String fetchOne(){
 		TagDal dal=new TagDal();
-		this.tag=dal.getOne(id);
+		this.tag=dal.getOne(tag.getId());
 		dal.dispose();
 		return "fetchOne";
 	}
 	
 	public String save(){
-		Tag tag=new Tag();
-		tag.setId(id);
-		tag.setName(name);
-		tag.setClickCount(clickCount);
-		tag.setCategoryIds(translate());
-		System.out.println(id + " " + name + " "+categoryIds);
 		TagDal dal=new TagDal();
 		dal.saveOrUpdate(tag);
 		dal.dispose();
@@ -68,22 +55,9 @@ public class TagAction extends ActionSupport{
 		return "edit";
 	}
 
-	private List<Integer> translate(){
-		List<Integer> cateIdList=new ArrayList<Integer>();
-		if(StringUtils.isNotEmpty(categoryIds)){
-			String cateIdAry[]=categoryIds.split("-");
-			for(String id:cateIdAry){
-				cateIdList.add(Integer.valueOf(id));
-			}
-		}
-		return cateIdList;
-
-	}
+	
 	public Map<String,Object> getResultMap(){
 		return resultMap;
-	}
-	public void setId(int id){
-		this.id=id;
 	}
 	public int getPage() {
 		return page;
@@ -97,24 +71,14 @@ public class TagAction extends ActionSupport{
 	public void setRows(int rows) {
 		this.rows= rows;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name){
-		this.name=name;
-	}
 	public Tag getTag(){
 		return tag;
+	}
+	public void setTag(Tag tag){
+		this.tag=tag;
 	}
 	public String getResult() {
 		return result;
 	}
-	public void setCategoryIds(String categoryIds) {
-		this.categoryIds = categoryIds;
-	}
-	public void setClickCount(int clickCount) {
-		this.clickCount = clickCount;
-	}
-	
 	
 }

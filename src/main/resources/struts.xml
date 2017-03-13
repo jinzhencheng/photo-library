@@ -17,12 +17,6 @@
 
 	<!-- ajax request  -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
-		<result-types>
-            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
-        </result-types>
-        <interceptors>
-            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
-        </interceptors>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>
@@ -48,6 +42,16 @@
 				<param name="excludeNullProperties">true</param>
 			</result>
 		 </action>
+
+		 <action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">
+		 	<result name="fetchByTag" type="json">
+		 		<param name="root">agents</param>
+		 	</result>
+		 	<result name="save" type="json">
+		 		<param name="root">result</param>
+		 	</result>
+		 </action>
+
 		<action name="category" class="jh.studio.ctl.CategoryAction">
 			<result type="json" name="fetchAll">
 				<param name="root">categories</param>

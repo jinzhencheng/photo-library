@@ -70,6 +70,9 @@
 
 /*Defined by jinzhencheng at 2017/03/09*/
 
+.icon-rel{
+	background:url('icons/rel.png') no-repeat center center;
+}
 .icon-picture{
 	background:url('icons/picture.png') no-repeat center center;
 }

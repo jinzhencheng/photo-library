@@ -23,7 +23,6 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 
 	public Tag getOne(int id){
 		Tag entity=super.session.get(Tag.class, id);
-		loadCategory(entity);
 		return entity;
 	}
 
@@ -53,14 +52,6 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 			return;
 		}
 		super.session.saveOrUpdate(entity);
-		super.session.delete("from Category c where c.tagId="+entity.getId());
-		List<Integer> categoryIds=entity.getCategoryIds();
-		for(int cId:categoryIds){
-			CategoryAgent agent= new CategoryAgent();
-			agent.setTagId(entity.getId());
-			agent.setCategoryId(cId);
-			super.session.save(agent);
-		}
 		super.transaction.commit();
 	}
 
@@ -108,6 +99,7 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		if(null!=condition.getName()){
 			sql+="and name like '%"+condition.getName()+"%'";
 		}
+		sql+=" order by id desc";
 		Query<Tag> query=super.session.createNativeQuery(sql, Tag.class);
 		List<Tag> list=super.toList(query, page);
 		for(Tag t:list){
