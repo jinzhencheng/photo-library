@@ -30,9 +30,13 @@ public class GeneralBase {
 	
 	public void closeSession(){
 		if(session!=null){
-			System.out.println("session is closed");
 			session.close();
 		}
 	}
-	
+	public void closeFactory(){
+		if(factory!=null){
+			System.out.println("close factory");
+			factory.close();
+		}
+	}
 }
