@@ -6,19 +6,6 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
 	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
-		<interceptors>
-			<interceptor name="checkuserinterceptor"
-				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
-			<interceptor-stack name="checkuser">
-				<interceptor-ref name="defaultStack"></interceptor-ref>
-				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
-			</interceptor-stack>
-		</interceptors>
-		<!-- 默认执行的拦截器 -->
-		<default-interceptor-ref name="checkuser" />
-		<global-results>
-			<result name="login">/login.jsp</result>
-		</global-results>
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 			<result name="success" type="redirect">/page/layout.html</result>
 			<result name="error" type="redirect">/login.jsp</result>
@@ -53,23 +40,11 @@
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
-		<action name="findInfo" class="jh.studio.ctl.SetInfoAction" method="findInfo">
-			<result type="json" name="success">
+		<action name="setInfo" class="jh.studio.ctl.SetInfoAction">
+			<result type="json" name="findInfo-success">
 				<param name="root">setting</param>
 			</result>
-		</action>
-		<action name="updateInfo" class="jh.studio.ctl.SetInfoAction" method="updateInfo">
-			<result type="json" name="success">
-				<param name="root">result</param>
-			</result>
-		</action>
-			<action name="findStatement" class="jh.studio.ctl.StatementAction" method="findStatement">
-			<result type="json" name="success">
-				<param name="root">setting</param>
-			</result>
-		</action>
-		<action name="updateStatement" class="jh.studio.ctl.StatementAction" method="updateStatement">
-			<result type="json" name="success">
+			<result type="json" name="updateInfo-success">
 				<param name="root">result</param>
 			</result>
 		</action>
