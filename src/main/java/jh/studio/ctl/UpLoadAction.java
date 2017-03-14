@@ -13,6 +13,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import jh.studio.dal.PhotoDal;
 import jh.studio.entity.Photo;
 
 public class UpLoadAction extends ActionSupport {
@@ -56,6 +57,19 @@ public class UpLoadAction extends ActionSupport {
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
-	
+	public String execute() throws IOException{
+		 		Photo photo=new Photo();
+		 		photo.setName(System.currentTimeMillis()+uploadFileName);	
+		 		photo.setTheDate(new Date());
+		 		photo.setPath("/WEB-INF/"+savePath+photo.getName());
+		 		
+		 		PhotoDal phoDal=new PhotoDal();
+		 		phoDal.savePhoto(photo);
+		 		phoDal.dispose();
+		 		File goalFile=new File(getSavePath(),getUploadFileName());
+		 		FileUtils.copyFile(upload, goalFile);
+		 		return SUCCESS;
+		 		
+		 	}
     
 }

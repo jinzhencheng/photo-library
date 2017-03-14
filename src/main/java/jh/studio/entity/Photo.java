@@ -5,17 +5,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Photo {
-	
+
 	private int id;
 	private String name;
 	private Date theDate;
-	private Set<Tag> tags=new HashSet<Tag>();
-	private Set<User> users=new HashSet<User>();
+	private Set<Tag> tags = new HashSet<Tag>();
+	private Set<User> users = new HashSet<User>();
+	private String path;
 
-	public Photo(int id,String name,Date theDate){
-		this.id=id;
-		this.name=name;
-		this.theDate=theDate;
+	public Photo(int id, String name, Set<User> users, String path) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.users = users;
+		this.path = path;
+	}
+
+	public Photo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public int getId() {
@@ -57,6 +73,5 @@ public class Photo {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
-	
+
 }
