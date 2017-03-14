@@ -20,11 +20,14 @@
 			$("#nav-tree").tree({
 				onClick:function(node){
 					if($("#nav-tree").tree("isLeaf",node.target)){
-						 $('#main').tabs('add', {
-		                        title:node.text,
-		                        href: node.attributes.url,
-		                        iconCls: node.iconCls,
-		                        closable: true
+						var exists=$("#main").tabs("exists",node.text);
+						 $('#main').tabs(
+								exists?"select":"add",
+								exists?node.text:{
+									title:node.text,
+									href: node.attributes.url,
+									iconCls: node.iconCls,
+									closable: true
 		                    });  
 					}
 				}

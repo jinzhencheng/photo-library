@@ -37,11 +37,10 @@
 				if(!data){return;}
 				var ary=new Array();
 				$.each(data,function(index,item){
-					var ck="<input type='checkbox' name='category' value=''"+item.id+"' id='"+item.id+"'>"+item.name;
+					var ck="<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"'>"+item.name;
 					ary.push(ck);
 				})
 				var html=ary.join("");
-				console.log(html);
 				$("#categoryDiv").html(html);
 			}
 			$("#editForm").form({
@@ -52,15 +51,15 @@
 				}
 			});
 			$("#saveRel").click(function(){
+				var categoryAry=new Array();
+				$("input[name='category']:checked").each(function(index,value){
+					categoryAry.push($(this).val());
+				}); 
+				var categoryIds=categoryAry.join("-");
+				var tagId=$("#relTagId").val();
 				$("#relForm").form("submit",{
 					url:"categoryAgent!save.action",
 					onSubmit:function(param){
-						var categoryAry=new Array();
-						$('input[name="category"]:checked').each(function(){
-							categoryAry.push($(this).val());
-						}); 
-						var categoryIds=categoryAry.join("-");
-						var tagId=$("#relTagId").val();
 						param.categoryIds=categoryIds;
 						param.tagId=tagId;
 					},
@@ -75,6 +74,9 @@
 			});
 			$("#editRel").click(function(){
 				var row=$checkSelected();
+				if(row==null){
+					return;
+				}
 				$.ajax({
 					url:'categoryAgent!fetchByTag.action',
 					dateType:"json",
@@ -85,6 +87,7 @@
 						$.each(data,function(index,item){
 							$("#"+item.id).attr("checked", true);
 						});
+						$("#relTagId").val(row.id);
 						$("#relWin").window("open");
 					},
 					error:function(){
@@ -102,6 +105,9 @@
 			}
 			$("#editTag").click(function(){
 				var row=$checkSelected();
+				if(row==null){
+					return;
+				}
 				$.ajax({
 					url:'tag!fetchOne.action',
 					data:{"tag.id":row.id},
@@ -140,8 +146,8 @@
 
 	<div id="editWinContainer">
 		<div id="editWin" style="padding:10px;"  class="easyui-window" title="编辑标签" 
-		data-options="iconCls:'icon-edit',width:350,height:400,minimizable:false,
-		closed:true,maximizable:false,collapsible:false,modal:true,toolbar:'#editFooter'">
+		data-options="iconCls:'icon-edit',width:350,minimizable:false,
+		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#editFooter'">
 			<form id="editForm" method="post">
 				<input type="hidden" name="tag.id" id="tagId"/>
 				名称：<input class="easyui-textbox" type="text" name="tag.name" id="tagName" data-options="required:true"/><br/>

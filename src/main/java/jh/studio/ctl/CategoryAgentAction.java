@@ -46,7 +46,7 @@ public class CategoryAgentAction extends ActionSupport{
 			agentList.add(agent);
 		}
 		CategoryAgentDal dal=new CategoryAgentDal();
-		dal.delete(tagId);
+		dal.deleteByTag(tagId);
 		dal.batchAdd(agentList);
 		dal.dispose();
 		return "save";

@@ -30,6 +30,7 @@ public class BaseDal<T>{
 		if(base==null)
 			return;
 		base.closeSession();
+		base.closeFactory();
 	}
 
 	public List<T> toList(Query<T> query,Pagination page){

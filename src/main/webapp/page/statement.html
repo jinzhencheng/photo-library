@@ -1,27 +1,27 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 $(function(){
-	var $showInfo=function(){
 		$.ajax({
-			url:'findStatement.action',
+			url:'setInfo!findInfo.action',
+			data:{"flag":2},
 			success:function(data){
 				if(!data){return;}
-				$("#content").textbox('setValue',data.content);
-				$("#id").val(data.id);
+				$("#statement_content").textbox('setValue',data.content);
+				$("#statement_id").val(data.id);
+				$("#statement_flag").val(data.flag);
 			 },
 			error:function(){
 				$.messager.alert("错误","加载数据失败","error");
 			}
-			});
-		}
+		});
+
 		var $saveInfo=function(id,content,flag){
 			$.ajax({
-				url:'updateStatement.action',
-				data:{"setting.id":id,"setting.Content":content,"setting.flag":flag},
+				url:'setInfo!updateInfo.action',
+				data:{"setting.id":id,"setting.content":content,"setting.flag":flag},
 				success:function(data){
 					if(!data){return;}
 					if(data=="ok"){
-						$('.easyui-textbox').textbox("setValue","");	
 						$.messager.alert("提示","操作成功","info");
 					}
 					else if(data=="failure"){
@@ -35,16 +35,17 @@ $(function(){
 		}
 
 		$("#subBtn").click(function(){
-			var id=$("#id").val();
-			var content=encodeURI($("#content").val());
-			var flag="1";
+			var id=$("#statement_id").val();
+			var content=encodeURI($("#statement_content").val());
+			var flag="2";
 			$saveInfo(id,content,flag);
 		});
-		$showInfo();
 	});
 </script>
-	<div id="thePanel" class="easyui-panel" title="免责声明" data-options="toolbar:'#tb'" style="width:100%;height:200px;padding:10px;">
-		<input  id="id" type="hidden" name="setting.id"/><br/>
-		<input class="easyui-textbox" type="text" id="content" name="setting.content" data-options="required:true,multiline:true" style="width:300px;height:100px"/><br/>
+	<div id="thePanel" class="easyui-panel" title="免责声明" data-options="toolbar:'#tb'" style="width:650px;height:300px;padding:10px;">
+		<input  id="statement_id" type="hidden" name="setting.id"/>
+		<input  id="statement_flag" type="hidden" name="setting.flag"/>
+		<input class="easyui-textbox" type="text" id="statement_content" name="setting.content" data-options="required:true,multiline:true" 
+		style="width:600px;height:150px"/><br/><br/>
 		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="subBtn">提交</a>
 	</div>
