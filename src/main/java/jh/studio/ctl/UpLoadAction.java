@@ -26,6 +26,7 @@ public class UpLoadAction extends ActionSupport {
 	private String uploadFileName;
 	private String uploadContentType;
 	private String savePath;
+	//注意
 	//private List<String> tags;
 	public String getTitle() {
 		return title;
