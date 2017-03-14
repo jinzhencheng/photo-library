@@ -6,15 +6,23 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
 	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="checkuserinterceptor"
+				class="jh.studio.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="checkuser">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="checkuserinterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 默认执行的拦截器 -->
+		<default-interceptor-ref name="checkuser" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 			<result name="success" type="redirect">/page/layout.html</result>
 			<result name="error" type="redirect">/login.jsp</result>
 		</action>
-		<action name="upload" class="jh.studio.ctl.UpLoadAction">
-			<param name="savePath">/upload</param>
-			<result name="success" >/index.html</result>
-		</action>
-			
 	</package>
 
 	<!-- ajax request  -->

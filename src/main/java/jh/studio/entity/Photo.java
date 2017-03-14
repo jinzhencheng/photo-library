@@ -11,23 +11,12 @@ public class Photo {
 	private Date theDate;
 	private Set<Tag> tags=new HashSet<Tag>();
 	private Set<User> users=new HashSet<User>();
-	private String path;
-	public Photo() {
-		super();
-		// TODO Auto-generated constructor stub
+
+	public Photo(int id,String name,Date theDate){
+		this.id=id;
+		this.name=name;
+		this.theDate=theDate;
 	}
-
-	
-
-	public Photo(int id, String name, Date theDate, String path) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.theDate = theDate;
-		this.path = path;
-	}
-
-
 
 	public int getId() {
 		return id;
@@ -67,14 +56,6 @@ public class Photo {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
 	}
 	
 	
