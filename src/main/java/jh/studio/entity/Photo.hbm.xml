@@ -4,23 +4,26 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="jh.studio.entity.Photo" table="photo">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="identity" />
-        </id>
-       <property name="name" type="string">
-            <column name="name" length="255" not-null="true" />
-        </property>
-         <property name="path" type="string">
-            <column name="the_path" length="255" not-null="true" />
-        </property>
-        <property name="theDate" type="java.util.Date">
-            <column name="the_date"/>
-        </property> 
+	<class name="jh.studio.entity.Photo" table="photo">
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="name" type="string">
+			<column name="name" length="255" not-null="true" />
+		</property>
+		<property name="path" type="string">
+			<column name="the_path" length="255" not-null="true" />
+		</property>
+		<property name="theDate" type="java.util.Date">
+			<column name="the_date" />
+		</property>
+		<property name="minpath" type="string">
+			<column name="the_minpath" length="255" not-null="true" />
+		</property>
 		<set name="users" table="collection">
-			<key column="photo_id"></key>  
-            <many-to-many column="user_id" class="jh.studio.entity.User"/>  
+			<key column="photo_id"></key>
+			<many-to-many column="user_id" class="jh.studio.entity.User" />
 		</set>
-    </class>
+	</class>
 </hibernate-mapping>

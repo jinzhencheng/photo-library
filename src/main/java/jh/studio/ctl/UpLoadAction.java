@@ -15,6 +15,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.dal.PhotoDal;
 import jh.studio.entity.Photo;
+import net.coobird.thumbnailator.Thumbnails;
 
 public class UpLoadAction extends ActionSupport {
 	/**
@@ -57,17 +58,23 @@ public class UpLoadAction extends ActionSupport {
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
+
 	public String execute() throws IOException{
 		 		Photo photo=new Photo();
-		 		photo.setName(System.currentTimeMillis()+uploadFileName);	
+		 		String timeName=System.currentTimeMillis()+uploadFileName;
+		 		photo.setName(timeName);	
 		 		photo.setTheDate(new Date());
-		 		photo.setPath("/WEB-INF/"+savePath+photo.getName());
-		 		
+		 		photo.setPath("/WEB-INF/"+savePath+"/"+photo.getName());
+		 		photo.setMinpath("/WEB-INF/"+savePath+"/m"+photo.getName());
 		 		PhotoDal phoDal=new PhotoDal();
 		 		phoDal.savePhoto(photo);
 		 		phoDal.dispose();
-		 		File goalFile=new File(getSavePath(),getUploadFileName());
+		 		File goalFile=new File(getSavePath(),timeName);
+		 		File minFile=new File(getSavePath(),"m"+timeName);
 		 		FileUtils.copyFile(upload, goalFile);
+		 		Thumbnails.of(goalFile.toString())   
+		        .size(200, 300)  
+		        .toFile(minFile.toString());  
 		 		return SUCCESS;
 		 		
 		 	}

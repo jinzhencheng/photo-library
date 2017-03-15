@@ -11,7 +11,7 @@
 			<result name="error" type="redirect">/login.jsp</result>
 		</action>
 		<action name="upload" class="jh.studio.ctl.UpLoadAction">
-			<param name="savePath">/upload</param>
+			<param name="savePath">upload</param>
 			<result name="success">/index.html</result>
 		</action>
 	</package>
@@ -81,4 +81,4 @@
 			</result>
 		</action>
 	</package>
-<struts/>  
+</struts> 
