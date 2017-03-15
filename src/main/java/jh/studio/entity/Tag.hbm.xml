@@ -14,6 +14,9 @@
         <property name="clickCount" type="int">
             <column name="click_count"/>
         </property>
+        <property name="isValid" type="int">
+            <column name="isValid"/>
+        </property>
       <!--   <set name="categoryIds" table="category_agent" cascade="all" lazy="false">
 			<key>
 				<column name="tag_id"/>

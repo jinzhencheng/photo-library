@@ -15,6 +15,9 @@
         <property name="sequence" type="int">
             <column name="sequence"/>
         </property>
+        <property name="isValid" type="int">
+            <column name="isValid"/>
+        </property>
         <!--  <set name="tags" table="category_agent" cascade="all" lazy="false">
 			<key>
 				<column name="category_id"/>

@@ -28,7 +28,7 @@ public class TagAction extends ActionSupport{
 	private Tag tag=new Tag();
 	private String result;
 	private Map<String,Object> resultMap;
-	
+	private List<Tag> tags=null;
 	private int tagId;
 	private String categoryIds;
 	private String tagName;
@@ -58,14 +58,40 @@ public class TagAction extends ActionSupport{
 		return "fetchOne";
 	}
 	
-	public String save(){
+	public String fetchAll()
+	{
+		TagDal tagDal=new TagDal();
+		this.tags=tagDal.getAll(Pagination.NULL);
+		tagDal.dispose();
+		return "fetchAll";
+	}
+	
+	public void delTag()
+	{
+		TagDal dal = new TagDal();
+		Tag t = dal.getOne(tagId);
+		if(t == null)
+		{
+			dal.dispose();
+			result="finished";
+		}
+		else
+		{
+			t.setIsValid(0);
+			dal.update(t);
+			dal.dispose();
+		}
+		result="finished";
+	}
+	public void save(){
 		TagDal dal=new TagDal();
 		
 		Tag t = dal.getOne(tagId);
-		dal.dispose();
+		
 		if(t != null)
 		{
-			//数据库中，原先的分类集合
+			dal.dispose();
+			//????,???????
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -73,7 +99,7 @@ public class TagAction extends ActionSupport{
 			for(CategoryAgent c:set)
 			{
 				String id = c.getCategoryId().getId()+"";
-				if(!categoryIds.contains(id))
+				if(c.getTagId().getId() == tagId && !categoryIds.contains(id))
 				{
 					delList.add(c.getCategoryId().getId());
 				}
@@ -101,7 +127,7 @@ public class TagAction extends ActionSupport{
 			}
 			
 			CategoryAgentDal cgAgentDal = new CategoryAgentDal();
-			cgAgentDal.batchDel(delList);
+			cgAgentDal.batchDel(delList,tagId);
 			cgAgentDal.batchAdd(insertList);
 			cgAgentDal.dispose();
 		}
@@ -116,7 +142,7 @@ public class TagAction extends ActionSupport{
 			tag.setId(tagId);
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
-			
+			tag.setIsValid(1);//??
 			for(Category c:categoryList)
 			{
 				CategoryAgent ca = new CategoryAgent();
@@ -187,5 +213,13 @@ public class TagAction extends ActionSupport{
 
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 }

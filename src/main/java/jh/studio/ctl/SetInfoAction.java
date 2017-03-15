@@ -2,17 +2,20 @@ package jh.studio.ctl;
 
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.dal.SettingDal;
 import jh.studio.entity.Setting;
-import java.net.URLDecoder;
 
 public class SetInfoAction extends ActionSupport {
 	private Setting setting;
 	private String result;
 	private int flag;
+	private Map<String,String> infoMap=new HashMap<String,String>();
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,6 +55,10 @@ public class SetInfoAction extends ActionSupport {
 
 	public void setSetting(Setting setting) {
 		this.setting = setting;
+	}
+
+	public Map<String, String> getInfoMap() {
+		return infoMap;
 	}
 	
 

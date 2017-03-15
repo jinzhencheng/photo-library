@@ -7,6 +7,7 @@ public class Tag {
 	private String name;
 	private int clickCount;
 	private String parentCategories;
+	private Integer isValid;
 	private Set<CategoryAgent> categoryIds;
 	private Set<PhotoAgent> photo;
 
@@ -49,6 +50,13 @@ public class Tag {
 	}
 	public void setPhoto(Set<PhotoAgent> photo) {
 		this.photo = photo;
+
+	public Integer getIsValid() {
+		return isValid;
+	}
+	public void setIsValid(Integer isValid) {
+		this.isValid = isValid;
+
 	}
 	
 }
