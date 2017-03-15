@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PhotoResult {
 	private String name;
-	private Date data;
+	private String date;
 	private String minpath;
 	private String tagName;
 
@@ -16,12 +16,14 @@ public class PhotoResult {
 		this.name = name;
 	}
 	
-	public Date getData() {
-		return data;
+	
+
+	public String getDate() {
+		return date;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public String getMinpath() {

@@ -23,8 +23,8 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	
 	@Override
 	public void add(Category entity) {
-		if(entity==null){
-			logger.error("添加对象为空");
+		if(entity==null){			
+logger.error("添加对象为空");
 			return;
 		}
 		super.session.save(entity);
@@ -34,6 +34,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void update(Category entity) {
 		if(entity==null || entity.getId()==0){
+
 			logger.error("添加对象为空或对象处于瞬时态");
 			return;
 		}
