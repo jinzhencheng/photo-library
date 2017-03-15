@@ -13,6 +13,12 @@ public class CategoryAgentDal extends BaseDal<CategoryAgent>{
 		Query<CategoryAgent> query=super.session.createQuery(hql,CategoryAgent.class);
 		return query.getResultList();
 	}
+	
+	public List<CategoryAgent> searchByCategory(int categoryId){
+		String hql="from CategoryAgent c where c.categoryId="+categoryId;
+		Query<CategoryAgent> query=super.session.createQuery(hql,CategoryAgent.class);
+		return query.getResultList();
+	}
 
 	public void deleteByTag(int tagId){
 		String sql="delete from category_agent where tag_id="+tagId;
@@ -25,13 +31,30 @@ public class CategoryAgentDal extends BaseDal<CategoryAgent>{
 		}
 	}
 	
-	public void batchDel(List<Integer> list)
+	public void batchDel(List<Integer> list,Integer id)
 	{
 		if(list == null || list.size() == 0)
 		{
 			return ;
 		}
-		String sql="delete from category_agent where category_id in ("+list.get(0);
+		String sql="delete from category_agent where tag_id="+id+" and category_id in ("+list.get(0);
+		String ids = "";
+		for(Integer i:list)
+		{
+			ids += ","+i;
+		}
+		sql += ids;
+		sql += ")";
+		super.session.createNativeQuery(sql).executeUpdate();
+	}
+	
+	public void batchDelByCategory(List<Integer> list,Integer id)
+	{
+		if(list == null || list.size() == 0)
+		{
+			return ;
+		}
+		String sql="delete from category_agent where category_id="+id+" and tag_id in ("+list.get(0);
 		String ids = "";
 		for(Integer i:list)
 		{

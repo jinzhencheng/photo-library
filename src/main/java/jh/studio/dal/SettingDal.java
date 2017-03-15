@@ -1,5 +1,7 @@
 package jh.studio.dal;
 
+import java.util.List;
+
 import org.hibernate.query.Query;
 
 import jh.studio.entity.Setting;
@@ -18,4 +20,10 @@ public class SettingDal extends BaseDal<Setting>{
 		transaction.commit();
 	}
 	
+	public List<Setting> findAll(){
+		String hql="from Setting";
+		Query<Setting> query=session.createQuery(hql,Setting.class);
+		List<Setting> list=query.getResultList();
+		return list;
+	}
 }
