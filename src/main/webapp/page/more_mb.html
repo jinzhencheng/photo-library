@@ -10,17 +10,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
-
   </head>
   <body>
-        <div class="page">
-            <header class="bar bar-nav">
+  	<div class="page-group">
+        <div class="page page-current" id="more-page">
+			 <header class="bar bar-nav">
 				<a class="icon icon-left pull-left"></a>
                 <a class="icon pull-left">微信</a>
             </header>
             <!-- 工具栏 -->
             <nav class="bar bar-tab">
-                <a class="tab-item active" href="category_mb.html">
+                <a class="tab-item active" href="#">
                     <span class="icon icon-app"></span>
                     <span class="tab-label">分类</span>
                 </a>
@@ -32,7 +32,7 @@
                     <span class="icon icon-star"></span>
                     <span class="tab-label">收藏</span>
                 </a>
-                <a class="tab-item external" href="#">
+                <a class="tab-item external" href="more_mb.html">
                     <span class="icon icon-menu"></span>
                     <span class="tab-label">更多</span>
                 </a>
@@ -45,47 +45,120 @@
             		</div>
 					<div class="list-block">
 						<ul>
-						  <li class="item-content item-link">
-							<div class="item-media"><i class="icon icon-f7"></i></div>
-							<div class="item-inner">
-							  <div class="item-title">关于我们</div>
-							</div>
+						  <li> 
+							<a href="#about-page" class="item-link item-content">
+							  <div class="item-inner">
+								<div class="item-title">关于我们</div>
+							  </div>
+							</a>
 						  </li>
-
-						  <li class="item-content item-link">
-							<div class="item-media"><i class="icon icon-f7"></i></div>
-							<div class="item-inner">
-							  <div class="item-title">邀请好友</div>
-							</div>
+						  <li>
+						  	<a href="#invite-page" class="item-link item-content">
+								<div class="item-inner">
+								  <div class="item-title">邀请好友</div>
+								</div>
+						  	</a>
 						  </li>
-
-						  <li class="item-content item-link">
-							<div class="item-media"><i class="icon icon-f7"></i></div>
-							<div class="item-inner">
-							  <div class="item-title">意见反馈</div>
-							</div>
+						  <li>
+							  <a href="#opinion-page" class="item-content item-link">
+								<div class="item-inner">
+								  <div class="item-title">意见反馈</div>
+								</div>
+							</a>
 						  </li>
-
-						  <li class="item-content item-link">
-							<div class="item-media"><i class="icon icon-f7"></i></div>
+						<li>
+						  <a href="#statement-page" class="item-content item-link">
 							<div class="item-inner">
 							  <div class="item-title">免责声明</div>
 							</div>
-						  </li>
-
-						 <li class="item-content item-link">
-							<div class="item-media"><i class="icon icon-f7"></i></div>
+						</a>
+					  </li>
+					<li>
+						 <a href="#webio-page" class="item-content item-link">
 							<div class="item-inner">
 							  <div class="item-title">微博：Suncool穿搭</div>
 							</div>
-						  </li>
-						</ul>
-				  </div>
+						</a>
+				  </li>
+
+				</ul>
+				    </div>
 			</div>
 		</div>
+		
+		<div class="page" id="about-page">
+			 <header class="bar bar-nav">
+				<a class="icon icon-left pull-left"></a>
+                <a class="icon pull-left" href="#more-page">返回</a>
+            </header>
+            <div class="content-padded" id="about-content">
+            	关于我们
+            </div>
+		</div>
+
+		<div class="page" id="statement-page">
+			 <header class="bar bar-nav">
+				<a class="icon icon-left pull-left"></a>
+                <a class="icon pull-left" href="#more-page">返回</a>
+            </header>
+            <div class="content-padded" id="statement-content">
+            	免责声明
+            </div>
+		</div>
+
+		<div class="page" id="invite-page">
+			 <header class="bar bar-nav">
+				<a class="icon icon-left pull-left"></a>
+                <a class="icon pull-left" href="#more-page">返回</a>
+            </header>
+            <div class="content-padded">
+            	邀请好友
+            </div>
+		</div>
+
+		<div class="page" id="opinion-page">
+			 <header class="bar bar-nav">
+				<a class="icon icon-left pull-left"></a>
+                <a class="icon pull-left" href="#more-page">返回</a>
+            </header>
+            <div class="content">
+              <div class="content-block content-padded">
+              	<div class="row">
+					  <textarea style="width:100%;height:5rem;" placeholder="宝贵意见"></textarea>
+              	</div>
+				<div class="row">
+					  <div class="col-100"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+				</div>
+			  </div>
+            </div>
+		</div>
+
+		<div class="page" id="webio-page">
+			 <header class="bar bar-nav">
+				<a class="icon icon-left pull-left"></a>
+                <a class="icon pull-left" href="#more-page">返回</a>
+            </header>
+            <div class="content-padded">
+            	微博	
+            </div>
+		</div>
+	</div>	
 	<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-	<script type="text/javascript" src="../js/photo-library-pub.js"></script>
+    <script type="text/javasript">
+		$(function(){
+			$.ajax({
+				url:"",
+				type:"JSON",
+				success:function(data){
+					$("#about-content").text(data.about);	
+					$("#statement-content").text(data.statement);	
+				},
+				error:function(){
+					$.alert('数据加载时出错');
+				}
+			});
+		});
+	</script>
   </body>
 </html>
