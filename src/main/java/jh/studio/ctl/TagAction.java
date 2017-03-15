@@ -28,7 +28,7 @@ public class TagAction extends ActionSupport{
 	private Tag tag=new Tag();
 	private String result;
 	private Map<String,Object> resultMap;
-	
+	private List<Tag> tags=null;
 	private int tagId;
 	private String categoryIds;
 	private String tagName;
@@ -58,12 +58,21 @@ public class TagAction extends ActionSupport{
 		return "fetchOne";
 	}
 	
+	public String fetchAll()
+	{
+		TagDal tagDal=new TagDal();
+		this.tags=tagDal.getAll(Pagination.NULL);
+		tagDal.dispose();
+		return "fetchAll";
+	}
+	
 	public void delTag()
 	{
 		TagDal dal = new TagDal();
 		Tag t = dal.getOne(tagId);
 		if(t == null)
 		{
+			dal.dispose();
 			result="finished";
 		}
 		else
@@ -90,7 +99,7 @@ public class TagAction extends ActionSupport{
 			for(CategoryAgent c:set)
 			{
 				String id = c.getCategoryId().getId()+"";
-				if(!categoryIds.contains(id))
+				if(c.getTagId().getId() == tagId && !categoryIds.contains(id))
 				{
 					delList.add(c.getCategoryId().getId());
 				}
@@ -107,18 +116,21 @@ public class TagAction extends ActionSupport{
 				if(!ids.contains(c))
 				{
 					CategoryAgent ca = new CategoryAgent();
+					
 					Tag t1 = new Tag();
 					t1.setId(tagId);
+					
 					Category cg = new Category();
 					cg.setId(Integer.parseInt(c));
 					ca.setCategoryId(cg);
 					ca.setTagId(t1);
+					
 					insertList.add(ca);
 				}
 			}
 			
 			CategoryAgentDal cgAgentDal = new CategoryAgentDal();
-			cgAgentDal.batchDel(delList);
+			cgAgentDal.batchDel(delList,tagId);
 			cgAgentDal.batchAdd(insertList);
 			cgAgentDal.dispose();
 		}
@@ -203,5 +215,13 @@ public class TagAction extends ActionSupport{
 
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 }

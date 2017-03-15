@@ -8,6 +8,8 @@ public class Category {
 	private String name;
 	private int sequence;
 	private Category parentId;
+	private String parentTag;
+	private Integer isValid;
 	private Set<CategoryAgent> tags;
 
 	public Category(){}
@@ -45,6 +47,18 @@ public class Category {
 	}
 	public void setParentId(Category parentId) {
 		this.parentId = parentId;
+	}
+	public String getParentTag() {
+		return parentTag;
+	}
+	public void setParentTag(String parentTag) {
+		this.parentTag = parentTag;
+	}
+	public Integer getIsValid() {
+		return isValid;
+	}
+	public void setIsValid(Integer isValid) {
+		this.isValid = isValid;
 	}
 	
 	

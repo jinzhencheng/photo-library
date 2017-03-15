@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
 
@@ -69,7 +70,7 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 			logger.error("添加对象为空或对象处于瞬时态");
 			return;
 		}
-		super.session.save(entity);
+		super.session.update(entity);
 		super.transaction.commit();
 	}
 
@@ -85,8 +86,8 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 
 	@Override
 	public List<Tag> getAll(Pagination page) {
-		String sql="from Tag";
-		Query<Tag> query=super.session.createQuery(sql,Tag.class);
+		String sql="select * from tag where isValid=1";
+		Query<Tag> query=super.session.createNativeQuery(sql, Tag.class);
 		List<Tag> list=super.toList(query, page);
 		return list;
 	}
@@ -104,6 +105,34 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 			loadCategory(t);
 		}
 		
+		return list;
+	}
+	private List<Integer> translate(String categoryIds){
+		List<Integer> cateIdList=new ArrayList<Integer>();
+		if(StringUtils.isNotEmpty(categoryIds)){
+			String cateIdAry[]=categoryIds.split("-");
+			for(String id:cateIdAry){
+				cateIdList.add(Integer.valueOf(id));
+			}
+		}
+		return cateIdList;
+
+	}
+	public List<Tag> getTag(String tagIds)
+	{
+		List<Integer> idList = translate(tagIds);
+		if(idList == null)
+		{
+			return null;
+		}
+		String sql="select * from tag where isValid=1 and id in("+idList.get(0);
+		for(Integer id:idList)
+		{
+			sql+=","+id;
+		}
+		sql+=")";
+		Query<Tag> query=super.session.createNativeQuery(sql, Tag.class);
+		List<Tag> list=query.getResultList();
 		return list;
 	}
 	
