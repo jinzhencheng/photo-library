@@ -74,13 +74,14 @@ public class TagAction extends ActionSupport{
 		}
 		result="finished";
 	}
-	public String save(){
+	public void save(){
 		TagDal dal=new TagDal();
 		
 		Tag t = dal.getOne(tagId);
-		dal.dispose();
+		
 		if(t != null)
 		{
+			dal.dispose();
 			//数据库中，原先的分类集合
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
@@ -145,7 +146,6 @@ public class TagAction extends ActionSupport{
 			dal.dispose();
 		}
 		result="finished";
-		return "edit";
 	}
 
 	
