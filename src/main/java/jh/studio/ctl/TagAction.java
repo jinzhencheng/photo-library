@@ -28,7 +28,7 @@ public class TagAction extends ActionSupport{
 	private Tag tag=new Tag();
 	private String result;
 	private Map<String,Object> resultMap;
-	
+	private List<Tag> tags=null;
 	private int tagId;
 	private String categoryIds;
 	private String tagName;
@@ -56,6 +56,14 @@ public class TagAction extends ActionSupport{
 		this.tag=dal.getOne(tag.getId());
 		dal.dispose();
 		return "fetchOne";
+	}
+	
+	public String fetchAll()
+	{
+		TagDal tagDal=new TagDal();
+		this.tags=tagDal.getAll(Pagination.NULL);
+		tagDal.dispose();
+		return "fetchAll";
 	}
 	
 	public void delTag()
@@ -207,5 +215,13 @@ public class TagAction extends ActionSupport{
 
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 }

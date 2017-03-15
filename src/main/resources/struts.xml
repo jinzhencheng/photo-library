@@ -43,6 +43,14 @@
 				<param name="root">resultMap</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="fetchOne">
+				<param name="root">tag</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="fetchAll">
+				<param name="root">tags</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
 			method="findInfo">
@@ -72,11 +80,22 @@
 			<result name="save" type="json">
 				<param name="root">result</param>
 			</result>
+			<result name="fetchByCategory" type="json">
+				<param name="root">agents</param>
+			</result>
 		</action>
 
 		<action name="category" class="jh.studio.ctl.CategoryAction">
 			<result type="json" name="fetchAll">
 				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="list">
+				<param name="root">resultMap</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="fetchOne">
+				<param name="root">category</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>

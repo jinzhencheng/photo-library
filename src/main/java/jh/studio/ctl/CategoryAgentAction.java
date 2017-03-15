@@ -17,12 +17,21 @@ public class CategoryAgentAction extends ActionSupport{
 	private List<CategoryAgent> agents;
 	private int tagId;
 	private String categoryIds;
+	private int categoryId;
 	
 	public String fetchByTag(){
 		CategoryAgentDal dal=new CategoryAgentDal();
 		agents=dal.searchByTag(tagId);
 		dal.dispose();
 		return "fetchByTag";
+	}
+	
+	public String fetchByCategory()
+	{
+		CategoryAgentDal dal=new CategoryAgentDal();
+		agents=dal.searchByCategory(categoryId);
+		dal.dispose();
+		return "fetchByCategory";
 	}
 	
 	private List<Integer> translate(){
@@ -62,6 +71,12 @@ public class CategoryAgentAction extends ActionSupport{
 
 	public void setCategoryIds(String categoryIds) {
 		this.categoryIds = categoryIds;
+	}
+	public int getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 }
