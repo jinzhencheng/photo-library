@@ -91,7 +91,6 @@ public class TagAction extends ActionSupport{
 		if(t != null)
 		{
 			dal.dispose();
-			//数据库中，原先的分类集合
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();

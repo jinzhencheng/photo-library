@@ -86,7 +86,6 @@ public class CategoryAction extends ActionSupport{
 		if(t != null)
 		{
 			dal.dispose();
-			//数据库中，原先的分类集合
 			Set<CategoryAgent> set = t.getTags();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -141,7 +140,8 @@ public class CategoryAction extends ActionSupport{
 			category.setId(categoryId);
 			category.setName(categoryName);
 			category.setSequence(categorySequence);
-			category.setIsValid(1);//有效
+			category.setIsValid(1);//鏈夋晥
+
 			
 			for(Tag c:tagList)
 			{
