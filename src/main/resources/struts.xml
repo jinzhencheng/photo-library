@@ -18,6 +18,11 @@
 
 	<!-- ajax request -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
+		<action name="opinion" class="jh.studio.ctl.OpinionAction">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
 				<param name="root">results</param>

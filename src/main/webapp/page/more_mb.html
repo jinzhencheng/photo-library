@@ -123,11 +123,8 @@
             </header>
             <div class="content">
               <div class="content-block content-padded">
-              	<div class="row">
-					  <textarea style="width:100%;height:5rem;" placeholder="宝贵意见"></textarea>
-              	</div>
-				<div class="row">
-					  <div class="col-100"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+					  <textarea style="width:100%;height:5rem;" placeholder="您的宝贵意见"></textarea>
+					  <div class="col-100"><a href="#" class="button button-big button-fill button-success" id="subBtn">提交</a></div>
 				</div>
 			  </div>
             </div>
@@ -157,6 +154,22 @@
 				error:function(){
 					$.alert('数据加载时出错');
 				}
+			});
+		//提交意见
+			$("#subBtn").click(function(){
+				var content=$("textarea").val();
+				$.ajax({
+					url:"",
+					data:{"setting.content":content,"setting.flag":2}
+					success:function(data){
+						if(data=="finished"){
+							$.alert("提交成功");
+						}
+					},
+					error:function(){
+							$.alert("提交失败，请重试");	
+					}	
+				});
 			});
 		});
 	</script>
