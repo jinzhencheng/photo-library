@@ -58,6 +58,22 @@ public class TagAction extends ActionSupport{
 		return "fetchOne";
 	}
 	
+	public void delTag()
+	{
+		TagDal dal = new TagDal();
+		Tag t = dal.getOne(tagId);
+		if(t == null)
+		{
+			result="finished";
+		}
+		else
+		{
+			t.setIsValid(0);
+			dal.update(t);
+			dal.dispose();
+		}
+		result="finished";
+	}
 	public String save(){
 		TagDal dal=new TagDal();
 		
@@ -65,7 +81,7 @@ public class TagAction extends ActionSupport{
 		dal.dispose();
 		if(t != null)
 		{
-			//数据库中，原先的分类集合
+			//鏁版嵁搴撲腑锛屽師鍏堢殑鍒嗙被闆嗗悎
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -116,7 +132,7 @@ public class TagAction extends ActionSupport{
 			tag.setId(tagId);
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
-			
+			tag.setIsValid(1);//鏈夋晥
 			for(Category c:categoryList)
 			{
 				CategoryAgent ca = new CategoryAgent();

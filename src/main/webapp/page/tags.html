@@ -143,7 +143,28 @@
 					}
 				});
 			});
+			
+			$("#delTag").click(function(){
+				var row=$checkSelected();
+				if(row==null){
+					return;
+				}
+				$.ajax({
+					url:'tag!delTag.action',
+					data:{"tagId":row.id},
+					success:function(data){
+						$(".easyui-datagrid").datagrid("reload");
+						$("#editWin").window("close");
+					},
+					error:function(){
+						$.messager.alert("错误","操作失败","error");
+					}
+				});
+			});
 		});
+		
+		
+
 	</script>
 	<table class="easyui-datagrid" title="标签列表" style="width:100%;min-height:300px;"
 			data-options="rownumbers:true,singleSelect:true,url:'tag!list.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
@@ -160,7 +181,8 @@
 		<input class="easyui-textbox" id="name"/> 
 		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
 		<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-		<a id="editTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑标签</a>
+		<a id="editTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑</a>
+		<a id="delTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
 		<!-- <a id="editRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-rel',plain:true">编辑关系</a> -->
 	</div>
 
