@@ -52,7 +52,6 @@ public class Tag {
 	public void setPhoto(Set<PhotoAgent> photo) {
 		this.photo = photo;
 	}
-
 	public Integer getIsValid() {
 		return isValid;
 	}
