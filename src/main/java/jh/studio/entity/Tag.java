@@ -45,6 +45,7 @@ public class Tag {
 	public void setCategoryIds(Set<CategoryAgent> categoryIds) {
 		this.categoryIds = categoryIds;
 	}
+
 	public Set<PhotoAgent> getPhoto() {
 		return photo;
 	}
