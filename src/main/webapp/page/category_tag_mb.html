@@ -1,2 +1,26 @@
 <meta charset="UTF-8">
-	热门标签
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:"",
+			dataType:"json",
+			success:function(data){
+				var a_tag="";
+				$.each(data,function(index,item){
+					a_tag.concat("<span>"+item+"</span>")
+				});					
+				$(".content-block").html(a_tag);
+			},
+			error:function(){
+				$.alert("数据获取失败");	
+			}
+		
+		});
+	});
+</script>
+
+<div class="content-padded">
+	<div class="content-block">
+
+	</div>
+</div>
