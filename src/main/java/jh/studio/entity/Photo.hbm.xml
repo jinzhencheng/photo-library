@@ -9,12 +9,15 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="name" type="string">
-            <column name="name" length="10" not-null="true" />
+       <property name="name" type="string">
+            <column name="name" length="255" not-null="true" />
+        </property>
+         <property name="path" type="string">
+            <column name="the_path" length="255" not-null="true" />
         </property>
         <property name="theDate" type="java.util.Date">
             <column name="the_date"/>
-        </property>
+        </property> 
 		<set name="users" table="collection">
 			<key column="photo_id"></key>  
             <many-to-many column="user_id" class="jh.studio.entity.User"/>  

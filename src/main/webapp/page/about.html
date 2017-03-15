@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	关于我们
-</body>
-</html>
+<script type="text/javascript">
+$(function(){
+		$.ajax({
+			url:'setInfo!findInfo.action',
+			data:{"flag":1},
+			success:function(data){
+				if(!data){return;}
+				$("#about_content").textbox('setValue',data.content);
+				$("#about_id").val(data.id);
+				$("#about_flag").val(data.flag);
+			 },
+			error:function(){
+				$.messager.alert("错误","加载数据失败","error");
+			}
+		});
+		var $saveInfo=function(id,content,flag){
+			$.ajax({
+				url:'setInfo!updateInfo.action',
+				data:{"setting.id":id,"setting.content":content,"setting.flag":flag},
+				success:function(data){
+					if(!data){return;}
+					if(data=="ok"){
+						$.messager.alert("提示","操作成功","info");
+					}
+					else if(data=="failure"){
+						$.messager.alert("警告","操作失败","warning");
+					}
+				},
+				error:function(){
+					$.messager.alert("错误","操作成功","error");
+				}
+			});		
+		}
+
+		$("#subBtn").click(function(){
+			var id=$("#about_id").val();
+			var content=encodeURI($("#about_content").val());
+			var flag="1";
+			$saveInfo(id,content,flag);
+		});
+	});
+</script>
+	<div id="thePanel" class="easyui-panel" title="关于我们" data-options="toolbar:'#tb'" style="width:650px;height:300px;padding:10px;">
+		<input  id="about_id" type="hidden" name="setting.id"/>
+		<input  id="about_flag" type="hidden" name="setting.flag"/>
+		<input class="easyui-textbox" type="text" id="about_content" name="setting.content" data-options="required:true,multiline:true" 
+		style="width:600px;height:150px"/><br/><br/>
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="subBtn">提交</a>
+	</div>

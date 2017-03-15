@@ -2,7 +2,7 @@ package jh.studio.entity;
 
 public class Setting {
 	private int id;
-	private String Content;
+	private String content;
 	private int flag;
 	
 	public int getId() {
@@ -11,11 +11,12 @@ public class Setting {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getContent() {
-		return Content;
+		return content;
 	}
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 	public int getFlag() {
 		return flag;

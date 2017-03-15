@@ -11,7 +11,7 @@
         <property name="content" type="string">
             <column name="content" not-null="true" />
         </property>
-        <property name="flag" type="string">
+        <property name="flag" type="int">
             <column name="flag"/>
         </property>
     </class>

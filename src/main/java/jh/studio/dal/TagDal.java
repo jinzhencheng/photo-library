@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
 
 import jh.studio.entity.Category;
-import jh.studio.entity.CategoryAgent;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Tag;
