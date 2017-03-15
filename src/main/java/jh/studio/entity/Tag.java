@@ -9,6 +9,7 @@ public class Tag {
 	private String parentCategories;
 	private Integer isValid;
 	private Set<CategoryAgent> categoryIds;
+	private Set<PhotoAgent> photo;
 
 	public Tag(){}
 	public Tag(String name){
@@ -44,11 +45,19 @@ public class Tag {
 	public void setCategoryIds(Set<CategoryAgent> categoryIds) {
 		this.categoryIds = categoryIds;
 	}
+
+	public Set<PhotoAgent> getPhoto() {
+		return photo;
+	}
+	public void setPhoto(Set<PhotoAgent> photo) {
+		this.photo = photo;
+
 	public Integer getIsValid() {
 		return isValid;
 	}
 	public void setIsValid(Integer isValid) {
 		this.isValid = isValid;
+
 	}
 	
 }

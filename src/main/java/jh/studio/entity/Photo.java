@@ -12,6 +12,8 @@ public class Photo {
 	private Set<Tag> tags = new HashSet<Tag>();
 	private Set<User> users = new HashSet<User>();
 	private String path;
+	private String minpath;
+	private Set<PhotoAgent> tag;
 
 	public Photo(int id, String name, Set<User> users, String path) {
 		super();
@@ -24,6 +26,14 @@ public class Photo {
 	public Photo() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String getMinpath() {
+		return minpath;
+	}
+
+	public void setMinpath(String minpath) {
+		this.minpath = minpath;
 	}
 
 	public String getPath() {
@@ -73,5 +83,14 @@ public class Photo {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
+
+	public Set<PhotoAgent> getTag() {
+		return tag;
+	}
+
+	public void setTag(Set<PhotoAgent> tag) {
+		this.tag = tag;
+	}
+	
 
 }
