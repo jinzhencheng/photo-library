@@ -91,7 +91,6 @@ public class TagAction extends ActionSupport{
 		if(t != null)
 		{
 			dal.dispose();
-			//????,???????
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -155,7 +154,6 @@ public class TagAction extends ActionSupport{
 			dal.dispose();
 		}
 		result="finished";
-		return "edit";
 	}
 
 	
