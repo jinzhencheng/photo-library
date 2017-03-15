@@ -19,6 +19,7 @@
 		<mapping resource="jh/studio/entity/Setting.hbm.xml" />
 		<mapping resource="jh/studio/entity/Tag.hbm.xml" />
 		<mapping resource="jh/studio/entity/User.hbm.xml" />
+		<mapping resource="jh/studio/entity/PhotoAgent.hbm.xml"/>
 	</session-factory>
 
 

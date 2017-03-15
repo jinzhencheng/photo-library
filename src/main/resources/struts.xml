@@ -10,7 +10,7 @@
 			<result name="success" type="redirect">/page/layout.html</result>
 			<result name="error" type="redirect">/login.jsp</result>
 		</action>
-		<action name="upload" class="jh.studio.ctl.UpLoadAction">
+		<action name="upload" class="jh.studio.ctl.PhotoAction">
 			<param name="savePath">upload</param>
 			<result name="success">/index.html</result>
 		</action>
@@ -64,7 +64,11 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-
+  <action name="show" class="jh.studio.ctl.PhotoAction">
+			<result type="json" name="success">
+				<param name="root">results</param>
+			</result>
+		</action>
 		<action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">
 			<result name="fetchByTag" type="json">
 				<param name="root">agents</param>

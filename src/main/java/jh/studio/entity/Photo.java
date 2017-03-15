@@ -13,6 +13,7 @@ public class Photo {
 	private Set<User> users = new HashSet<User>();
 	private String path;
 	private String minpath;
+	private Set<PhotoAgent> tag;
 
 	public Photo(int id, String name, Set<User> users, String path) {
 		super();
@@ -82,5 +83,14 @@ public class Photo {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
+
+	public Set<PhotoAgent> getTag() {
+		return tag;
+	}
+
+	public void setTag(Set<PhotoAgent> tag) {
+		this.tag = tag;
+	}
+	
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="jh.studio.entity.PhotoAgent" table="photo_agent">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+    
+        
+         <many-to-one name="tag_id" column="tag_id" lazy="false"></many-to-one>
+         <many-to-one name="photo_id" column="photo_id" lazy="false"></many-to-one>
+    </class>
+</hibernate-mapping>

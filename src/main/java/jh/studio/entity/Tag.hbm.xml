@@ -25,5 +25,9 @@
              <key column="tag_id"></key>
              <one-to-many class="jh.studio.entity.CategoryAgent"/>
        	</set>
+       	<set name="photo" cascade="all" lazy="false">
+             <key column="tag_id"></key>
+             <one-to-many class="jh.studio.entity.PhotoAgent"/>
+       	</set>
     </class>
 </hibernate-mapping>
