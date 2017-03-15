@@ -93,7 +93,7 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 
 	@Override
 	public List<Tag> search(Condition condition, Pagination page) {
-		String sql="select * from tag where 1=1 ";
+		String sql="select * from tag where isValid=1";
 		if(null!=condition.getName()){
 			sql+="and name like '%"+condition.getName()+"%'";
 		}
