@@ -36,21 +36,21 @@ public class CategoryAgentAction extends ActionSupport{
 		return cateIdList;
 
 	}
-	public String save(){
-		List<Integer> list=translate();
-		List<CategoryAgent> agentList=new ArrayList<CategoryAgent>();
-		for(int categoryId:list){
-			CategoryAgent agent=new CategoryAgent();
-			agent.setTagId(tagId);
-			agent.setCategoryId(categoryId);
-			agentList.add(agent);
-		}
-		CategoryAgentDal dal=new CategoryAgentDal();
-		dal.deleteByTag(tagId);
-		dal.batchAdd(agentList);
-		dal.dispose();
-		return "save";
-	}
+//	public String save(){
+//		List<Integer> list=translate();
+//		List<CategoryAgent> agentList=new ArrayList<CategoryAgent>();
+//		for(int categoryId:list){
+//			CategoryAgent agent=new CategoryAgent();
+//			/*agent.setTagId(tagId);
+//			agent.setCategoryId(categoryId);*/
+//			agentList.add(agent);
+//		}
+//		CategoryAgentDal dal=new CategoryAgentDal();
+//		dal.deleteByTag(tagId);
+//		dal.batchAdd(agentList);
+//		dal.dispose();
+//		return "save";
+//	}
 
 	public List<CategoryAgent> getAgents() {
 		return agents;

@@ -2,6 +2,7 @@ package jh.studio.dal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
@@ -34,15 +35,12 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 	}
 
 	private void loadCategory(Tag entity){
-		List<Category> categories=getCategories(entity);
-		List<Integer> categoryIds=new ArrayList<Integer>();
+		Set<CategoryAgent> categories=entity.getCategoryIds();
 		StringBuilder builder=new StringBuilder();
-		for(Category c:categories){
-			builder.append(c.getName()+" ");
-			categoryIds.add(c.getId());
+		for(CategoryAgent c:categories){
+			builder.append(c.getCategoryId().getName()+" ");
 		}
 		entity.setParentCategories(builder.toString());
-		entity.setCategoryIds(categoryIds);
 	}
 
 	@Override
@@ -105,8 +103,8 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		for(Tag t:list){
 			loadCategory(t);
 		}
+		
 		return list;
 	}
 	
 }
-
