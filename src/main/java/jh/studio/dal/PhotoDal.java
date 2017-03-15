@@ -30,6 +30,10 @@ public class PhotoDal extends BaseDal<Photo> {
 		super.session.delete(entity);
 		super.transaction.commit();
 	}
+	public Photo getOne(int id){
+		Photo entity=super.session.get(Photo.class, id);
+		return entity;
+	}
 	public void update(Photo entity) {
 		if(entity==null || entity.getId()==0){
 			logger.error("添加对象为空或对象处于瞬时态");
@@ -44,6 +48,23 @@ public class PhotoDal extends BaseDal<Photo> {
 		Query query=super.session.createNativeQuery(sql);
 		List<PhotoResult> list=super.toList(query, page);
 		return list;
+	}
+	public void batchDel(List<Integer> list)
+	{
+		if(list == null || list.size() == 0)
+		{
+			return ;
+		}
+		String sql="delete from photo where id in ("+list.get(0);
+		String ids = "";
+		for(Integer i:list)
+		{
+			ids += ","+i;
+		}
+		sql += ids;
+		sql += ")";
+		super.session.createNativeQuery(sql).executeUpdate();
+		transaction.commit();	
 	}
 
 

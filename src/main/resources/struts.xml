@@ -14,6 +14,9 @@
 			<param name="savePath">upload</param>
 			<result name="success">/index.html</result>
 		</action>
+		<action name="deletePhoto" class="jh.studio.ctl.PhotoAction">
+			<result name="ok">/page/photo_store.html</result>
+		</action>
 	</package>
 
 	<!-- ajax request -->

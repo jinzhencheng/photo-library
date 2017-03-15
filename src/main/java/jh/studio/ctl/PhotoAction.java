@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -147,6 +148,21 @@ public class PhotoAction extends ActionSupport {
 		results.put("total", total);
 		
 		return SUCCESS;
+	}
+	@Test
+	public void deletePhoto(){
+		String[] ids={"16","17"};
+		List<Integer> inid=new ArrayList<Integer>();
+		for(String id:ids){
+			inid.add(Integer.parseInt(id));
+			
+		}
+		PhotoAgentDal dal=new PhotoAgentDal();
+		dal.batchDel(inid);
+		PhotoDal pdal=new PhotoDal();
+		pdal.batchDel(inid);
+		
+		//return "ok";
 	}
     
 }
