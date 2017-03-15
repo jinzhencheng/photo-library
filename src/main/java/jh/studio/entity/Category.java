@@ -1,6 +1,6 @@
 package jh.studio.entity;
 
-import java.util.List;
+import java.util.Set;
 
 public class Category {
 
@@ -8,7 +8,7 @@ public class Category {
 	private String name;
 	private int sequence;
 	private Category parentId;
-	private List<Tag> tags;
+	private Set<CategoryAgent> tags;
 
 	public Category(){}
 	public Category(int id,String name){
@@ -16,10 +16,10 @@ public class Category {
 		this.name=name;
 	}
 	
-	public List<Tag> getTags() {
+	public Set<CategoryAgent> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(Set<CategoryAgent> tags) {
 		this.tags = tags;
 	}
 	public int getId() {

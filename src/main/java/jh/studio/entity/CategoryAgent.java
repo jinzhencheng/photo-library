@@ -2,11 +2,11 @@ package jh.studio.entity;
 
 public class CategoryAgent {
 	private int id;
-	private int tagId;
-	private int categoryId;
+	private Tag tagId;
+	private Category categoryId;
 
 	public CategoryAgent(){}
-	public CategoryAgent(int id,int tagId,int categoryId){
+	public CategoryAgent(int id,Tag tagId,Category categoryId){
 		this.id=id;
 		this.tagId=tagId;
 		this.categoryId=categoryId;
@@ -18,19 +18,18 @@ public class CategoryAgent {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getTagId() {
+	public Tag getTagId() {
 		return tagId;
 	}
-	public void setTagId(int tagId) {
+	public void setTagId(Tag tagId) {
 		this.tagId = tagId;
 	}
-	public int getCategoryId() {
+	public Category getCategoryId() {
 		return categoryId;
 	}
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Category categoryId) {
 		this.categoryId = categoryId;
 	}
-	
 	
 	
 

@@ -14,5 +14,16 @@
         <property name="clickCount" type="int">
             <column name="click_count"/>
         </property>
+      <!--   <set name="categoryIds" table="category_agent" cascade="all" lazy="false">
+			<key>
+				<column name="tag_id"/>
+			</key>
+			<many-to-many column="category_id" class="jh.studio.entity.Category"/>
+		</set> -->
+		
+		<set name="categoryIds" cascade="all" lazy="false">
+             <key column="tag_id"></key>
+             <one-to-many class="jh.studio.entity.CategoryAgent"/>
+       	</set>
     </class>
 </hibernate-mapping>

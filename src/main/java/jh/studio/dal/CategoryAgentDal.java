@@ -20,8 +20,25 @@ public class CategoryAgentDal extends BaseDal<CategoryAgent>{
 	}
 	public void batchAdd(List<CategoryAgent> list){
 		for(CategoryAgent agent:list){
-			String sql="insert into category_agent values(0,"+agent.getTagId()+","+agent.getCategoryId()+")";
+			String sql="insert into category_agent(id,tag_id,category_id) values(0,"+agent.getTagId().getId()+","+agent.getCategoryId().getId()+")";
 			super.session.createNativeQuery(sql).executeUpdate();
 		}
+	}
+	
+	public void batchDel(List<Integer> list)
+	{
+		if(list == null || list.size() == 0)
+		{
+			return ;
+		}
+		String sql="delete from category_agent where category_id in ("+list.get(0);
+		String ids = "";
+		for(Integer i:list)
+		{
+			ids += ","+i;
+		}
+		sql += ids;
+		sql += ")";
+		super.session.createNativeQuery(sql).executeUpdate();
 	}
 }

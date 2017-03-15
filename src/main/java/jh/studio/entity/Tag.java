@@ -1,13 +1,13 @@
 package jh.studio.entity;
 
-import java.util.List;
+import java.util.Set;
 
 public class Tag {
 	private int id;
 	private String name;
 	private int clickCount;
 	private String parentCategories;
-	private List<Integer> categoryIds;
+	private Set<CategoryAgent> categoryIds;
 
 	public Tag(){}
 	public Tag(String name){
@@ -37,10 +37,10 @@ public class Tag {
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
 	}
-	public List<Integer> getCategoryIds() {
+	public Set<CategoryAgent> getCategoryIds() {
 		return categoryIds;
 	}
-	public void setCategoryIds(List<Integer> categoryIds) {
+	public void setCategoryIds(Set<CategoryAgent> categoryIds) {
 		this.categoryIds = categoryIds;
 	}
 	

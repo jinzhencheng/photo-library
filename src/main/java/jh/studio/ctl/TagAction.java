@@ -1,13 +1,20 @@
 package jh.studio.ctl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.condition.TagCond;
+import jh.studio.dal.CategoryAgentDal;
+import jh.studio.dal.CategoryDal;
 import jh.studio.dal.TagDal;
+import jh.studio.entity.Category;
+import jh.studio.entity.CategoryAgent;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Tag;
@@ -21,7 +28,11 @@ public class TagAction extends ActionSupport{
 	private Tag tag=new Tag();
 	private String result;
 	private Map<String,Object> resultMap;
-
+	
+	private int tagId;
+	private String categoryIds;
+	private String tagName;
+	private int clickCount;
 
 	public String list(){
 		Condition condition=new TagCond(tag.getName()); 
@@ -49,8 +60,74 @@ public class TagAction extends ActionSupport{
 	
 	public String save(){
 		TagDal dal=new TagDal();
-		dal.saveOrUpdate(tag);
+		
+		Tag t = dal.getOne(tagId);
 		dal.dispose();
+		if(t != null)
+		{
+			//数据库中，原先的分类集合
+			Set<CategoryAgent> set = t.getCategoryIds();
+			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
+			List<Integer> delList = new ArrayList<Integer>();
+			
+			for(CategoryAgent c:set)
+			{
+				String id = c.getCategoryId().getId()+"";
+				if(!categoryIds.contains(id))
+				{
+					delList.add(c.getCategoryId().getId());
+				}
+			}
+			
+			String ids = "";
+			for(CategoryAgent c:set)
+			{
+				ids += c.getCategoryId().getId();
+			}
+			String[] categoryIdArray = categoryIds.split("-");
+			for(String c:categoryIdArray)
+			{
+				if(!ids.contains(c))
+				{
+					CategoryAgent ca = new CategoryAgent();
+					Tag t1 = new Tag();
+					t1.setId(tagId);
+					Category cg = new Category();
+					cg.setId(Integer.parseInt(c));
+					ca.setCategoryId(cg);
+					ca.setTagId(t1);
+					insertList.add(ca);
+				}
+			}
+			
+			CategoryAgentDal cgAgentDal = new CategoryAgentDal();
+			cgAgentDal.batchDel(delList);
+			cgAgentDal.batchAdd(insertList);
+			cgAgentDal.dispose();
+		}
+		else
+		{
+			Set<CategoryAgent> categorySet = new HashSet<CategoryAgent>();
+			CategoryDal cDal = new CategoryDal();
+			List<Category> categoryList = cDal.getCategory(categoryIds);
+			cDal.dispose();
+			
+			Tag tag = new Tag();
+			tag.setId(tagId);
+			tag.setName(tagName);
+			tag.setClickCount(clickCount);
+			
+			for(Category c:categoryList)
+			{
+				CategoryAgent ca = new CategoryAgent();
+				ca.setCategoryId(c);
+				ca.setTagId(tag);
+				categorySet.add(ca);
+			}
+			tag.setCategoryIds(categorySet);
+			dal.add(tag);
+			dal.dispose();
+		}
 		result="finished";
 		return "edit";
 	}
@@ -80,5 +157,35 @@ public class TagAction extends ActionSupport{
 	public String getResult() {
 		return result;
 	}
-	
+	public int getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(int tagId) {
+		this.tagId = tagId;
+	}
+
+	public String getCategoryIds() {
+		return categoryIds;
+	}
+
+	public void setCategoryIds(String categoryIds) {
+		this.categoryIds = categoryIds;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public int getClickCount() {
+		return clickCount;
+	}
+
+	public void setClickCount(int clickCount) {
+		this.clickCount = clickCount;
+	}
 }

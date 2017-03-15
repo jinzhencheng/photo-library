@@ -7,13 +7,14 @@
 			});
 
 			$.parser.parse('#editWinContainer');
-			$.parser.parse('#relWinContainer');
 			$("#editWin").window({
 				onBeforeClose:function(){
 					$("#editForm").form("reset");
 				}
 			});
 			$("#add").click(function(){
+				var categories=$fetchCategory();
+				$buildCheckboxOne(categories);
 				$("#editWin").window("open");
 			});
 
@@ -32,8 +33,49 @@
 				});	
 				return categories;
 			}
+			
+			var $fetchOwnCategory=function(){
+				var row=$checkSelected();
+				var categories="";
+				$.ajax({
+					url:'categoryAgent!fetchByTag.action',
+					dataType:"json",
+					data:{"tagId":row.id},
+					async : false,
+					success:function(data){
+						categories=data;
+					},
+					error:function(error){
+						$.messager.alert('错误','数据初始化失败',"error");
+					}
+				});	
+				return categories;
+			}
 
-			var $buildCheckbox=function(data){
+			var $buildCheckbox=function(data,dataOwn){
+				if(!data){return;}
+				var ary=new Array();
+				var ids = "";
+				$.each(dataOwn,function(index,item){
+					ids+=item.categoryId.id;
+				});
+				$.each(data,function(index,item){
+				
+					if(ids.indexOf(item.id) != -1)
+					{
+						var ck="<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"' checked>"+item.name;
+					}
+					else
+					{
+						var ck="<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+					}
+					ary.push(ck);
+				})
+				var html=ary.join("");
+				$("#categoryDiv").html(html);
+			}
+			
+			var $buildCheckboxOne=function(data){
 				if(!data){return;}
 				var ary=new Array();
 				$.each(data,function(index,item){
@@ -43,25 +85,24 @@
 				var html=ary.join("");
 				$("#categoryDiv").html(html);
 			}
-			$("#editForm").form({
-				url:"tag!save.action",
-				success:function(){
-					$(".easyui-datagrid").datagrid("reload",{"tag.name":$("#name").val()});
-					$("#editWin").window("close");
-				}
-			});
-			$("#saveRel").click(function(){
+		
+			$("#saveTag").click(function(){
 				var categoryAry=new Array();
 				$("input[name='category']:checked").each(function(index,value){
 					categoryAry.push($(this).val());
 				}); 
 				var categoryIds=categoryAry.join("-");
-				var tagId=$("#relTagId").val();
-				$("#relForm").form("submit",{
-					url:"categoryAgent!save.action",
+				var tagId=$("#tagId").val();
+				var tagName=$("#tagName").val();
+				var clickCount=$("#clickCount").val();
+				
+				$("#editForm").form("submit",{
+					url:"tag!save.action",
 					onSubmit:function(param){
 						param.categoryIds=categoryIds;
 						param.tagId=tagId;
+						param.tagName=tagName;
+						param.clickCount=clickCount;
 					},
 					success:function(){
 						$(".easyui-datagrid").datagrid("reload",{"tag.name":$("#name").val()});
@@ -69,32 +110,7 @@
 					}
 				});
 			});
-			$("#saveTag").click(function(){
-				$("#editForm").submit();
-			});
-			$("#editRel").click(function(){
-				var row=$checkSelected();
-				if(row==null){
-					return;
-				}
-				$.ajax({
-					url:'categoryAgent!fetchByTag.action',
-					dateType:"json",
-					data:{"tagId":row.id},
-					success:function(data){
-						var categories=$fetchCategory();
-						$buildCheckbox(categories);
-						$.each(data,function(index,item){
-							$("#"+item.id).attr("checked", true);
-						});
-						$("#relTagId").val(row.id);
-						$("#relWin").window("open");
-					},
-					error:function(){
-						$.messager.alert("错误","操作失败","error");
-					}
-				});
-			});
+			
 			var $checkSelected=function(){
 				var row=$('.easyui-datagrid').datagrid('getSelected');
 				if(!row){
@@ -113,6 +129,10 @@
 					data:{"tag.id":row.id},
 					success:function(data){
 						if(data==null){return;}
+						var categories=$fetchCategory();
+						var cateOwngories=$fetchOwnCategory();
+						$buildCheckbox(categories,cateOwngories);
+						
 						$("#tagName").textbox("setValue",data.name);
 						$("#tagId").val(data.id);
 						$("#clickCount").textbox("setValue",data.clickCount);
@@ -141,7 +161,7 @@
 		<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
 		<a id="add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
 		<a id="editTag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑标签</a>
-		<a id="editRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-rel',plain:true">编辑关系</a>
+		<!-- <a id="editRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-rel',plain:true">编辑关系</a> -->
 	</div>
 
 	<div id="editWinContainer">
@@ -153,6 +173,7 @@
 				名称：<input class="easyui-textbox" type="text" name="tag.name" id="tagName" data-options="required:true"/><br/>
 				热度：<input class="easyui-textbox" type="text" name="tag.clickCount" id="clickCount" data-options="readonly:true"/>
 				<span style="font-size:12;color:blue;">[ 热度 ] 不可编辑</span>
+				<div id="categoryDiv"></div>
 			</form>
 		</div>
 		<div id="editFooter" style="text-align:right;">
@@ -160,17 +181,4 @@
 		</div>
 	</div>
 
-
-	<div id="relWinContainer">
-		<div id="relWin" style="padding:10px;"  class="easyui-window" title="编辑关系" 
-		data-options="iconCls:'icon-rel',width:350,minimizable:false,
-		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#relFooter'">
-			<form id="relForm" method="post">
-				<input type="hidden" name="tag.id" id="relTagId"/>
-				<div id="categoryDiv"></div>
-			</form>
-		</div>
-		<div id="relFooter" style="text-align:right;">
-			<a id="saveRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
-		</div>
-	</div>
+		

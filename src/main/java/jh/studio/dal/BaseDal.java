@@ -50,6 +50,6 @@ public class BaseDal<T>{
 				.getResultList();
 		return list;
 	}
-	
+
 
 }
