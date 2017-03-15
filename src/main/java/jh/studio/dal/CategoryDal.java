@@ -24,7 +24,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void add(Category entity) {
 		if(entity==null){
-			logger.error("足赤?車???車?a??");
+			logger.error("??????");
 			return;
 		}
 		super.session.save(entity);
@@ -34,7 +34,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void update(Category entity) {
 		if(entity==null || entity.getId()==0){
-			logger.error("足赤?車???車?a???辰???車∩|車迆?2那㊣足?");
+			logger.error("??????????????");
 			return;
 		}
 		super.session.update(entity);
