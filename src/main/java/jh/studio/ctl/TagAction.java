@@ -64,6 +64,7 @@ public class TagAction extends ActionSupport{
 		Tag t = dal.getOne(tagId);
 		if(t == null)
 		{
+			dal.dispose();
 			result="finished";
 		}
 		else
@@ -90,7 +91,7 @@ public class TagAction extends ActionSupport{
 			for(CategoryAgent c:set)
 			{
 				String id = c.getCategoryId().getId()+"";
-				if(!categoryIds.contains(id))
+				if(c.getTagId().getId() == tagId && !categoryIds.contains(id))
 				{
 					delList.add(c.getCategoryId().getId());
 				}
@@ -107,18 +108,21 @@ public class TagAction extends ActionSupport{
 				if(!ids.contains(c))
 				{
 					CategoryAgent ca = new CategoryAgent();
+					
 					Tag t1 = new Tag();
 					t1.setId(tagId);
+					
 					Category cg = new Category();
 					cg.setId(Integer.parseInt(c));
 					ca.setCategoryId(cg);
 					ca.setTagId(t1);
+					
 					insertList.add(ca);
 				}
 			}
 			
 			CategoryAgentDal cgAgentDal = new CategoryAgentDal();
-			cgAgentDal.batchDel(delList);
+			cgAgentDal.batchDel(delList,tagId);
 			cgAgentDal.batchAdd(insertList);
 			cgAgentDal.dispose();
 		}

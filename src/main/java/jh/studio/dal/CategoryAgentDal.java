@@ -25,13 +25,13 @@ public class CategoryAgentDal extends BaseDal<CategoryAgent>{
 		}
 	}
 	
-	public void batchDel(List<Integer> list)
+	public void batchDel(List<Integer> list,Integer id)
 	{
 		if(list == null || list.size() == 0)
 		{
 			return ;
 		}
-		String sql="delete from category_agent where category_id in ("+list.get(0);
+		String sql="delete from category_agent where tag_id="+id+" and category_id in ("+list.get(0);
 		String ids = "";
 		for(Integer i:list)
 		{

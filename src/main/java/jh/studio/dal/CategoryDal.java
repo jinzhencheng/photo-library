@@ -69,7 +69,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 		{
 			return null;
 		}
-		String sql="select * from category where id in("+idList.get(0);
+		String sql="select * from category where isValid=1 and id in("+idList.get(0);
 		for(Integer id:idList)
 		{
 			sql+=","+id;
