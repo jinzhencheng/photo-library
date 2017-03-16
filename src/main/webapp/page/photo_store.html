@@ -2,212 +2,81 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 	$(function() {
-		$("#search").click(function() {
-			$(".easyui-datagrid").datagrid("load", {
-				"tag.name" : $("#name").val()
-			});
-		});
-
-		$.parser.parse('#editWinContainer');
-		$("#editWin").window({
+		$.parser.parse('#editPWinContainer');
+		$("#editPWin").window({
 			onBeforeClose : function() {
 				$("#editForm").form("reset");
 			}
 		});
-		$("#add").click(function() {
-			var categories = $fetchCategory();
-			$buildCheckboxOne(categories);
-			$("#editWin").window("open");
+		$("#addphoto").click(function() {
+			var tags=$fetchTag();
+			$buildCheckboxOne(tags);
+			$("#editPWin").window("open");
 		});
 
-		var $fetchCategory = function() {
-			var categories = "";
+		var $fetchTag=function(){
+			var tags="";
 			$.ajax({
-				url : 'category!fetchAll.action',
-				dataType : "json",
+				url:'tag!fetchAll.action',
+				dataType:"json",
 				async : false,
-				success : function(data) {
-					categories = data;
+				success:function(data){
+					tags=data;
 				},
-				error : function(error) {
-					$.messager.alert('错误', '数据初始化失败', "error");
+				error:function(error){
+					$.messager.alert('错误','数据初始化失败',"error");
 				}
-			});
-			return categories;
+			});	
+			return tags;
+		}
+		
+		var $buildCheckboxOne=function(data){
+			if(!data){return;}
+			var ary=new Array();
+			$.each(data,function(index,item){
+				var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				ary.push(ck);
+			})
+			var html=ary.join("");
+			$("#cgTagDiv").html(html);
 		}
 
-		var $fetchOwnCategory = function() {
-			var row = $checkSelected();
-			var categories = "";
-			$.ajax({
-				url : 'categoryAgent!fetchByTag.action',
-				dataType : "json",
-				data : {
-					"tagId" : row.id
-				},
-				async : false,
-				success : function(data) {
-					categories = data;
-				},
-				error : function(error) {
-					$.messager.alert('错误', '数据初始化失败', "error");
-				}
-			});
-			return categories;
-		}
-
-		var $buildCheckbox = function(data, dataOwn) {
-			if (!data) {
-				return;
-			}
-			var ary = new Array();
-			var ids = "";
-			$.each(dataOwn, function(index, item) {
-				ids += item.categoryId.id;
-			});
-			$
-					.each(
-							data,
-							function(index, item) {
-
-								if (ids.indexOf(item.id) != -1) {
-									var ck = "<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"' checked>"
-											+ item.name;
-								} else {
-									var ck = "<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"'>"
-											+ item.name;
-								}
-								ary.push(ck);
-							})
-			var html = ary.join("");
-			$("#categoryDiv").html(html);
-		}
-
-		var $buildCheckboxOne = function(data) {
-			if (!data) {
-				return;
-			}
-			var ary = new Array();
-			$
-					.each(
-							data,
-							function(index, item) {
-								var ck = "<input type='checkbox' name='category' value='"+item.id+"' id='"+item.id+"'>"
-										+ item.name;
-								ary.push(ck);
-							})
-			var html = ary.join("");
-			$("#categoryDiv").html(html);
-		}
-
-		$("#saveTag").click(function() {
-			var categoryAry = new Array();
-			$("input[name='category']:checked").each(function(index, value) {
-				categoryAry.push($(this).val());
-			});
-			var categoryIds = categoryAry.join("-");
-			var tagId = $("#tagId").val();
-			var tagName = $("#tagName").val();
-			var clickCount = $("#clickCount").val();
-
-			$("#editForm").form("submit", {
-				url : "tag!save.action",
-				onSubmit : function(param) {
-					param.categoryIds = categoryIds;
-					param.tagId = tagId;
-					param.tagName = tagName;
-					param.clickCount = clickCount;
-				},
-				success : function() {
-					$(".easyui-datagrid").datagrid("reload", {
-						"tag.name" : $("#name").val()
-					});
-					$("#editWin").window("close");
-				}
-			});
-		});
-
-		var $checkSelected = function() {
-			var row = $('.easyui-datagrid').datagrid('getSelected');
-			if (!row) {
-				$.messager.alert('警告', '未选择任何数据行', "warning");
-				return;
-			}
-			return row;
-		}
-		$("#editTag").click(function() {
-			var row = $checkSelected();
-			if (row == null) {
-				return;
-			}
-			$.ajax({
-				url : 'tag!fetchOne.action',
-				data : {
-					"tag.id" : row.id
-				},
-				success : function(data) {
-					if (data == null) {
-						return;
-					}
-					var categories = $fetchCategory();
-					var cateOwngories = $fetchOwnCategory();
-					$buildCheckbox(categories, cateOwngories);
-
-					$("#tagName").textbox("setValue", data.name);
-					$("#tagId").val(data.id);
-					$("#clickCount").textbox("setValue", data.clickCount);
-					$("#editWin").window("open");
-				},
-				error : function() {
-					$.messager.alert("错误", "操作失败", "error");
-				}
-			});
-		});
 	});
 </script>
 <table class="easyui-datagrid" title="标签列表"
 	style="width: 100%; min-height: 300px;"
-	data-options="rownumbers:true,singleSelect:true,url:'show!showPhoto.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
+	data-options="rownumbers:true,singleSelect:true,url:'show!showPhoto.action',toolbar:'#tbar',pagination:true,loadMsg:'加载中...'">
 	<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>
-			<th data-options="field:'name',width:200">姓名</th>
-			<th data-options="field:'data',width:200">日期</th>
+			<th data-options="field:'name',width:200">文件名</th>
+			<th data-options="field:'date',width:200">日期</th>
 			<th data-options="field:'minpath',width:100">保存路径</th>
 			<th data-options="field:'tagName',width:500">标签名</th>
 		</tr>
 	</thead>
 </table>
-<div id="tb" style="padding: 5px;">
+<div id="tbar" style="padding: 5px;">
 	<input class="easyui-textbox" id="name" /> <a id="search" href="#"
 		class="easyui-linkbutton"
-		data-options="iconCls:'icon-search',plain:true">查询</a> <a id="add"
+		data-options="iconCls:'icon-search',plain:true">查询</a> <a id="addphoto"
 		href="#" class="easyui-linkbutton"
-		data-options="iconCls:'icon-add',plain:true">添加</a> <a id="editTag"
-		href="#" class="easyui-linkbutton"
-		data-options="iconCls:'icon-edit',plain:true">编辑标签</a>
-	<!-- <a id="editRel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-rel',plain:true">编辑关系</a> -->
+		data-options="iconCls:'icon-add',plain:true">添加</a> 
 </div>
 
-<div id="editWinContainer">
-	<div id="editWin" style="padding: 10px;" class="easyui-window"
-		title="编辑标签"
+<div id="editPWinContainer">
+	<div id="editPWin" style="padding: 10px;" class="easyui-window"
+		title="添加图片"
 		data-options="iconCls:'icon-edit',width:350,minimizable:false,
-		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#editFooter'">
-		<form id="editForm" method="post">
-			<input type="hidden" name="tag.id" id="tagId" /> 名称：<input
-				class="easyui-textbox" type="text" name="tag.name" id="tagName"
-				data-options="required:true" /><br /> 热度：<input
-				class="easyui-textbox" type="text" name="tag.clickCount"
-				id="clickCount" data-options="readonly:true" /> <span
-				style="font-size: 12; color: blue;">[ 热度 ] 不可编辑</span>
-			<div id="categoryDiv"></div>
-		</form>
-	</div>
-	<div id="editFooter" style="text-align: right;">
-		<a id="saveTag" href="#" class="easyui-linkbutton"
-			data-options="iconCls:'icon-save',plain:true">保存</a>
-	</div>
+		closed:true,maximizable:false,collapsible:false,modal:true">
+		<form id="importFileForm" method="post" enctype="multipart/form-data">
+		<input type="file"  id="upload" name="upload" >
+        <div style="text-align:center;clear:both;margin:5px;">
+            <a id="uploadFile" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" data-bind="click:importFileClick" href="javascript:void(0)">上传</a>
+            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" data-bind="click:closeImportClick" href="javascript:void(0)">关闭</a>
+        </div>
+        <div id="cgTagDiv"></div>
+    </form>
+    </div>
 </div>
-
 

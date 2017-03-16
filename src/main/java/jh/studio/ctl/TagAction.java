@@ -150,9 +150,9 @@ public class TagAction extends ActionSupport{
 			Tag tag = new Tag();
 			tag.setId(tagId);
 			tag.setName(tagName);
-			tag.setClickCount(clickCount);
-			tag.setIsValid(1);//有效
-			for(Category c:categoryList)
+			tag.setClickCount(clickCount);	
+      tag.setIsValid(1);//有效			
+      for(Category c:categoryList)
 			{
 				CategoryAgent ca = new CategoryAgent();
 				ca.setCategoryId(c);
