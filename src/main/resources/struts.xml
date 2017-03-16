@@ -87,6 +87,9 @@
 			<result type="json" name="updateInfo-success">
 				<param name="root">result</param>
 			</result>
+			<result type="json" name="findBoth">
+				<param name="root">infoMap</param>
+			</result>
 		</action>
   <action name="show" class="jh.studio.ctl.PhotoAction">
 			<result type="json" name="success">

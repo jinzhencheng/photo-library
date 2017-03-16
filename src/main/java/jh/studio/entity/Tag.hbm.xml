@@ -11,6 +11,9 @@
         <property name="name" type="string">
             <column name="name" length="20" not-null="true" />
         </property>
+        <property name="isHot" type="boolean">
+        	<column name="is_hot"/>
+        </property>
         <property name="clickCount" type="int">
             <column name="click_count"/>
         </property>

@@ -45,9 +45,8 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 	}
 	
 	public List<Tag> getHot(){
-		//TODO:查询热门标签语句
-		String sql="";
-		Query<Tag> query=super.session.createNativeQuery(sql,Tag.class);
+		String hql="from Tag t where t.isHot=true";
+		Query<Tag> query=super.session.createQuery(hql,Tag.class);
 		super.transaction.commit();
 		return query.getResultList();
 	}

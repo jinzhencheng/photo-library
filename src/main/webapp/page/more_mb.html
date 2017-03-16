@@ -91,8 +91,7 @@
 				<a class="icon icon-left pull-left"></a>
                 <a class="icon pull-left" href="#more-page">返回</a>
             </header>
-            <div class="content-padded" id="about-content">
-            	关于我们
+            <div class="content-padded" id="about-content" style="padding-top:2rem;">
             </div>
 		</div>
 
@@ -101,8 +100,7 @@
 				<a class="icon icon-left pull-left"></a>
                 <a class="icon pull-left" href="#more-page">返回</a>
             </header>
-            <div class="content-padded" id="statement-content">
-            	免责声明
+            <div class="content-padded" id="statement-content" style="padding-top:2rem;">
             </div>
 		</div>
 
@@ -141,12 +139,14 @@
 	</div>	
 	<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-    <script type="text/javasript">
+    <script type="text/javascript">
 		$(function(){
 			$.ajax({
-				url:"",
+				url:"setInfo!findBoth.action",
 				type:"JSON",
 				success:function(data){
+					console.log(data.about);
+					console.log(data.statement);
 					$("#about-content").text(data.about);	
 					$("#statement-content").text(data.statement);	
 				},
@@ -158,11 +158,12 @@
 			$("#subBtn").click(function(){
 				var content=$("textarea").val();
 				$.ajax({
-					url:"",
-					data:{"setting.content":content,"setting.flag":2}
+					url:"opinion!add.action",
+					data:{"content":content},
 					success:function(data){
 						if(data=="finished"){
 							$.alert("提交成功");
+							$("textarea").empty();
 						}
 					},
 					error:function(){

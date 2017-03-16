@@ -6,6 +6,7 @@ public class Tag {
 	private int id;
 	private String name;
 	private int clickCount;
+	private boolean isHot;
 	private String parentCategories;
 	private Integer isValid;
 	private Set<CategoryAgent> categoryIds;
@@ -14,6 +15,13 @@ public class Tag {
 	public Tag(){}
 	public Tag(String name){
 		this.name=name;
+	}
+	
+	public boolean getIsHot() {
+		return isHot;
+	}
+	public void setIsHot(boolean isHot) {
+		this.isHot = isHot;
 	}
 	public String getParentCategories() {
 		return parentCategories;
