@@ -12,6 +12,7 @@ import jh.studio.entity.Category;
 import jh.studio.entity.CategoryAgent;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
+import jh.studio.entity.Tag;
 import jh.studio.inter.IDal;
 
 public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
@@ -48,6 +49,19 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	public Category getOne(int id){
 		Category entity=super.session.get(Category.class, id);
 		return entity;
+	}
+	
+	public void updateCategory(Category entity)
+	{
+		String sql="update category set name='"+entity.getName()+"',sequence="+entity.getSequence()+",parent_id="+entity.getParentId()+" where id="+entity.getId();
+		super.session.createNativeQuery(sql).executeUpdate();
+	}
+	public List<Category> getOneLevelCategory(Pagination page)
+	{
+		String sql="select * from category where isValid=1 and id=parent_id";
+		Query<Category> query=super.session.createNativeQuery(sql, Category.class);
+		List<Category> list=super.toList(query, page);
+		return list;
 	}
 	@Override
 	public List<Category> getAll(Pagination page) {

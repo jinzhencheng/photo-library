@@ -12,19 +12,34 @@
         <property name="name" type="string">
             <column name="name" length="10" not-null="true" />
         </property>
-        <property name="sequence" type="int">
+        <property name="sequence" type="integer">
             <column name="sequence"/>
         </property>
-        <property name="isValid" type="int">
+        <property name="isValid" type="integer">
             <column name="isValid"/>
         </property>
+        <property name="parentId" type="integer">
+            <column name="parent_id"/>
+        </property>
+     <!--    <many-to-one name="cls" class="com.Cls" fetch="select">
+            <column name="class_id" length="9" not-null="true" />
+        </many-to-one> -->
         <!--  <set name="tags" table="category_agent" cascade="all" lazy="false">
 			<key>
 				<column name="category_id"/>
 			</key>
 			<many-to-many column="tag_id" class="jh.studio.entity.Tag"/>
 		</set> -->
+ 		<!--  <many-to-one name="parentId" class="jh.studio.entity.Category">
+			<column name="parent_id"></column>
+		</many-to-one> 
 		
+		 <set name="categories" inverse="true">
+			<key>
+				<column name="parent_id"></column>
+			</key>
+			<one-to-many class="jh.studio.entity.Category">
+		</set> -->
 		<set name="tags" cascade="all" lazy="false">
              <key column="category_id"></key>
              <one-to-many class="jh.studio.entity.CategoryAgent"/>
