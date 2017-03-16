@@ -51,6 +51,13 @@ public class TagAction extends ActionSupport{
 		return "list";
 	} 
 
+	public String fetchHotTag(){
+		TagDal dal=new TagDal();
+		tags=dal.getHot();
+		dal.dispose();
+		return "fetchHotTag";
+	}
+
 	public String fetchOne(){
 		TagDal dal=new TagDal();
 		this.tag=dal.getOne(tag.getId());
