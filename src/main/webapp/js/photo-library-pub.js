@@ -28,6 +28,10 @@ $(function(){
 
 	//抓取月份
 	$(".year").on("click",function(){
+		if($(this).children().length!=0){
+			$(this).children().hide();
+			return;
+		}
 		var current_year=$(this).attr("value");
 		$.ajax({
 			url:"",
@@ -47,6 +51,10 @@ $(function(){
 	
 	//根据年月抓取图片
 	$(".month").on("click",function(){
+		if($(this).children().length!=0){
+			$(this).children().hide();
+			return;
+		}
 		var current_year=$(this).parent(".year").attr("value");
 		var current_month=$(this).attr("value");
 		$.ajax({

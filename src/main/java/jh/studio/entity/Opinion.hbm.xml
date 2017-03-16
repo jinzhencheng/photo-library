@@ -14,6 +14,5 @@
         <property name="theDate" type="java.util.Date">
             <column name="the_date"/>
         </property>
-        <many-to-one name="userId" column="user_id" class="jh.studio.entity.User"/>  
     </class>
 </hibernate-mapping>
