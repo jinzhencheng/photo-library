@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
 
-import jh.studio.entity.Category;
 import jh.studio.entity.CategoryAgent;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
@@ -36,6 +35,14 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 			builder.append(c.getCategoryId().getName()+" ");
 		}
 		entity.setParentCategories(builder.toString());
+	}
+	
+	public List<Tag> getHot(){
+		//TODO:查询热门标签语句
+		String sql="";
+		Query<Tag> query=super.session.createNativeQuery(sql,Tag.class);
+		super.transaction.commit();
+		return query.getResultList();
 	}
 
 	@Override

@@ -21,6 +21,11 @@
 
 	<!-- ajax request -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
+		<action name="record" class="jh.studio.ctl.RecordAction">
+			<result name="success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
 		<action name="opinion" class="jh.studio.ctl.OpinionAction">
 			<result name="success" type="json">
 				<param name="root">result</param>
@@ -58,6 +63,9 @@
 			<result type="json" name="fetchAll">
 				<param name="root">tags</param>
 				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="fetchHotTag">
+				<param name="root">tags</param>
 			</result>
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
@@ -113,3 +121,4 @@
 		</action>
 	</package>
 </struts> 
+

@@ -51,6 +51,13 @@ public class TagAction extends ActionSupport{
 		return "list";
 	} 
 
+	public String fetchHotTag(){
+		TagDal dal=new TagDal();
+		tags=dal.getHot();
+		dal.dispose();
+		return "fetchHotTag";
+	}
+
 	public String fetchOne(){
 		TagDal dal=new TagDal();
 		this.tag=dal.getOne(tag.getId());
@@ -115,12 +122,15 @@ public class TagAction extends ActionSupport{
 				if(!ids.contains(c))
 				{
 					CategoryAgent ca = new CategoryAgent();
+					
 					Tag t1 = new Tag();
 					t1.setId(tagId);
+					
 					Category cg = new Category();
 					cg.setId(Integer.parseInt(c));
 					ca.setCategoryId(cg);
 					ca.setTagId(t1);
+					
 					insertList.add(ca);
 				}
 			}
@@ -140,9 +150,9 @@ public class TagAction extends ActionSupport{
 			Tag tag = new Tag();
 			tag.setId(tagId);
 			tag.setName(tagName);
-			tag.setClickCount(clickCount);
-			tag.setIsValid(1);//ÓÐÐ§
-			for(Category c:categoryList)
+			tag.setClickCount(clickCount);	
+      tag.setIsValid(1);//æœ‰æ•ˆ			
+      for(Category c:categoryList)
 			{
 				CategoryAgent ca = new CategoryAgent();
 				ca.setCategoryId(c);
