@@ -118,6 +118,10 @@
 				<param name="root">category</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="fetchOneLevel">
+				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 	</package>
 </struts> 

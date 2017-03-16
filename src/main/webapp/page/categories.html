@@ -15,6 +15,13 @@
 			$("#cgAdd").click(function(){
 				var tags=$fetchTag();
 				$buildCheckboxOne(tags);
+			/* 	var category = $fetchOneLevelCategory();
+				$buildSelect(category); */
+				$('#cgSelectOneLevel').combobox({
+				    url:'category!fetchOneLevel.action',
+				    valueField:'id',
+				    textField:'name'
+				});
 				$("#cgEditWin").window("open");
 			});
 
@@ -51,7 +58,39 @@
 				});	
 				return tags;
 			}
-
+			
+			var $fetchOneLevelCategory=function(){
+				var categoryOneLevel="";
+				$.ajax({
+					url:'category!fetchOneLevel.action',
+					dataType:"json",
+					async : false,
+					success:function(data){
+						categoryOneLevel=data;
+					},
+					error:function(error){
+						$.messager.alert('错误','数据初始化失败',"error");
+					}
+				});	
+				return categoryOneLevel;
+			}
+			
+			var $buildSelect=function(data)
+			{
+				if(!data){return;}
+				var ary=new Array();
+				var selectInit = "<select id='cgSelectOneLevel' name='category.parentId' class='easyui-combobox' style='width:180px;'><option value='-1'>未选择</option>";
+				ary.push(selectInit);
+				
+				$.each(data,function(index,item){
+					var ck="<option value='"+item.id+"'>"+item.name+"</option>";
+					ary.push(ck);
+				})
+				ary.push("</select>");
+				var html=ary.join("");
+				$("#categoryOneLevel").html(html);
+			}
+			
 			var $buildCheckbox=function(data,dataOwn){
 				if(!data){return;}
 				var ary=new Array();
@@ -61,7 +100,6 @@
 				});
 		
 				$.each(data,function(index,item){
-					//alert(item.id);
 					if(ids.indexOf(","+item.id+",") != -1)
 					{
 						var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"' checked>"+item.name;
@@ -96,6 +134,7 @@
 				var categoryId=$("#categoryId").val();
 				var categoryName=$("#categoryName").val();
 				var categorySequence=$("#categorySequence").val();
+				var categoryParentId=$("#cgSelectOneLevel").val();
 				
 				$("#cgEditForm").form("submit",{
 					url:"category!save.action",
@@ -104,6 +143,7 @@
 						param.categoryId=categoryId;
 						param.categoryName=categoryName;
 						param.categorySequence=categorySequence;
+						param.categoryParentId=categoryParentId;
 					},
 					success:function(){
 						$(".easyui-datagrid").datagrid("reload",{"category.name":$("#cgName").val()});
@@ -138,6 +178,14 @@
 						$("#categoryName").textbox("setValue",data.name);
 						$("#categoryId").val(data.id);
 						$("#categorySequence").textbox("setValue",data.sequence);
+						$('#cgSelectOneLevel').combobox({
+						    url:'category!fetchOneLevel.action',
+						    valueField:'id',
+						    textField:'name',
+						    onLoadSuccess: function () {
+					   			$('#cgSelectOneLevel').combobox('setValue',data.parentId);
+					        }
+						});
 						$("#cgEditWin").window("open");	
 					},
 					error:function(){
@@ -169,7 +217,7 @@
 
 	</script>
 	<table class="easyui-datagrid" title="类别列表" style="width:100%;min-height:300px;"
-			data-options="rownumbers:true,singleSelect:true,url:'category!list.action',toolbar:'#tb',pagination:true,loadMsg:'加载中...'">
+			data-options="rownumbers:true,singleSelect:true,url:'category!list.action',toolbar:'#cgtb',pagination:true,loadMsg:'加载中...'">
 		<thead>
 			<tr>
 				<th data-options="field:'cgck',checkbox:true"></th>
@@ -179,7 +227,7 @@
 			</tr>
 		</thead>
 	</table>
-	<div id="tb" style="padding:5px;"> 
+	<div id="cgtb" style="padding:5px;"> 
 		<input class="easyui-textbox" id="cgName"/> 
 		<a id="cgSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">查询</a>
 		<a id="cgAdd" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
@@ -193,8 +241,11 @@
 		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#cgEditFooter'">
 			<form id="cgEditForm" method="post">
 				<input type="hidden" name="category.id" id="categoryId"/>
-				名称：<input class="easyui-textbox" type="text" name="category.name" id="categoryName" data-options="required:true"/><br/>
-				编码顺序：<input class="easyui-textbox" type="text" name="category.sequence" id="categorySequence" data-options="required:true"/>
+				名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input class="easyui-textbox" type="text" name="category.name" id="categoryName" data-options="required:true"/><br/>
+				编码顺序：<input class="easyui-textbox" type="text" name="category.sequence" id="categorySequence" data-options="required:true"/><br/>
+				
+				一级类别：<!-- <div id="categoryOneLevel"></div> --><input id="cgSelectOneLevel" name="cgSelectOneLevel" value="-1" style="width:180px;">
+				标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签：
 				<div id="cgTagDiv"></div>
 			</form>
 		</div>
