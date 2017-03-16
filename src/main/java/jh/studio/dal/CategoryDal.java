@@ -12,7 +12,6 @@ import jh.studio.entity.Category;
 import jh.studio.entity.CategoryAgent;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
-import jh.studio.entity.Tag;
 import jh.studio.inter.IDal;
 
 public class CategoryDal extends BaseDal<Category> implements IDal<Category>{

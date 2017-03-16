@@ -36,6 +36,14 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		}
 		entity.setParentCategories(builder.toString());
 	}
+	
+	public List<Tag> getHot(){
+		//TODO:查询热门标签语句
+		String sql="";
+		Query<Tag> query=super.session.createNativeQuery(sql,Tag.class);
+		super.transaction.commit();
+		return query.getResultList();
+	}
 
 	@Override
 	public void saveOrUpdate(Tag entity){
