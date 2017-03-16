@@ -1,6 +1,7 @@
 package jh.studio.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class PhotoResult {
 	private String name;
@@ -15,8 +16,6 @@ public class PhotoResult {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
 	public String getDate() {
 		return date;
@@ -46,7 +45,5 @@ public class PhotoResult {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 }

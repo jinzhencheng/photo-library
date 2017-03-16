@@ -37,7 +37,7 @@ public class PhotoAction extends ActionSupport {
 	private String uploadContentType;
 	private String savePath;
 	private List<String> tags;
-	//private List<String> tags;
+	// private List<String> tags;
 	private int page;
 	private int rows;
 	private Map<String, Object> results = new HashMap<String, Object>();

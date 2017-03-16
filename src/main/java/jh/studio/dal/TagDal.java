@@ -28,12 +28,6 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		return entity;
 	}
 
-	private List<Category> getCategories(Tag entity){
-		String sql="select * from category_agent as agent left join category as cate "
-				+ "on agent.category_id=cate.id where agent.tag_id="+entity.getId();
-		Query<Category> query=super.session.createNativeQuery(sql,Category.class);
-		return query.getResultList();
-	}
 
 	private void loadCategory(Tag entity){
 		Set<CategoryAgent> categories=entity.getCategoryIds();
