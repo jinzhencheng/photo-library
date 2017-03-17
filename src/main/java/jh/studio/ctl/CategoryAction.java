@@ -32,6 +32,7 @@ public class CategoryAction extends ActionSupport{
 	private String tagIds;
 	private String categoryName;
 	private int categorySequence;
+	private int categoryParentId;
 	
 	public String fetchAll(){
 		CategoryDal dal=new CategoryDal();
@@ -65,6 +66,15 @@ public class CategoryAction extends ActionSupport{
 		categoryDal.dispose();
 		return "fetchOne";
 	}
+	
+	public String fetchOneLevel()
+	{
+		CategoryDal categoryDal=new CategoryDal();
+		this.categories=categoryDal.getOneLevelCategory(Pagination.NULL);
+		categoryDal.dispose();
+		return "fetchOneLevel";
+	}
+	
 	public void delCategory()
 	{
 		CategoryDal dal = new CategoryDal();
@@ -85,6 +95,12 @@ public class CategoryAction extends ActionSupport{
 		Category t = dal.getOne(categoryId);
 		if(t != null)
 		{
+			Category tt = new Category();
+			tt.setId(categoryId);
+			tt.setName(categoryName);
+			tt.setSequence(categorySequence);
+			tt.setParentId(categoryParentId);
+			dal.updateCategory(tt);
 			dal.dispose();
 			Set<CategoryAgent> set = t.getTags();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
@@ -141,8 +157,14 @@ public class CategoryAction extends ActionSupport{
 			category.setName(categoryName);
 			category.setSequence(categorySequence);
 			category.setIsValid(1);//有效
-
-			
+			if(categoryParentId == -1)
+			{
+				category.setParentId(categoryId);
+			}
+			else
+			{
+				category.setParentId(categoryParentId);
+			}
 			for(Tag c:tagList)
 			{
 				CategoryAgent ca = new CategoryAgent();
@@ -229,6 +251,16 @@ public class CategoryAction extends ActionSupport{
 
 	public void setCategorySequence(int categorySequence) {
 		this.categorySequence = categorySequence;
+	}
+
+
+	public int getCategoryParentId() {
+		return categoryParentId;
+	}
+
+
+	public void setCategoryParentId(int categoryParentId) {
+		this.categoryParentId = categoryParentId;
 	}
 	
 	

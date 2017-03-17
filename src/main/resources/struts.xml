@@ -17,6 +17,10 @@
 		<action name="deletePhoto" class="jh.studio.ctl.PhotoAction">
 			<result name="ok">/page/photo_store.html</result>
 		</action>
+			<action name="update" class="jh.studio.ctl.PhotoAction"
+			method="updatePhoto">
+			<result name="ok">/page/photo_store.html</result>
+		</action>
 	</package>
 
 	<!-- ajax request -->

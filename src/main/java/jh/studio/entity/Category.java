@@ -6,11 +6,12 @@ public class Category {
 
 	private int id;
 	private String name;
-	private int sequence;
-	private Category parentId;
+	private Integer sequence;
+	private Integer parentId;
 	private String parentTag;
 	private Integer isValid;
 	private Set<CategoryAgent> tags;
+	private String parentName;
 
 	public Category(){}
 	public Category(int id,String name){
@@ -36,16 +37,16 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getSequence() {
+	public Integer getSequence() {
 		return sequence;
 	}
-	public void setSequence(int sequence) {
+	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
-	public Category getParentId() {
+	public Integer getParentId() {
 		return parentId;
 	}
-	public void setParentId(Category parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 	public String getParentTag() {
@@ -60,6 +61,11 @@ public class Category {
 	public void setIsValid(Integer isValid) {
 		this.isValid = isValid;
 	}
-	
+	public String getParentName() {
+		return parentName;
+	}
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 	
 }

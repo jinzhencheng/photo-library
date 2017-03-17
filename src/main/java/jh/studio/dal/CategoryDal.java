@@ -24,7 +24,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void add(Category entity) {
 		if(entity==null){
-			logger.error("??????");
+			logger.error("添加对象为空");
 			return;
 		}
 		super.session.save(entity);
@@ -34,7 +34,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void update(Category entity) {
 		if(entity==null || entity.getId()==0){
-			logger.error("??????????????");
+			logger.error("添加对象为空或对象处于瞬时态");
 			return;
 		}
 		super.session.update(entity);
@@ -49,6 +49,19 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	public Category getOne(int id){
 		Category entity=super.session.get(Category.class, id);
 		return entity;
+	}
+	
+	public void updateCategory(Category entity)
+	{
+		String sql="update category set name='"+entity.getName()+"',sequence="+entity.getSequence()+",parent_id="+entity.getParentId()+" where id="+entity.getId();
+		super.session.createNativeQuery(sql).executeUpdate();
+	}
+	public List<Category> getOneLevelCategory(Pagination page)
+	{
+		String sql="select * from category where isValid=1 and id=parent_id";
+		Query<Category> query=super.session.createNativeQuery(sql, Category.class);
+		List<Category> list=super.toList(query, page);
+		return list;
 	}
 	@Override
 	public List<Category> getAll(Pagination page) {
@@ -76,11 +89,23 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 		List<Category> list=super.toList(query, page);
 		for(Category t:list){
 			loadTag(t);
+			t.setParentName(findParentList(list,t));
 		}
 		
 		return list;
 	}
-
+	
+	String findParentList(List<Category> list ,Category t)
+	{
+		for(Category c:list)
+		{
+			if(t.getParentId() != null && t.getParentId().equals(c.getId()))
+			{
+				return c.getName();
+			}
+		}
+		return null;
+	}
 	@Override
 	public void saveOrUpdate(Category entity) {
 		// TODO Auto-generated method stub

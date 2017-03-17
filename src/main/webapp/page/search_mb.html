@@ -49,18 +49,56 @@
 			  <div class="content-block-title">搜索记录</div>
 			  <div class="card">
 					<div class="card-content">
-					  <div class="card-content-inner">搜索记录1 搜索记录2</div>
+					  <div class="card-content-inner" id="search-record">搜索记录1 搜索记录2</div>
 					</div>
 			  </div>
 			  <div class="content-block-title">热门搜索</div>
 			  <div class="card">
 					<div class="card-content">
-					  <div class="card-content-inner">搜索记录1 搜索记录2</div>
+					  <div class="card-content-inner" id="hot-tag">热门标签1</div>
 					</div>
 			  </div>
 		  </div>
 	</div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$.ajax({
+    			url:"record!fetchRecord.ation",
+    			dataType:"JSON",
+    			success:function(data){
+    				var htmlStr="";	
+    				$.each(data,function(index,item){
+    					htmlStr.concat("<span>"+item.content+"</span>");
+    				});
+    				if(htmlStr=""){
+    					htmlStr="当前无搜索记录"
+    				}
+    				$("#search-record").html(htmlStr);
+    			},
+    			error:function(){
+    				$.alert("数据加载出错");	
+    			}
+    		});	
+    		$.ajax({
+    			url:"tag!fetchHotTag.action",
+    			dataType:"json",
+    			success:function(data){
+					var a_tag="";
+					$.each(data,function(index,item){
+						a_tag+="<a href='#' id='"+item.id+"'>"+item.name+"</a>  ";
+					});					
+    				if(a_tag==""){
+    					a_tag="暂无热门标签";
+    				}
+    				$("#hot-tag").html(a_tag);
+    			},
+    			error:function(){
+    				$.alert("数据加载出错");
+    			}	
+    		});
+    	});	
+    </script>
   </body>
 </html>

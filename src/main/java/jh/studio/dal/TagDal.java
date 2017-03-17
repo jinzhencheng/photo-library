@@ -28,7 +28,23 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		return entity;
 	}
 
+	private List<Category> getCategories(Tag entity){
+		String sql="select * from category_agent as agent left join category as cate "
+				+ "on agent.category_id=cate.id where agent.tag_id="+entity.getId();
+		Query<Category> query=super.session.createNativeQuery(sql,Category.class);
+		return query.getResultList();
+	}
 
+	public void updateTag(Tag entity)
+	{
+		int isHot = 0;
+		if(entity.getIsHot())
+		{
+			isHot = 1;
+		}
+		String sql="update tag set name='"+entity.getName()+"',is_hot="+isHot+" where id="+entity.getId();
+		super.session.createNativeQuery(sql).executeUpdate();
+	}
 	private void loadCategory(Tag entity){
 		Set<CategoryAgent> categories=entity.getCategoryIds();
 		StringBuilder builder=new StringBuilder();
@@ -36,6 +52,13 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 			builder.append(c.getCategoryId().getName()+" ");
 		}
 		entity.setParentCategories(builder.toString());
+	}
+	
+	public List<Tag> getHot(){
+		String hql="from Tag t where t.isHot=true";
+		Query<Tag> query=super.session.createQuery(hql,Tag.class);
+		super.transaction.commit();
+		return query.getResultList();
 	}
 
 	@Override
@@ -96,6 +119,14 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 		Query<Tag> query=super.session.createNativeQuery(sql, Tag.class);
 		List<Tag> list=super.toList(query, page);
 		for(Tag t:list){
+			if(t.getIsHot())
+			{
+				t.setIsHotString("是");
+			}
+			else
+			{
+				t.setIsHotString("否");
+			}
 			loadCategory(t);
 		}
 		

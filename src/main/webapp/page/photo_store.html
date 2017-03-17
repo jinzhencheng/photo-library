@@ -2,16 +2,16 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 	$(function() {
-		$.parser.parse('#editPWinContainer');
-		$("#editPWin").window({
+		$.parser.parse('#addPWinContainer');
+		$("#addPWin").window({
 			onBeforeClose : function() {
-				$("#editForm").form("reset");
+				$("#importFileForm").form("reset");
 			}
-		});
+		});	
 		$("#addphoto").click(function() {
 			var tags=$fetchTag();
 			$buildCheckboxOne(tags);
-			$("#editPWin").window("open");
+			$("#addPWin").window("open");
 		});
 
 		var $fetchTag=function(){
@@ -29,8 +29,94 @@
 			});	
 			return tags;
 		}
-		
+		var $checkSelected=function(){
+			var row=$('.easyui-datagrid').datagrid('getSelected');
+			if(!row){
+				$.messager.alert('警告','未选择任何数据行',"warning");
+				return;
+			}
+			return row;
+		}
+		$("#deletePhoto").click(function(){
+			var row=$checkSelected();
+			if(row==null){
+				return;
+			}
+			$.ajax({
+				url:'deletePhoto!delPhoto.action',
+				data:{"photo_id":row.id},
+				success:function(data){
+					$(".easyui-datagrid").datagrid("reload");
+				},
+				error:function(){
+					$.messager.alert("错误","操作失败","error");
+				}
+			});
+		});
+		$("#uploadFile").click(function(){
+			var tagAry=new Array();
+			$("input[name='tag']:checked").each(function(index,value){
+				tagAry.push($(this).val());
+			}); 
+			var tagIds=tagAry.join("-");
+			var upload=$("#upload").val();
+			
+			$("#importFileForm").form("submit",{
+				url:"upload.action",
+				onSubmit:function(param){
+					param.tags=tagIds;	
+				},
+				success:function(){
+					
+					$("#addPWin").window("close");
+					$(".easyui-datagrid").datagrid("reload");
+					
+				}
+			});
+		});
+		$("#editPhoto").click(function(){
+			var row=$checkSelected();
+			if(row==null){
+				return;
+			}
+			$("#photoid").val(row.id);
+			var tags=$fetchTag();
+			$buildCheckboxOneChange(tags);	
+			$("#edtPWin").window("open");
+		});	
 		var $buildCheckboxOne=function(data){
+			if(!data){return;}
+			var ary=new Array();
+			$.each(data,function(index,item){
+				var cks="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				ary.push(cks);
+			})
+			var html=ary.join("");
+			$("#cgTagDiv").html(html);
+		}
+		$("#updateptag").click(function(){
+			var tagAry=new Array();
+			$("input[name='tag']:checked").each(function(index,value){
+				tagAry.push($(this).val());
+			}); 
+			var tagIds=tagAry.join("-");
+			var photo_id=$("#photoid").val();
+			
+			$("#updatePhoto").form("submit",{
+				url:"update.action",
+				onSubmit:function(param){
+					param.tags=tagIds;	
+					param.photo_id=photo_id;
+				},
+				success:function(){
+					
+					$("#edtPWin").window("close");
+					$(".easyui-datagrid").datagrid("reload");
+					
+				}
+			});
+		});
+		var $buildCheckboxOneChange=function(data){
 			if(!data){return;}
 			var ary=new Array();
 			$.each(data,function(index,item){
@@ -38,17 +124,18 @@
 				ary.push(ck);
 			})
 			var html=ary.join("");
-			$("#cgTagDiv").html(html);
+			$("#edt").html(html);
 		}
 
 	});
 </script>
-<table class="easyui-datagrid" title="标签列表"
+<table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
 	style="width: 100%; min-height: 300px;"
 	data-options="rownumbers:true,singleSelect:true,url:'show!showPhoto.action',toolbar:'#tbar',pagination:true,loadMsg:'加载中...'">
 	<thead>
 		<tr>
-			<th data-options="field:'ck',checkbox:true"></th>
+			<th data-options="field:'cks',checkbox:true"></th>
+			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'name',width:200">文件名</th>
 			<th data-options="field:'date',width:200">日期</th>
 			<th data-options="field:'minpath',width:100">保存路径</th>
@@ -62,10 +149,12 @@
 		data-options="iconCls:'icon-search',plain:true">查询</a> <a id="addphoto"
 		href="#" class="easyui-linkbutton"
 		data-options="iconCls:'icon-add',plain:true">添加</a> 
+		<a id="deletePhoto" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
+		<a id="editPhoto" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">编辑图片标签</a>
 </div>
 
-<div id="editPWinContainer">
-	<div id="editPWin" style="padding: 10px;" class="easyui-window"
+<div id="addPWinContainer">
+<div id="addPWin" style="padding: 10px;" class="easyui-window"
 		title="添加图片"
 		data-options="iconCls:'icon-edit',width:350,minimizable:false,
 		closed:true,maximizable:false,collapsible:false,modal:true">
@@ -78,5 +167,17 @@
         <div id="cgTagDiv"></div>
     </form>
     </div>
+    <div id="edtPWin" style="padding: 10px;" class="easyui-window"
+		title="编辑图片标签"
+		data-options="iconCls:'icon-edit',width:350,minimizable:false,
+		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#photoFooter'">
+       <form id="updatePhoto" method="post">
+        <div id="edt"></div>
+        <input type="hidden" id="photoid">
+        <div id="photoFooter" style="text-align:right;">
+			<a id="updateptag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
+		</div>
+		</form>
+</div>
 </div>
 

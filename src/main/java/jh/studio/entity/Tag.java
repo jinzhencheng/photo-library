@@ -6,14 +6,23 @@ public class Tag {
 	private int id;
 	private String name;
 	private int clickCount;
+	private boolean isHot;
 	private String parentCategories;
 	private Integer isValid;
 	private Set<CategoryAgent> categoryIds;
 	private Set<PhotoAgent> photo;
-
+	private String isHotString;
+	
 	public Tag(){}
 	public Tag(String name){
 		this.name=name;
+	}
+	
+	public boolean getIsHot() {
+		return isHot;
+	}
+	public void setIsHot(boolean isHot) {
+		this.isHot = isHot;
 	}
 	public String getParentCategories() {
 		return parentCategories;
@@ -58,6 +67,12 @@ public class Tag {
 	public void setIsValid(Integer isValid) {
 		this.isValid = isValid;
 
+	}
+	public String getIsHotString() {
+		return isHotString;
+	}
+	public void setIsHotString(String isHotString) {
+		this.isHotString = isHotString;
 	}
 	
 }

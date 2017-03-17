@@ -9,9 +9,11 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-    
-        
-         <many-to-one name="tag_id" column="tag_id" lazy="false"></many-to-one>
-         <many-to-one name="photo_id" column="photo_id" lazy="false"></many-to-one>
+        <property name="tagId" type="int">
+        	<column name="tag_id"/>
+        </property>
+        <property name="photoId" type="int">
+        	<column name="photo_id"/>
+        </property>
     </class>
 </hibernate-mapping>
