@@ -11,7 +11,9 @@
         <property name="content" type="string">
             <column name="content" not-null="true" />
         </property>
-        <many-to-one name="userId" column="user_id" class="jh.studio.entity.User">  
-        </many-to-one>
+        <property name="userId" type="int">
+            <column name="user_id" not-null="true" />
+        </property>
+
     </class>
 </hibernate-mapping>
