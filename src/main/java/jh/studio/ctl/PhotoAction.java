@@ -158,7 +158,7 @@ public class PhotoAction extends ActionSupport {
 		return SUCCESS;
 
 	}
-//
+
 	public String showPhoto() {
 		Pagination pager = new Pagination();
 		pager.setPage(page);
