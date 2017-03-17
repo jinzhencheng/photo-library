@@ -33,6 +33,7 @@ public class TagAction extends ActionSupport{
 	private String categoryIds;
 	private String tagName;
 	private int clickCount;
+	private int isHots;
 
 	public String list(){
 		Condition condition=new TagCond(tag.getName()); 
@@ -90,14 +91,29 @@ public class TagAction extends ActionSupport{
 		}
 		result="finished";
 	}
+	
+	
 	public void save(){
 		TagDal dal=new TagDal();
 		
 		Tag t = dal.getOne(tagId);
 		
 		if(t != null)
-		{
+		{	
+			Tag tt = new Tag();
+			tt.setId(tagId);
+			tt.setName(tagName);
+			if(isHots == 1)
+			{
+				tt.setIsHot(true);
+			}
+			else
+			{
+				tt.setIsHot(false);
+			}
+			dal.updateTag(tt);
 			dal.dispose();
+			
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -150,9 +166,17 @@ public class TagAction extends ActionSupport{
 			Tag tag = new Tag();
 			tag.setId(tagId);
 			tag.setName(tagName);
-			tag.setClickCount(clickCount);	
-      tag.setIsValid(1);//有效			
-      for(Category c:categoryList)
+			tag.setClickCount(clickCount);
+			tag.setIsValid(1);//有效
+			if(isHots == 1)
+			{
+				tag.setIsHot(true);
+			}
+			else
+			{
+				tag.setIsHot(false);
+			}
+			for(Category c:categoryList)
 			{
 				CategoryAgent ca = new CategoryAgent();
 				ca.setCategoryId(c);
@@ -229,5 +253,13 @@ public class TagAction extends ActionSupport{
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public int getIsHots() {
+		return isHots;
+	}
+
+	public void setIsHots(int isHots) {
+		this.isHots = isHots;
 	}
 }

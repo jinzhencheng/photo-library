@@ -11,7 +11,8 @@ public class Tag {
 	private Integer isValid;
 	private Set<CategoryAgent> categoryIds;
 	private Set<PhotoAgent> photo;
-
+	private String isHotString;
+	
 	public Tag(){}
 	public Tag(String name){
 		this.name=name;
@@ -66,6 +67,12 @@ public class Tag {
 	public void setIsValid(Integer isValid) {
 		this.isValid = isValid;
 
+	}
+	public String getIsHotString() {
+		return isHotString;
+	}
+	public void setIsHotString(String isHotString) {
+		this.isHotString = isHotString;
 	}
 	
 }
