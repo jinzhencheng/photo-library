@@ -25,6 +25,11 @@
 
 	<!-- ajax request -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
+		<action name="record" class="jh.studio.ctl.RecordAction">
+			<result name="success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
 		<action name="opinion" class="jh.studio.ctl.OpinionAction">
 			<result name="success" type="json">
 				<param name="root">result</param>
@@ -63,6 +68,9 @@
 				<param name="root">tags</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="fetchHotTag">
+				<param name="root">tags</param>
+			</result>
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
 			method="findInfo">
@@ -82,6 +90,9 @@
 			</result>
 			<result type="json" name="updateInfo-success">
 				<param name="root">result</param>
+			</result>
+			<result type="json" name="findBoth">
+				<param name="root">infoMap</param>
 			</result>
 		</action>
   <action name="show" class="jh.studio.ctl.PhotoAction">
@@ -114,6 +125,11 @@
 				<param name="root">category</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="fetchOneLevel">
+				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 	</package>
 </struts> 
+

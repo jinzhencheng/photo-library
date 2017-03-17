@@ -91,6 +91,8 @@ public class TagAction extends ActionSupport{
 		}
 		result="finished";
 	}
+	
+	
 	public void save(){
 		TagDal dal=new TagDal();
 		
@@ -111,6 +113,7 @@ public class TagAction extends ActionSupport{
 			}
 			dal.updateTag(tt);
 			dal.dispose();
+			
 			Set<CategoryAgent> set = t.getCategoryIds();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -135,12 +138,15 @@ public class TagAction extends ActionSupport{
 				if(!ids.contains(c))
 				{
 					CategoryAgent ca = new CategoryAgent();
+					
 					Tag t1 = new Tag();
 					t1.setId(tagId);
+					
 					Category cg = new Category();
 					cg.setId(Integer.parseInt(c));
 					ca.setCategoryId(cg);
 					ca.setTagId(t1);
+					
 					insertList.add(ca);
 				}
 			}
@@ -161,7 +167,8 @@ public class TagAction extends ActionSupport{
 			tag.setId(tagId);
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
-			tag.setIsValid(1);//ÓÐÐ§
+
+			tag.setIsValid(1);//æœ‰æ•ˆ
 			if(isHots == 1)
 			{
 				tag.setIsHot(true);

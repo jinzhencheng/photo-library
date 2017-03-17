@@ -66,13 +66,14 @@
     	$(function(){
     		$.ajax({
     			url:"record!fetchRecord.ation",
-    			dataType:"JSON",
+    			dataType:"json",
+    			data:{"userId":1},
     			success:function(data){
     				var htmlStr="";	
     				$.each(data,function(index,item){
     					htmlStr.concat("<span>"+item.content+"</span>");
     				});
-    				if(htmlStr=""){
+    				if(htmlStr==""){
     					htmlStr="当前无搜索记录"
     				}
     				$("#search-record").html(htmlStr);
