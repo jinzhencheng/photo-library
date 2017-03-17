@@ -17,6 +17,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import jh.studio.dal.PhotoAgentDal;
 import jh.studio.dal.PhotoDal;
 import jh.studio.dal.PhotoResultDal;
+import jh.studio.dal.TagDal;
 import jh.studio.dal.UserDal;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
@@ -36,12 +37,21 @@ public class PhotoAction extends ActionSupport {
 	private String uploadFileName;
 	private String uploadContentType;
 	private String savePath;
-	private List<String> tags;
+	private String tags;
 	// private List<String> tags;
 	private int page;
 	private int rows;
+	private int photo_id;
 	private Map<String, Object> results = new HashMap<String, Object>();
 	private List<PhotoResult> photore = new ArrayList<PhotoResult>();
+	
+	public int getPhoto_id() {
+		return photo_id;
+	}
+
+	public void setPhoto_id(int photo_id) {
+		this.photo_id = photo_id;
+	}
 
 	public Map<String, Object> getResults() {
 		return results;
@@ -51,11 +61,13 @@ public class PhotoAction extends ActionSupport {
 		this.results = results;
 	}
 
-	public List<String> getTags() {
+
+
+	public String getTags() {
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
 
@@ -126,24 +138,23 @@ public class PhotoAction extends ActionSupport {
 		phoDal.savePhoto(photo);
 		phoDal.dispose();
 		List<PhotoAgent> photoAgents = new ArrayList<PhotoAgent>();
-		for (String tagid : tags) {
-			Tag t = new Tag();
-			t.setId(Integer.parseInt(tagid));
-			Photo p = new Photo();
-			p.setId(photo.getId());
+		String[] tg=tags.split("-");
+		for (String tagid : tg) {
 			PhotoAgent pa = new PhotoAgent();
-			pa.setPhoto_id(p);
-			pa.setTag_id(t);
+			pa.setPhotoId(photo.getId());
+			pa.setTagId(Integer.parseInt(tagid));
 			photoAgents.add(pa);
 
 		}
 		PhotoAgentDal paDal = new PhotoAgentDal();
 		paDal.batchAdd(photoAgents);
 		paDal.dispose();
+		
 		File goalFile = new File(getSavePath(), timeName);
 		File minFile = new File(getSavePath(), "m" + timeName);
 		FileUtils.copyFile(upload, goalFile);
 		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+		
 		return SUCCESS;
 
 	}
@@ -163,17 +174,36 @@ public class PhotoAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public String deletePhoto(String[] ids) {
+	public String delPhoto() {
 		List<Integer> inid = new ArrayList<Integer>();
-		for (String id : ids) {
-			inid.add(Integer.parseInt(id));
-
-		}
+	    inid.add(photo_id);
 		PhotoAgentDal dal = new PhotoAgentDal();
 		dal.batchDel(inid);
 		PhotoDal pdal = new PhotoDal();
 		pdal.batchDel(inid);
+		return "ok";
+	}
+	
+	public String updatePhoto(){
+		List<Integer> inid = new ArrayList<Integer>();
+	    inid.add(photo_id);
+		PhotoAgentDal dal = new PhotoAgentDal();
+		dal.batchDel(inid);
+		dal.dispose();
+		List<PhotoAgent> updateList=new ArrayList<PhotoAgent>();
+		String[] tg=tags.split("-");
+		for (String td : tg) {
+			PhotoAgent upa=new PhotoAgent();
+			upa.setPhotoId(photo_id);
+			int tid=Integer.parseInt(td);
+			upa.setTagId(tid);
+			updateList.add(upa);
 
+		}
+		PhotoAgentDal pdUpdate=new PhotoAgentDal();
+		pdUpdate.batchAdd(updateList);
+		dal.dispose();
+		
 		return "ok";
 	}
 

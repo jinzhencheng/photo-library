@@ -167,6 +167,7 @@ public class TagAction extends ActionSupport{
 			tag.setId(tagId);
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
+
 			tag.setIsValid(1);//有效
 			if(isHots == 1)
 			{

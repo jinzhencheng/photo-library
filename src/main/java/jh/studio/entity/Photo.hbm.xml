@@ -26,9 +26,6 @@
 			<many-to-many column="user_id" class="jh.studio.entity.User" />
 		</set>
 		-->
-		<set name="tag" cascade="all" lazy="false">
-             <key column="photo_id"></key>
-             <one-to-many class="jh.studio.entity.PhotoAgent"/>
-       	</set>
+
 	</class>
 </hibernate-mapping>

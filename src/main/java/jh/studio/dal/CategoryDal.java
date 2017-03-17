@@ -24,6 +24,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void add(Category entity) {
 		if(entity==null){
+
 			logger.error("添加对象为空");
 			return;
 		}

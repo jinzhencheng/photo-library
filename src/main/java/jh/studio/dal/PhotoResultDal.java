@@ -17,18 +17,17 @@ public class PhotoResultDal extends BaseDal<PhotoResult> {
 		Query query = super.session.createNativeQuery(sql);
 		List<PhotoResult> pr = new ArrayList<PhotoResult>();
 		List list = super.toList(query, page);
-		PhotoResult re = new PhotoResult();
 		for (int i = 0; i < list.size(); i++) {
 			Object[] o = (Object[]) list.get(i);
 			//每个object中有5行数据
-			for (int j = 0; j < o.length; j = j + 5) {
+			PhotoResult re = new PhotoResult();
+				re.setId(Integer.parseInt(o[0].toString()));
 				re.setName(o[1].toString());
 				re.setMinpath(o[2].toString());
 				re.setDate(o[3].toString());
 				re.setTagName(o[4].toString());
 				pr.add(re);
-			}
-			o = null;
+			
 		}
         return pr;	
 	}
