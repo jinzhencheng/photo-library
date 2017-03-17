@@ -95,7 +95,8 @@
 				var tagId=$("#tagId").val();
 				var tagName=$("#tagName").val();
 				var clickCount=$("#clickCount").val();
-				
+				var isHots=$("input[name='isHot']:checked").val();
+			 
 				$("#editForm").form("submit",{
 					url:"tag!save.action",
 					onSubmit:function(param){
@@ -103,6 +104,7 @@
 						param.tagId=tagId;
 						param.tagName=tagName;
 						param.clickCount=clickCount;
+						param.isHots=isHots;
 					},
 					success:function(){
 						$(".easyui-datagrid").datagrid("reload",{"tag.name":$("#name").val()});
@@ -133,6 +135,16 @@
 						var cateOwngories=$fetchOwnCategory();
 						$buildCheckbox(categories,cateOwngories);
 						
+						if(data.isHot == true)
+						{
+							$("#notHot").removeAttr("checked");
+							$("#Hot").attr("checked","checked");
+						}
+						else
+						{
+							$("#Hot").removeAttr("checked");
+							$("#notHot").attr("checked","checked");
+						}
 						$("#tagName").textbox("setValue",data.name);
 						$("#tagId").val(data.id);
 						$("#clickCount").textbox("setValue",data.clickCount);
@@ -174,6 +186,7 @@
 				<th data-options="field:'name',width:200">名称</th>
 				<th data-options="field:'clickCount',width:100">热度</th>
 				<th data-options="field:'parentCategories',width:500">所属分类</th>
+				<th data-options="field:'isHotString',width:100">热门标签</th>
 			</tr>
 		</thead>
 	</table>
@@ -195,6 +208,7 @@
 				名称：<input class="easyui-textbox" type="text" name="tag.name" id="tagName" data-options="required:true"/><br/>
 				热度：<input class="easyui-textbox" type="text" name="tag.clickCount" id="clickCount" data-options="readonly:true"/>
 				<span style="font-size:12;color:blue;">[ 热度 ] 不可编辑</span>
+				是否是热门标签：<input type='radio' name="isHot" id="notHot" value="0" checked>否<input type='radio' id="Hot" name="isHot" value="1">是
 				<div id="categoryDiv"></div>
 			</form>
 		</div>
