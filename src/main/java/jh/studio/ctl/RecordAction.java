@@ -1,5 +1,6 @@
 package jh.studio.ctl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -12,7 +13,7 @@ public class RecordAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 
 	private int userId;
-	private List<Record> list;
+	private List<Record> list=new ArrayList<Record>();
 	
 	public String fetchRecord(){
 		RecordDal dal=new RecordDal();

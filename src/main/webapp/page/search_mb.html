@@ -66,13 +66,14 @@
     	$(function(){
     		$.ajax({
     			url:"record!fetchRecord.ation",
-    			dataType:"JSON",
+    			dataType:"json",
+    			data:{"userId":1},
     			success:function(data){
     				var htmlStr="";	
     				$.each(data,function(index,item){
     					htmlStr.concat("<span>"+item.content+"</span>");
     				});
-    				if(htmlStr=""){
+    				if(htmlStr==""){
     					htmlStr="当前无搜索记录"
     				}
     				$("#search-record").html(htmlStr);
@@ -82,17 +83,17 @@
     			}
     		});	
     		$.ajax({
-    			url:"tag!fetchHotTag",
-    			dataType:"JSON",
+    			url:"tag!fetchHotTag.action",
+    			dataType:"json",
     			success:function(data){
-    				var htmlStr="";
-    				$.each(data,function(index,item){
-						htmlStr.concat("<span>"+item.name+"</span>");
-    				});
-    				if(htmlStr=""){
-    					htmlStr="暂无热门标签";
+					var a_tag="";
+					$.each(data,function(index,item){
+						a_tag+="<a href='#' id='"+item.id+"'>"+item.name+"</a>  ";
+					});					
+    				if(a_tag==""){
+    					a_tag="暂无热门标签";
     				}
-    				$("#hot-tag").html(htmlStr);
+    				$("#hot-tag").html(a_tag);
     			},
     			error:function(){
     				$.alert("数据加载出错");
