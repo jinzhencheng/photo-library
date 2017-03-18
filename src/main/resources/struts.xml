@@ -55,6 +55,7 @@
 				<param name="root">admin</param>
 			</result>
 		</action>
+		
 		<action name="tag" class="jh.studio.ctl.TagAction">
 			<result type="json" name="list">
 				<param name="root">resultMap</param>
@@ -70,6 +71,21 @@
 			</result>
 			<result type="json" name="fetchHotTag">
 				<param name="root">tags</param>
+			</result>
+		</action>
+		
+		<action name="photo" class="jh.studio.ctl.PhotoAction">
+			<result type="json" name="allYear">
+				<param name="root">photos</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="month">
+				<param name="root">photos</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="picture">
+				<param name="root">photos</param>
+				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
