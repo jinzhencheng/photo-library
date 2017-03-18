@@ -1,5 +1,6 @@
 package jh.studio.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -11,7 +12,55 @@ import jh.studio.entity.PhotoResult;
 
 public class PhotoDal extends BaseDal<Photo> {
 	private Logger logger = null;
-
+	
+	
+	public List<String> getYear(Pagination page)
+	{
+		List<String> result = new ArrayList<String>();
+		String sql="select * from photo order by year desc";
+		Query<Photo> query=super.session.createNativeQuery(sql, Photo.class);
+		List<Photo> list=super.toList(query, page);
+		for(Photo p:list)
+		{
+			if(!result.contains(p.getYear()))
+			{
+				result.add(p.getYear());
+			}
+		}
+		return result;
+	}
+	
+	public List<String> getMonth(Pagination page,String year)
+	{
+		List<String> result = new ArrayList<String>();
+		String sql="select * from photo where year="+year+" order by month desc";
+		Query<Photo> query=super.session.createNativeQuery(sql, Photo.class);
+		List<Photo> list=super.toList(query, page);
+		for(Photo p:list)
+		{
+			if(!result.contains(p.getMonth()))
+			{
+				result.add(p.getMonth());
+			}
+		}
+		return result;
+	}
+	
+	public List<Photo> getPicture(Pagination page,String year,String month)
+	{
+		String sql="select * from photo where year="+year+" and month="+month+" order by id desc";
+		Query<Photo> query=super.session.createNativeQuery(sql, Photo.class);
+		List<Photo> list=super.toList(query, page);
+		return list;
+	}
+	
+	public List<Photo> getBigPicture(Pagination page,String minPath)
+	{
+		String sql="select * from photo where the_minpath="+minPath;
+		Query<Photo> query=super.session.createNativeQuery(sql, Photo.class);
+		List<Photo> list=super.toList(query, page);
+		return list;
+	}
 	public void savePhoto(Photo photo) {
 		if (photo == null) {
 			logger.error("添加对象为空");

@@ -16,7 +16,7 @@ public class RecordDal extends BaseDal<Record>{
 	}
 
 	public List<Record> fetchByUser(int userId){
-		String sql="select * from record where user_id="+userId+" order by id desc limit 5";
+		String sql="select * from record where user_id="+userId+" order by id limit 5";
 		Query<Record> query=session.createNativeQuery(sql,Record.class);
 		return query.getResultList();
 	}
