@@ -12,7 +12,7 @@ $(function(){
 	});
 	//抓取年份
 	$.ajax({
-		url:'',
+		url:'photo!getYear.action',
 		dataType:"json",
 		success:function(data){
 			var years="";
@@ -34,7 +34,7 @@ $(function(){
 		}
 		var current_year=$(this).attr("value");
 		$.ajax({
-			url:"",
+			url:"photo!getMonth.action",
 			data:{"year":current_year},
 			success:function(data){
 				var months="";
@@ -58,12 +58,12 @@ $(function(){
 		var current_year=$(this).parent(".year").attr("value");
 		var current_month=$(this).attr("value");
 		$.ajax({
-			url:"",
+			url:"photo!getPicture.action",
 			data:{"year":current_year,"month":current_month},
 			success:function(data){
 				var imgs="";
 				$.each(data,function(index,item){
-					imgs.concat("<img src='"+item.the_minPath+"'/>")
+					imgs.concat("<img maxPath="+item.path+" src='"+item.minpath+"'/>")
 				});
 				$(this).html(imgs);
 			},
