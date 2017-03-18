@@ -13,6 +13,8 @@ public class Photo {
 	private Set<User> users = new HashSet<User>();
 	private String path;
 	private String minpath;
+	private String year;
+	private String month;
 	private Set<PhotoAgent> tag;
 
 	public Photo(int id, String name, Set<User> users, String path) {
@@ -90,6 +92,22 @@ public class Photo {
 
 	public void setTag(Set<PhotoAgent> tag) {
 		this.tag = tag;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
 	}
 	
 

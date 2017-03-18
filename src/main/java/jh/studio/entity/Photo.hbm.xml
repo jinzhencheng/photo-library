@@ -21,6 +21,12 @@
 		<property name="minpath" type="string">
 			<column name="the_minpath" length="255" not-null="true" />
 		</property>
+		<property name="year" type="string">
+			<column name="year" length="255" not-null="true" />
+		</property>
+		<property name="month" type="string">
+			<column name="month" length="255" not-null="true" />
+		</property>
 		<!--  <set name="users" table="collection">
 			<key column="photo_id"></key>
 			<many-to-many column="user_id" class="jh.studio.entity.User" />
