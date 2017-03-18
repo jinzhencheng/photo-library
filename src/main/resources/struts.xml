@@ -95,9 +95,12 @@
 				<param name="root">infoMap</param>
 			</result>
 		</action>
-  <action name="show" class="jh.studio.ctl.PhotoAction">
+	  <action name="show" class="jh.studio.ctl.PhotoAction">
 			<result type="json" name="success">
 				<param name="root">results</param>
+			</result>
+			<result type="json" name="success">
+				<param name="root">collectionPhotos</param>
 			</result>
 		</action>
 		<action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">

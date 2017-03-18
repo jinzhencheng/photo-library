@@ -39,13 +39,31 @@
             </nav>
 
             <!-- 这里是页面内容区 -->
-            <div class="content">
-            	展示收藏图片
+            <div class="content" id="gallery">
+					正在加载...
 		   </div>
 	</div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-	<script type="text/javascript" src="../js/photo-library-pub.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$.ajax({
+    			url:"show!fetchCollection.action",
+    			dataType:"json",
+    			data:{"userId":1},
+    			success:function(data){
+    				var htmlStr="";
+    				$.each(data,function(index,item){
+    					htmlStr+="<img src='"+item.the_minPath+"'/>"	
+    				});
+    				$("#gallery").html(htmlStr);
+    			},
+    			error:function(){
+    				$.alert("数据加载出错");
+    			}
+    		});	
+    	});	
+    </script>
   </body>
 </html>

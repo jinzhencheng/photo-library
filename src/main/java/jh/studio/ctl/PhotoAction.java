@@ -10,21 +10,16 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
-import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.dal.PhotoAgentDal;
 import jh.studio.dal.PhotoDal;
 import jh.studio.dal.PhotoResultDal;
-import jh.studio.dal.TagDal;
-import jh.studio.dal.UserDal;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
 import jh.studio.entity.PhotoAgent;
 import jh.studio.entity.PhotoResult;
-import jh.studio.entity.Tag;
-import jh.studio.entity.User;
 import net.coobird.thumbnailator.Thumbnails;
 
 public class PhotoAction extends ActionSupport {
@@ -49,9 +44,11 @@ public class PhotoAction extends ActionSupport {
 	private String month;
 	private String minPath;
 	private List<String> result = new ArrayList<String>();
+
 	public Map<String, Object> getResults() {
 		return results;
 	}
+
 
 	public String execute() throws IOException {
 		Photo photo = new Photo();
