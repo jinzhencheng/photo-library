@@ -24,8 +24,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void add(Category entity) {
 		if(entity==null){
-			logger.error("Ìí¼Ó¶ÔÏóÎª¿Õ");
-//tian jia duixiang weikong
+			logger.error("æ·»åŠ å¯¹è±¡ä¸ºç©º");
 			return;
 		}
 		super.session.save(entity);
@@ -35,8 +34,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	@Override
 	public void update(Category entity) {
 		if(entity==null || entity.getId()==0){
-			logger.error("Ìí¼Ó¶ÔÏóÎª¿Õ»ò¶ÔÏó´¦ÓÚË²Ê±Ì¬");
-			//tianjia kong shunshi
+			logger.error("æ·»åŠ å¯¹è±¡ä¸ºç©ºæˆ–å¯¹è±¡å¤„äºç¬æ—¶æ€");
 			return;
 		}
 		super.session.update(entity);

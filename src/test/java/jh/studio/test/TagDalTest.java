@@ -15,6 +15,12 @@ public class TagDalTest extends TestCase{
 
 	}
 
+	public void testFetchHot(){
+		TagDal dal=new TagDal();
+		List<Tag> list=dal.getHot();
+		dal.dispose();
+		Assert.assertNotNull(list);
+	}
 	public void testFetchAll(){
 		Pagination page=new Pagination();
 		TagDal dal=new TagDal();

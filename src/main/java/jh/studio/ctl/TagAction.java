@@ -138,12 +138,15 @@ public class TagAction extends ActionSupport{
 				if(!ids.contains(c))
 				{
 					CategoryAgent ca = new CategoryAgent();
+					
 					Tag t1 = new Tag();
 					t1.setId(tagId);
+					
 					Category cg = new Category();
 					cg.setId(Integer.parseInt(c));
 					ca.setCategoryId(cg);
 					ca.setTagId(t1);
+					
 					insertList.add(ca);
 				}
 			}
@@ -164,8 +167,7 @@ public class TagAction extends ActionSupport{
 			tag.setId(tagId);
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
-
-			tag.setIsValid(1);//
+			tag.setIsValid(1);//有效
 			if(isHots == 1)
 			{
 				tag.setIsHot(true);
