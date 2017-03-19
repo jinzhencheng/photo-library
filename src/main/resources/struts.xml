@@ -88,6 +88,14 @@
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
+		
+		<action name="tagRecord" class="jh.studio.ctl.TagRecordAction">
+			<result type="json" name="searchList">
+				<param name="root">result</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			
+		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
 			method="findInfo">
 			<result type="json" name="success">
