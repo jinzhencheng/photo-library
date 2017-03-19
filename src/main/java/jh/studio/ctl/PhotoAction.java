@@ -20,15 +20,11 @@ import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
 import jh.studio.entity.PhotoAgent;
 import jh.studio.entity.PhotoResult;
-import jh.studio.entity.Tag;
-import jh.studio.entity.User;
 import jh.studio.util.DateToString;
 import net.coobird.thumbnailator.Thumbnails;
 
 public class PhotoAction extends ActionSupport {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private File upload;
@@ -47,65 +43,6 @@ public class PhotoAction extends ActionSupport {
 	private String month;
 	private String minPath;
 	private List<String> result = new ArrayList<String>();
-
-	public Map<String, Object> getResults() {
-		return results;
-	public int getPhoto_id() {
-		return photo_id;
-	}
-
-
-	public String execute() throws IOException {
-		Photo photo = new Photo();
-		String timeName = System.currentTimeMillis() + uploadFileName;
-		photo.setName(timeName);
-		photo.setTheDate(new Date());
-		photo.setPath("/WEB-INF/" + savePath + "/" + photo.getName());
-		photo.setMinpath("/WEB-INF/" + savePath + "/m" + photo.getName());
-		PhotoDal phoDal = new PhotoDal();
-		phoDal.savePhoto(photo);
-		phoDal.dispose();
-		List<PhotoAgent> photoAgents = new ArrayList<PhotoAgent>();
-		String[] tg=tags.split("-");
-		for (String tagid : tg) {
-			PhotoAgent pa = new PhotoAgent();
-			pa.setPhotoId(photo.getId());
-			pa.setTagId(Integer.parseInt(tagid));
-			photoAgents.add(pa);
-
-		}
-		PhotoAgentDal paDal = new PhotoAgentDal();
-		paDal.batchAdd(photoAgents);
-		paDal.dispose();
-		
-		File goalFile = new File(getSavePath(), timeName);
-		File minFile = new File(getSavePath(), "m" + timeName);
-		FileUtils.copyFile(upload, goalFile);
-		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
-		
-		return SUCCESS;
-
-	}
-
-	public List<PhotoResult> getPhotore() {
-		return photore;
-	}
-
-	public void setPhotore(List<PhotoResult> photore) {
-		this.photore = photore;
-	}
-
-	public List<Photo> getPhotos() {
-		return photos;
-	}
-
-	public void setPhotos(List<Photo> photos) {
-		this.photos = photos;
-	}
-
-	public String getMinPath() {
-		return minPath;
-  }
 
 	public String showPhoto() {
 		Pagination pager = new Pagination();
@@ -131,7 +68,8 @@ public class PhotoAction extends ActionSupport {
 		pdal.batchDel(inid);
 		return "ok";
 	}
-	public String updatePhoto(){
+
+   public String updatePhoto(){
 		List<Integer> inid = new ArrayList<Integer>();
 	    inid.add(photo_id);
 		PhotoAgentDal dal = new PhotoAgentDal();
@@ -154,25 +92,6 @@ public class PhotoAction extends ActionSupport {
 		return "ok";
 	}
 
-	public String getYear()
-	{
-		PhotoDal pDal = new PhotoDal();
-		this.result = pDal.getYear(Pagination.NULL);
-		return "allYear";
-	}
-	public String getMonth()
-	{
-		PhotoDal pDal = new PhotoDal();
-		this.result = pDal.getMonth(Pagination.NULL,year);
-		return "month";
-	}
-	public String getPicture()
-	{
-		PhotoDal pDal = new PhotoDal();
-		this.photos = pDal.getPicture(Pagination.NULL,year,month);
-		return "picture";
-	}
-	
 	public String getBigPicture()
 	{
 		PhotoDal pDal = new PhotoDal();
@@ -184,52 +103,60 @@ public class PhotoAction extends ActionSupport {
 		this.results = results;
 	}
 
-	public void setMinPath(String minPath) {
-		this.minPath = minPath;
-	}
+	public String execute() throws IOException {
+		Photo photo = new Photo();
+		String timeName = System.currentTimeMillis() + uploadFileName;
+		Date date = new Date();
+		String[] yearMonth = DateToString.getResult(date);
+		photo.setName(timeName);
+		photo.setTheDate(date);
+		photo.setYear(yearMonth[0]);
+		photo.setMonth(yearMonth[1]);
+		photo.setPath("/WEB-INF/" + savePath + "/" + photo.getName());
+		photo.setMinpath("/WEB-INF/" + savePath + "/m" + photo.getName());
+		PhotoDal phoDal = new PhotoDal();
+		phoDal.savePhoto(photo);
+		phoDal.dispose();
+		List<PhotoAgent> photoAgents = new ArrayList<PhotoAgent>();
+		String[] tg = tags.split("-");
+		for (String tagid : tg) {
+			PhotoAgent pa = new PhotoAgent();
+			pa.setPhotoId(photo.getId());
+			pa.setTagId(Integer.parseInt(tagid));
+			photoAgents.add(pa);
 
-	public List<String> getResult() {
-		return result;
-	}
+		}
+		PhotoAgentDal paDal = new PhotoAgentDal();
+		paDal.batchAdd(photoAgents);
+		paDal.dispose();
 
-	public void setResult(List<String> result) {
-		this.result = result;
-	}
+		File goalFile = new File(getSavePath(), timeName);
+		File minFile = new File(getSavePath(), "m" + timeName);
+		FileUtils.copyFile(upload, goalFile);
+		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
 
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public void setMonth(String month) {
-		this.month = month;
+		return SUCCESS;
 	}
 
 	public String getYear() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getYear(Pagination.NULL);
+		pDal.dispose();
 		return "allYear";
 	}
 
 	public String getMonth() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getMonth(Pagination.NULL, year);
+		pDal.dispose();
 		return "month";
 	}
 
 	public String getPicture() {
 		PhotoDal pDal = new PhotoDal();
 		this.photos = pDal.getPicture(Pagination.NULL, year, month);
+		pDal.dispose();
 		return "picture";
-	}
-
-	public String getBigPicture() {
-		PhotoDal pDal = new PhotoDal();
-		this.photos = pDal.getBigPicture(Pagination.NULL, minPath);
-		return "bigPicture";
-	}
-
-	public void setResults(Map<String, Object> results) {
-		this.results = results;
 	}
 
 	public String getTags() {
@@ -295,46 +222,36 @@ public class PhotoAction extends ActionSupport {
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
-    
-	public String execute() throws IOException {
-		Photo photo = new Photo();
-		String timeName = System.currentTimeMillis() + uploadFileName;
-		Date date = new Date();
-		String[] yearMonth = DateToString.getResult(date);
-		photo.setName(timeName);
-		photo.setTheDate(date);
-		photo.setYear(yearMonth[0]);
-		photo.setMonth(yearMonth[1]);
-		photo.setPath("/WEB-INF/" + savePath + "/" + photo.getName());
-		photo.setMinpath("/WEB-INF/" + savePath + "/m" + photo.getName());
-		PhotoDal phoDal = new PhotoDal();
-		phoDal.savePhoto(photo);
-		phoDal.dispose();
-		List<PhotoAgent> photoAgents = new ArrayList<PhotoAgent>();
-		String[] tg = tags.split("-");
-		for (String tagid : tg) {
-			PhotoAgent pa = new PhotoAgent();
-			pa.setPhotoId(photo.getId());
-			pa.setTagId(Integer.parseInt(tagid));
-			photoAgents.add(pa);
-
-		}
-		PhotoAgentDal paDal = new PhotoAgentDal();
-		paDal.batchAdd(photoAgents);
-		paDal.dispose();
-
-		File goalFile = new File(getSavePath(), timeName);
-		File minFile = new File(getSavePath(), "m" + timeName);
-		FileUtils.copyFile(upload, goalFile);
-		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
-
-		return SUCCESS;
-	public List<Photo> getPhotos() {
+   	public List<Photo> getPhotos() {
 		return photos;
 	}
 
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
+	}
+
+	public String getMinPath() {
+		return minPath;
+	}
+
+	public int getPhoto_id() {
+		return photo_id;
+	}
+
+	public void setPhoto_id(int photo_id) {
+		this.photo_id = photo_id;
+	}
+
+	public void setMinPath(String minPath) {
+		this.minPath = minPath;
+	}
+
+	public List<String> getResult() {
+		return result;
+	}
+
+	public void setResult(List<String> result) {
+		this.result = result;
 	}
 
 	public void setYear(String year) {
@@ -344,60 +261,19 @@ public class PhotoAction extends ActionSupport {
 	public void setMonth(String month) {
 		this.month = month;
 	}
-
-	public String getMinPath() {
-		return minPath;
+ 
+	public Map<String, Object> getResults() {
+		return results;
 	}
 
-	public void setMinPath(String minPath) {
-		this.minPath = minPath;
+	public List<PhotoResult> getPhotore() {
+		return photore;
 	}
 
-	public String delPhoto() {
-		List<Integer> inid = new ArrayList<Integer>();
-		inid.add(photo_id);
-		PhotoAgentDal dal = new PhotoAgentDal();
-		dal.batchDel(inid);
-		PhotoDal pdal = new PhotoDal();
-		pdal.batchDel(inid);
-		return "ok";
+	public void setPhotore(List<PhotoResult> photore) {
+		this.photore = photore;
 	}
 
-	public String updatePhoto() {
-		List<Integer> inid = new ArrayList<Integer>();
-		inid.add(photo_id);
-		PhotoAgentDal dal = new PhotoAgentDal();
-		dal.batchDel(inid);
-		dal.dispose();
-		List<PhotoAgent> updateList = new ArrayList<PhotoAgent>();
-		String[] tg = tags.split("-");
-		for (String td : tg) {
-			PhotoAgent upa = new PhotoAgent();
-			upa.setPhotoId(photo_id);
-			int tid = Integer.parseInt(td);
-			upa.setTagId(tid);
-			updateList.add(upa);
 
-		}
-		PhotoAgentDal pdUpdate = new PhotoAgentDal();
-		pdUpdate.batchAdd(updateList);
-		dal.dispose();
-
-		return "ok";
-	public List<String> getResult() {
-		return result;
-	}
-
-	public void setResult(List<String> result) {
-		this.result = result;
-	}
-	
-	public int getPhoto_id() {
-		return photo_id;
-	}
-
-	public void setPhoto_id(int photo_id) {
-		this.photo_id = photo_id;
-	}
 
 }

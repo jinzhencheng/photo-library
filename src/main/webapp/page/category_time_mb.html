@@ -1,2 +1,45 @@
 <meta charset="UTF-8">
-	时间轴
+<script type="text/javascript">
+	$(function(){
+		//抓取年份
+		$.ajax({
+			url:'photo!getYear.action',
+			dataType:"json",
+			success:function(data){
+				var years="";
+				$.each(data,function(index,item){
+					years+="<div class='year'>"+item+"</div>";
+				})
+				$("#show-content").html(years);
+				$("#show-info").hide();
+			},
+			error:function(){
+				$.alert("数据获取失败");
+			}
+		});
+		//抓取月份
+		$("#show-content").on("click",".year",function(e){
+			var current_year=$(this).text();
+			$("#show-info").show();
+			$.ajax({
+				url:"photo!getMonth.action",
+				data:{"year":current_year},
+				success:function(data){
+					cosole.log(data);
+					var months="";
+					$.each(data,function(index,item){
+						months+="<div class='month'>"+item+"</div><br/>";
+					});
+					$(this).after(months);
+					$("#show-info").hide();
+				},
+				error:function(data){
+					console.log(data.reaponseText);
+					$.alert("数据获取失败");
+				}
+			});	
+		});
+		
+
+	});
+</script>

@@ -16,8 +16,6 @@ public class Photo {
 	private String year;
 	private String month;
 	private Set<PhotoAgent> tag;
-	private String year;
-	private String month;
 
 	public Photo(int id, String name, Set<User> users, String path) {
 		super();
@@ -29,7 +27,6 @@ public class Photo {
 
 	public Photo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getMinpath() {
@@ -112,21 +109,5 @@ public class Photo {
 		this.tag = tag;
 	}
 
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public String getMonth() {
-		return month;
-	}
-
-	public void setMonth(String month) {
-		this.month = month;
-	}
-	
 
 }

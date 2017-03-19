@@ -76,11 +76,11 @@
 		
 		<action name="photo" class="jh.studio.ctl.PhotoAction">
 			<result type="json" name="allYear">
-				<param name="root">photos</param>
+				<param name="root">result</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
 			<result type="json" name="month">
-				<param name="root">photos</param>
+				<param name="root">result</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
 			<result type="json" name="picture">
