@@ -35,7 +35,6 @@ public class CollectionDal extends BaseDal<Collection> implements IDal<Collectio
 	}
 	@Override
 	public void delete(Collection entity) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
@@ -75,5 +74,11 @@ public class CollectionDal extends BaseDal<Collection> implements IDal<Collectio
 				
 			}
 	        return pr;	
+	}
+	
+	public void delCollection(Integer photoId,Integer userId)
+	{
+		String sql="delete from collection where photo_id="+photoId+" and user_id="+userId;
+		super.session.createNativeQuery(sql).executeUpdate();
 	}
 }

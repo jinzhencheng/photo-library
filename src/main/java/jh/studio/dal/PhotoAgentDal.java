@@ -46,7 +46,7 @@ public class PhotoAgentDal extends BaseDal<PhotoAgent>{
 			List list = super.toList(query, page);
 			for (int i = 0; i < list.size(); i++) {
 				Object[] o = (Object[]) list.get(i);
-				//Ã¿¸öobjectÖÐÓÐ5ÐÐÊý¾Ý
+				//æ¯ä¸ªobjectä¸­æœ‰5è¡Œæ•°æ®
 				Photo p = new Photo();
 				p.setId(Integer.parseInt(o[0].toString()));
 				p.setName(o[1].toString());
