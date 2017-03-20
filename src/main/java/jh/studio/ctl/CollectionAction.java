@@ -40,6 +40,14 @@ public class CollectionAction extends ActionSupport{
 		cDal.dispose();
 		return "list";
 	}
+	
+	public String delCollect()
+	{
+		CollectionDal cDal = new CollectionDal();
+		cDal.delCollection(photoId, userId);
+		cDal.dispose();
+		return "del";
+	}
 	public Integer getPhotoId() {
 		return photoId;
 	}

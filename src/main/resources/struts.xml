@@ -33,6 +33,10 @@
 				<param name="root">list</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="del">
+				<param name="root">del</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 		<action name="record" class="jh.studio.ctl.RecordAction">
 			<result name="success" type="json">
