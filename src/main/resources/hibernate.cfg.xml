@@ -20,6 +20,7 @@
 		<mapping resource="jh/studio/entity/Tag.hbm.xml" />
 		<mapping resource="jh/studio/entity/User.hbm.xml" />
 		<mapping resource="jh/studio/entity/PhotoAgent.hbm.xml"/>
+		<mapping resource="jh/studio/entity/Collection.hbm.xml"/>
 	</session-factory>
 
 

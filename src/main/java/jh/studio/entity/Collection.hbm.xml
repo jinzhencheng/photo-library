@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="jh.studio.entity.Collection" table="collection"> 
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="photoId" type="integer">
+            <column name="photo_id" length="11" not-null="true" />
+        </property>
+		<property name="userId" type="integer">
+            <column name="user_id" length="11" not-null="true" />
+        </property>
+		
+    </class>
+</hibernate-mapping>
