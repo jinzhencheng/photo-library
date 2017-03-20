@@ -28,7 +28,7 @@
 					cosole.log(data);
 					var months="";
 					$.each(data,function(index,item){
-						months+="<div class='month'>"+item+"</div><br/>";
+						months+="<div class='month' year='"+current_year+"'>"+item+"</div><br/>";
 					});
 					$(this).after(months);
 					$("#show-info").hide();
@@ -39,7 +39,30 @@
 				}
 			});	
 		});
-		
+		//抓取图片
+		$("#show-content").on("click",".month",function(e){
+			var current_year=$(this).attr("year");
+			var current_month=$(this).text();
+			$("#show-info").show();
+			$.ajax({
+				url:"photo!getPicture.action",
+				dataType:"json",
+				data:{"year":current_year,"month":current_month},
+				success:function(data){
+					if(!data){return;}	
+					var pictures="<div class='pic-div'>";
+					$.each(data,function(index,item){
+						pictures+="<img src='"+item+"'/>";	
+					});
+					pictures+="</div>"
+					$(this).after(pictures);
+					$("#show-info").hide();
+				},
+				error:function(){
+					$.alert("数据加载失败");	
+				}
+			});
+		});
 
 	});
 </script>
