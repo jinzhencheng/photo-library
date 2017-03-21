@@ -183,8 +183,15 @@
 						    valueField:'id',
 						    textField:'name',
 						    onLoadSuccess: function () {
-					   			$('#cgSelectOneLevel').combobox('setValue',data.parentId);
-					        }
+						    	if(data.parentId == undefined || data.parentId == null)
+						    	{
+						    		$('#cgSelectOneLevel').combobox('select','未选择');
+						    	}
+						    	else
+						    	{
+						    		$('#cgSelectOneLevel').combobox('setValue',data.parentId).combobox('setText',data.name);
+						    	}
+					   		}
 						});
 						$("#cgEditWin").window("open");	
 					},
@@ -245,7 +252,7 @@
 				名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input class="easyui-textbox" type="text" name="category.name" id="categoryName" data-options="required:true"/><br/>
 				编码顺序：<input class="easyui-textbox" type="text" name="category.sequence" id="categorySequence" data-options="required:true"/><br/>
 				
-				一级类别：<!-- <div id="categoryOneLevel"></div> --><input id="cgSelectOneLevel" name="cgSelectOneLevel" value="-1" style="width:180px;">
+				一级类别：<!-- <div id="categoryOneLevel"></div> --><input id="cgSelectOneLevel" name="cgSelectOneLevel" value="未选择" style="width:180px;"><br/>
 				标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签：
 				<div id="cgTagDiv"></div>
 			</form>
