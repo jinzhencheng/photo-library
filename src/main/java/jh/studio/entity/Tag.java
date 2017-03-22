@@ -54,13 +54,13 @@ public class Tag {
 	public void setCategoryIds(Set<CategoryAgent> categoryIds) {
 		this.categoryIds = categoryIds;
 	}
+
 	public Set<PhotoAgent> getPhoto() {
 		return photo;
 	}
 	public void setPhoto(Set<PhotoAgent> photo) {
 		this.photo = photo;
 	}
-
 	public Integer getIsValid() {
 		return isValid;
 	}

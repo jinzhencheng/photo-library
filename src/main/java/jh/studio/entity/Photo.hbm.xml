@@ -27,11 +27,5 @@
 		<property name="month" type="string">
 			<column name="month" length="20" not-null="true" />
 		</property>
-		<!--  <set name="users" table="collection">
-			<key column="photo_id"></key>
-			<many-to-many column="user_id" class="jh.studio.entity.User" />
-		</set>
-		-->
-
 	</class>
 </hibernate-mapping>

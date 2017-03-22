@@ -68,6 +68,7 @@
 				<param name="root">admin</param>
 			</result>
 		</action>
+		
 		<action name="tag" class="jh.studio.ctl.TagAction">
 			<result type="json" name="list">
 				<param name="root">resultMap</param>
@@ -139,6 +140,9 @@
 			<result type="json" name="success">
 				<param name="root">collectionPhotos</param>
 			</result>
+			<result type="json" name="success">
+				<param name="root">collectionPhotos</param>
+			</result>
 		</action>
 		<action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">
 			<result name="fetchByTag" type="json">
@@ -172,3 +176,4 @@
 		</action>
 	</package>
 </struts> 
+

@@ -4,9 +4,11 @@
  */
 
 $(function(){
-	$("#category-content").load("category_time_mb.html");
-	$("#category-nav ul li div.item-title").click(function(){
-		var linkAddr=$(this).attr("link");
-		$("#category-content").load(linkAddr);
+	$("#show-content").load("category_time_mb.html");
+	$("#category-nav-div ul li div.item-title").click(function(){
+		$(".category-nav").removeClass("category-nav")
+		$(this).addClass("category-nav");
+		$("#show-content").load($(this).attr("link"));
 	});
+
 });
