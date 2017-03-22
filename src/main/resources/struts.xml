@@ -11,7 +11,7 @@
 			<result name="error" type="redirect">/login.jsp</result>
 		</action>
 		<action name="upload" class="jh.studio.ctl.PhotoAction">
-			<param name="savePath">upload</param>
+			<param name="savePath">/upload</param>
 			<result name="success">/index.html</result>
 		</action>
 		<action name="deletePhoto" class="jh.studio.ctl.PhotoAction">
@@ -25,6 +25,24 @@
 
 	<!-- ajax request -->
 	<package name="ajax-nav" namespace="/" extends="json-default">
+		<action name="collection" class="jh.studio.ctl.CollectionAction">
+			<result type="json" name="insert">
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="listByCollect">
+				<param name="root">list</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="del">
+				<param name="root">del</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="record" class="jh.studio.ctl.RecordAction">
+			<result name="success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
 		<action name="opinion" class="jh.studio.ctl.OpinionAction">
 			<result name="success" type="json">
 				<param name="root">result</param>
@@ -63,6 +81,36 @@
 				<param name="root">tags</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="fetchHotTag">
+				<param name="root">tags</param>
+			</result>
+		</action>
+		
+		<action name="photo" class="jh.studio.ctl.PhotoAction">
+			<result type="json" name="allYear">
+				<param name="root">result</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="month">
+				<param name="root">result</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="picture">
+				<param name="root">photos</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+				<result type="json" name="success">
+				<param name="root">results</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		
+		<action name="tagRecord" class="jh.studio.ctl.TagRecordAction">
+			<result type="json" name="searchList">
+				<param name="root">result</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			
 		</action>
 		<action name="findInfo" class="jh.studio.ctl.SetInfoAction"
 			method="findInfo">
@@ -83,10 +131,13 @@
 			<result type="json" name="updateInfo-success">
 				<param name="root">result</param>
 			</result>
+			<result type="json" name="findBoth">
+				<param name="root">infoMap</param>
+			</result>
 		</action>
-  <action name="show" class="jh.studio.ctl.PhotoAction">
+	  <action name="show" class="jh.studio.ctl.PhotoAction" method="showPhoto">
 			<result type="json" name="success">
-				<param name="root">results</param>
+				<param name="root">collectionPhotos</param>
 			</result>
 		</action>
 		<action name="categoryAgent" class="jh.studio.ctl.CategoryAgentAction">
@@ -112,6 +163,10 @@
 			</result>
 			<result type="json" name="fetchOne">
 				<param name="root">category</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result type="json" name="fetchOneLevel">
+				<param name="root">categories</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>

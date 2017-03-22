@@ -3,16 +3,17 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="jh.studio.entity.Opinion" table="opinion">
+    <class name="jh.studio.entity.Collection" table="collection"> 
         <id name="id" type="int">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="content" type="string">
-            <column name="content" not-null="true" />
+        <property name="photoId" type="integer">
+            <column name="photo_id" length="11" not-null="true" />
         </property>
-        <property name="theDate" type="java.util.Date">
-            <column name="the_date"/>
-	  </property>
+		<property name="userId" type="integer">
+            <column name="user_id" length="11" not-null="true" />
+        </property>
+		
     </class>
 </hibernate-mapping>

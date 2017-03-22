@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
 	<style type="text/css">
 		.category-nav{color:orange;}
+		#show-info{font-size:12px;color:orange;}
+		.year .month{cursor:pointer;}
 	</style>
   </head>
   <body>
@@ -44,10 +46,10 @@
             <div class="content">
 				<div class="row no-gutter">
 					  <div class="col-25">
-					  	<div class="list-block" style="margin-top:0px;" id="category-nav">
+					  	<div class="list-block" style="margin-top:0px;" id="category-nav-div">
 							<ul>
 							  <li class="item-content">
-								  <div class="item-title item-link category-nav" link='category_time_mb.html'>时间轴</div>
+								  <div class="item-title category-nav" link='category_time_mb.html'>时间轴</div>
 							  </li>
 							  <li class="item-content">
 								  <div class="item-title" link="category_tag_mb.html">热门标签</div>
@@ -71,7 +73,9 @@
 						  </div>
 					  </div>
 					  <div class="col-75" id="category-content">
-												  	
+					  	<div id="show-info">正在加载...</div>
+					  	<div id="show-content"></div>
+
 					  </div>
 					</div>
                 </div>

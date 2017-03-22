@@ -130,7 +130,7 @@ public class PhotoAction extends ActionSupport {
 	public void setResults(Map<String, Object> results) {
 		this.results = results;
 	}
-
+	
 	public String getTags() {
 		return tags;
 	}
@@ -188,7 +188,7 @@ public class PhotoAction extends ActionSupport {
 	}
 
 	public String getSavePath() {
-		return ServletActionContext.getServletContext().getRealPath("/WEB-INF/" + savePath);
+		return ServletActionContext.getServletContext().getRealPath(savePath);
 	}
 
 	public void setSavePath(String savePath) {
@@ -204,8 +204,8 @@ public class PhotoAction extends ActionSupport {
 		photo.setTheDate(date);
 		photo.setYear(yearMonth[0]);
 		photo.setMonth(yearMonth[1]);
-		photo.setPath("/WEB-INF/" + savePath + "/" + photo.getName());
-		photo.setMinpath("/WEB-INF/" + savePath + "/m" + photo.getName());
+		photo.setPath(savePath + "/" + photo.getName());
+		photo.setMinpath(savePath + "/m" + photo.getName());
 		PhotoDal phoDal = new PhotoDal();
 		phoDal.savePhoto(photo);
 		phoDal.dispose();
@@ -221,9 +221,13 @@ public class PhotoAction extends ActionSupport {
 		PhotoAgentDal paDal = new PhotoAgentDal();
 		paDal.batchAdd(photoAgents);
 		paDal.dispose();
-
-		File goalFile = new File(getSavePath(), timeName);
-		File minFile = new File(getSavePath(), "m" + timeName);
+		  String filePath = getSavePath(); 
+	      File myFilePath = new File(filePath); 
+	      if (!myFilePath.exists()) { 
+	        myFilePath.mkdir(); 
+	      } 
+		File goalFile = new File(getSavePath(),timeName);
+		File minFile = new File(getSavePath(),"m" + timeName);
 		FileUtils.copyFile(upload, goalFile);
 		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
 

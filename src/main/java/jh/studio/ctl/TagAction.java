@@ -165,7 +165,7 @@ public class TagAction extends ActionSupport{
 			tag.setName(tagName);
 			tag.setClickCount(clickCount);
 
-			tag.setIsValid(1);//
+			tag.setIsValid(1);//ÓÐÐ§
 			if(isHots == 1)
 			{
 				tag.setIsHot(true);

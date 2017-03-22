@@ -32,7 +32,7 @@ public class CategoryAction extends ActionSupport{
 	private String tagIds;
 	private String categoryName;
 	private int categorySequence;
-	private int categoryParentId;
+	private String categoryParentId;
 	
 	public String fetchAll(){
 		CategoryDal dal=new CategoryDal();
@@ -99,9 +99,14 @@ public class CategoryAction extends ActionSupport{
 			tt.setId(categoryId);
 			tt.setName(categoryName);
 			tt.setSequence(categorySequence);
-			tt.setParentId(categoryParentId);
+			if(!categoryParentId.equals("未选择"))
+			{
+				tt.setParentId(Integer.parseInt(categoryParentId));
+			}
 			dal.updateCategory(tt);
 			dal.dispose();
+			
+			//数据库中，原先的分类集合
 			Set<CategoryAgent> set = t.getTags();
 			List<CategoryAgent> insertList = new ArrayList<CategoryAgent>();
 			List<Integer> delList = new ArrayList<Integer>();
@@ -147,34 +152,37 @@ public class CategoryAction extends ActionSupport{
 		}
 		else
 		{
-			Set<CategoryAgent> tagSet = new HashSet<CategoryAgent>();
-			TagDal tDal = new TagDal();
-			List<Tag> tagList = tDal.getTag(tagIds);
-			tDal.dispose();
-			
-			Category category = new Category();
-			category.setId(categoryId);
-			category.setName(categoryName);
-			category.setSequence(categorySequence);
-			category.setIsValid(1);//有效
-			if(categoryParentId == -1)
+			try
 			{
-				category.setParentId(categoryId);
-			}
-			else
+				Set<CategoryAgent> tagSet = new HashSet<CategoryAgent>();
+				TagDal tDal = new TagDal();
+				List<Tag> tagList = tDal.getTag(tagIds);
+				tDal.dispose();
+				
+				Category category = new Category();
+				category.setId(categoryId);
+				category.setName(categoryName);
+				category.setSequence(categorySequence);
+				category.setIsValid(1);//有效
+				if(!categoryParentId.equals("未选择"))
+				{
+					category.setParentId(Integer.parseInt(categoryParentId));
+				}
+				
+				for(Tag c:tagList)
+				{
+					CategoryAgent ca = new CategoryAgent();
+					ca.setCategoryId(category);
+					ca.setTagId(c);
+					tagSet.add(ca);
+				}
+				category.setTags(tagSet);
+				dal.add(category);
+				dal.dispose();
+			}catch(Exception e)
 			{
-				category.setParentId(categoryParentId);
+				e.printStackTrace();
 			}
-			for(Tag c:tagList)
-			{
-				CategoryAgent ca = new CategoryAgent();
-				ca.setCategoryId(category);
-				ca.setTagId(c);
-				tagSet.add(ca);
-			}
-			category.setTags(tagSet);
-			dal.add(category);
-			dal.dispose();
 		}
 	}
 
@@ -254,12 +262,12 @@ public class CategoryAction extends ActionSupport{
 	}
 
 
-	public int getCategoryParentId() {
+	public String getCategoryParentId() {
 		return categoryParentId;
 	}
 
 
-	public void setCategoryParentId(int categoryParentId) {
+	public void setCategoryParentId(String categoryParentId) {
 		this.categoryParentId = categoryParentId;
 	}
 	
