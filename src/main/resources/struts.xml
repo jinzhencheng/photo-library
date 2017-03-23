@@ -71,6 +71,7 @@
 				<param name="root">admin</param>
 			</result>
 		</action>
+		
 		<action name="tag" class="jh.studio.ctl.TagAction">
 			<result type="json" name="list">
 				<param name="root">resultMap</param>
@@ -178,3 +179,4 @@
 		</action>
 	</package>
 </struts> 
+

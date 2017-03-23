@@ -13,9 +13,9 @@ public class Photo {
 	private Set<User> users = new HashSet<User>();
 	private String path;
 	private String minpath;
-	private Set<PhotoAgent> tag;
 	private String year;
 	private String month;
+	private Set<PhotoAgent> tag;
 
 	public Photo(int id, String name, Set<User> users, String path) {
 		super();
@@ -27,7 +27,6 @@ public class Photo {
 
 	public Photo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getMinpath() {
@@ -109,6 +108,6 @@ public class Photo {
 	public void setTag(Set<PhotoAgent> tag) {
 		this.tag = tag;
 	}
-	
+
 
 }

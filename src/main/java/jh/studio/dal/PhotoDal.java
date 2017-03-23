@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
-import jh.studio.entity.PhotoResult;
 
 public class PhotoDal extends BaseDal<Photo> {
 	private Logger logger = null;
@@ -107,6 +106,5 @@ public class PhotoDal extends BaseDal<Photo> {
 		super.session.createNativeQuery(sql).executeUpdate();
 		transaction.commit();	
 	}
-
 
 }

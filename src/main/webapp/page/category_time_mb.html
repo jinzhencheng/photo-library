@@ -25,7 +25,7 @@
 				url:"photo!getMonth.action",
 				data:{"year":current_year},
 				success:function(data){
-					cosole.log(data);
+					console.log(data);
 					var months="";
 					$.each(data,function(index,item){
 						months+="<div class='month' year='"+current_year+"'>"+item+"</div><br/>";
