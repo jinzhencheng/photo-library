@@ -1,30 +1,15 @@
 
 <meta charset="UTF-8">
 <script type="text/javascript">
+var content=null;
 function operate_formatter(value, row, index) {
+	content=row.content;
     return "<a href='javascript:detail()' class='easyui-linkbutton'>查看详情</a>";
 }
 	function detail(){
-		console.log("detail");
-		var row= checkSelected();
-		 if(row==null){
-			 return;
-		 };
-		 $("#content").text(row.content);
+		 $("#content").text(content);
 		 $("#lookWin").window("open");
 	 }
-
-
-         
-       function checkSelected(){
- 			var row=$('.easyui-datagrid').datagrid('getSelected');
- 			if(!row){
- 				$.messager.alert('警告','未选择任何数据行',"warning");
- 				return;
- 			}
- 			return row;
- 		}
-
 </script>
 
 <table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
