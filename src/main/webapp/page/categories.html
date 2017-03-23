@@ -15,8 +15,6 @@
 			$("#cgAdd").click(function(){
 				var tags=$fetchTag();
 				$buildCheckboxOne(tags);
-			/* 	var category = $fetchOneLevelCategory();
-				$buildSelect(category); */
 				$('#cgSelectOneLevel').combobox({
 				    url:'category!fetchOneLevel.action',
 				    valueField:'id',
@@ -183,13 +181,9 @@
 						    valueField:'id',
 						    textField:'name',
 						    onLoadSuccess: function () {
-						    	if(data.parentId == undefined || data.parentId == null)
+						    	if(data.parentId != undefined && data.parentId != null)
 						    	{
-						    		$('#cgSelectOneLevel').combobox('select','未选择');
-						    	}
-						    	else
-						    	{
-						    		$('#cgSelectOneLevel').combobox('setValue',data.parentId).combobox('setText',data.name);
+						    		$('#cgSelectOneLevel').combobox('select',data.parentId);
 						    	}
 					   		}
 						});

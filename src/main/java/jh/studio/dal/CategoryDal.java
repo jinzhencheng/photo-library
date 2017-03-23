@@ -58,7 +58,7 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	}
 	public List<Category> getOneLevelCategory(Pagination page)
 	{
-		String sql="select * from category where isValid=1 and id=parent_id";
+		String sql="select * from category where isValid=1 and parent_id is null";
 		Query<Category> query=super.session.createNativeQuery(sql, Category.class);
 		List<Category> list=super.toList(query, page);
 		return list;
