@@ -63,24 +63,28 @@
 			$("input[name='tag']:checked").each(function(index,value){
 				tagAry.push($(this).val());
 			});
+			console.log(tagAry);
 			if(tagAry.length==0){
 				$.messager.alert("警告","未选择类型","warning");
+				return false;
+			}else{
+				var tagIds=tagAry.join("-");
+				var upload=$("#upload").val();
+				
+				$("#importFileForm").form("submit",{
+					url:"upload.action",
+					onSubmit:function(param){
+						param.tags=tagIds;	
+					},
+					success:function(){
+						
+						$("#addPWin").window("close");
+						$(".easyui-datagrid").datagrid("reload");
+						
+					}
+				});
 			}
-			var tagIds=tagAry.join("-");
-			var upload=$("#upload").val();
-			
-			$("#importFileForm").form("submit",{
-				url:"upload.action",
-				onSubmit:function(param){
-					param.tags=tagIds;	
-				},
-				success:function(){
-					
-					$("#addPWin").window("close");
-					$(".easyui-datagrid").datagrid("reload");
-					
-				}
-			});
+
 		});
 		$("#editPhoto").click(function(){
 			var row=$checkSelected();

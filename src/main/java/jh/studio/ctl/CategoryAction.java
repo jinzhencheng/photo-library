@@ -71,6 +71,10 @@ public class CategoryAction extends ActionSupport{
 	{
 		CategoryDal categoryDal=new CategoryDal();
 		this.categories=categoryDal.getOneLevelCategory(Pagination.NULL);
+		Category e = new Category();
+		e.setId(-1);
+		e.setName("未选择");
+		categories.add(0,e);
 		categoryDal.dispose();
 		return "fetchOneLevel";
 	}
@@ -99,7 +103,7 @@ public class CategoryAction extends ActionSupport{
 			tt.setId(categoryId);
 			tt.setName(categoryName);
 			tt.setSequence(categorySequence);
-			if(!categoryParentId.equals("未选择"))
+			if(!categoryParentId.equals("-1"))
 			{
 				tt.setParentId(Integer.parseInt(categoryParentId));
 			}

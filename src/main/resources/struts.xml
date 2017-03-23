@@ -47,6 +47,9 @@
 			<result name="success" type="json">
 				<param name="root">result</param>
 			</result>
+			<result name="ok" type="json">
+				<param name="root">results</param>
+			</result>
 		</action>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">
@@ -136,6 +139,9 @@
 			</result>
 		</action>
 	  <action name="show" class="jh.studio.ctl.PhotoAction" method="showPhoto">
+			<result type="json" name="success">
+				<param name="root">collectionPhotos</param>
+			</result>
 			<result type="json" name="success">
 				<param name="root">collectionPhotos</param>
 			</result>

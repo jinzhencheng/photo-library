@@ -39,7 +39,7 @@ public class PhotoAction extends ActionSupport {
 	private String uploadContentType;
 	private String savePath;
 	private String tags;
-	// private List<String> tags;
+// private List<String> tags;
 	private int page;
 	private int rows;
 	private int photo_id;
