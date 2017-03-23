@@ -13,7 +13,7 @@ import jh.studio.entity.PhotoResult;
 public class PhotoResultDal extends BaseDal<PhotoResult> {
 	public List<PhotoResult> getAll(Pagination page) {
 		String sql = "SELECT p.id, p.name,p.the_date,p.the_minpath,p.year,p.month,GROUP_CONCAT(t.`name`) FROM photo p, photo_agent pa, tag t"
-               +" WHERE p.id = pa.`photo_id` AND pa.tag_id=t.id GROUP BY p.id";
+               +" WHERE p.id = pa.`photo_id` AND pa.tag_id=t.id GROUP BY p.id desc";
 		Query query = super.session.createNativeQuery(sql);
 		List<PhotoResult> pr = new ArrayList<PhotoResult>();
 		List list = super.toList(query, page);

@@ -11,7 +11,7 @@
 			<result name="error" type="redirect">/login.jsp</result>
 		</action>
 		<action name="upload" class="jh.studio.ctl.PhotoAction">
-			<param name="savePath">upload</param>
+			<param name="savePath">/upload</param>
 			<result name="success">/index.html</result>
 		</action>
 		<action name="deletePhoto" class="jh.studio.ctl.PhotoAction">
@@ -100,6 +100,10 @@
 				<param name="root">photos</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+				<result type="json" name="success">
+				<param name="root">results</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 		
 		<action name="tagRecord" class="jh.studio.ctl.TagRecordAction">
@@ -132,9 +136,9 @@
 				<param name="root">infoMap</param>
 			</result>
 		</action>
-	  <action name="show" class="jh.studio.ctl.PhotoAction">
+	  <action name="show" class="jh.studio.ctl.PhotoAction" method="showPhoto">
 			<result type="json" name="success">
-				<param name="root">results</param>
+				<param name="root">collectionPhotos</param>
 			</result>
 			<result type="json" name="success">
 				<param name="root">collectionPhotos</param>

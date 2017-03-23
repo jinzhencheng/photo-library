@@ -10,7 +10,7 @@
 		});	
 		$("#addphoto").click(function() {
 			var tags=$fetchTag();
-			$buildCheckboxOne(tags,"cgTagDiv");
+			$buildCheckboxOne(tags);
 			$("#addPWin").window("open");
 		});
 
@@ -42,24 +42,31 @@
 			if(row==null){
 				return;
 			}
-			$.ajax({
-				url:'deletePhoto!delPhoto.action',
-				data:{"photo_id":row.id},
-				success:function(data){
-					$(".easyui-datagrid").datagrid("reload");
-				},
-				error:function(){
-					$.messager.alert("错误","操作失败","error");
-				}
-			});
+			$.messager.confirm('确认','您确认想要删除记录吗？',function(r){    // confirm
+			    if (r){  
+			    	$.ajax({
+						url:'deletePhoto!delPhoto.action',
+						data:{"photo_id":row.id},
+						success:function(data){
+							$(".easyui-datagrid").datagrid("reload");
+						},
+						error:function(){
+							$.messager.alert("错误","操作失败","error");
+						}
+					});
+			           
+			    }    
+			});  
 		});
 		$("#uploadFile").click(function(){
 			var tagAry=new Array();
-			$("input[name='tag']:checked").each(function(index,item){
-				tagAry.push(item.value);
-			}); 
+			$("input[name='tag']:checked").each(function(index,value){
+				tagAry.push($(this).val());
+			});
+			if(tagAry.length==0){
+				$.messager.alert("警告","未选择类型","warning");
+			}
 			var tagIds=tagAry.join("-");
-			console.log(tagIds);
 			var upload=$("#upload").val();
 			
 			$("#importFileForm").form("submit",{
@@ -68,9 +75,10 @@
 					param.tags=tagIds;	
 				},
 				success:function(){
-					$.messager.alert("提示","操作成功","info");	
+					
 					$("#addPWin").window("close");
 					$(".easyui-datagrid").datagrid("reload");
+					
 				}
 			});
 		});
@@ -81,13 +89,23 @@
 			}
 			$("#photoid").val(row.id);
 			var tags=$fetchTag();
-			$buildCheckboxOne(tags,"edt");	
+			$buildCheckboxOneChange(tags);	
 			$("#edtPWin").window("open");
 		});	
+		var $buildCheckboxOne=function(data){
+			if(!data){return;}
+			var ary=new Array();
+			$.each(data,function(index,item){
+				var cks="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				ary.push(cks);
+			})
+			var html=ary.join("");
+			$("#cgTagDiv").html(html);
+		}
 		$("#updateptag").click(function(){
 			var tagAry=new Array();
-			$("input[name='tag']:checked").each(function(index,item){
-				tagAry.push(item.value);
+			$("input[name='tag']:checked").each(function(index,value){
+				tagAry.push($(this).val());
 			}); 
 			var tagIds=tagAry.join("-");
 			var photo_id=$("#photoid").val();
@@ -99,37 +117,65 @@
 					param.photo_id=photo_id;
 				},
 				success:function(){
-					$.messager.alert("提示","操作成功","info");	
+					
 					$("#edtPWin").window("close");
-					$("#photoid").val(" ");
-					$("input[name='tag']").remove();
 					$(".easyui-datagrid").datagrid("reload");
+					
 				}
 			});
 		});
-		var $buildCheckboxOne=function(data,the_id){
+		var $buildCheckboxOneChange=function(data){
 			if(!data){return;}
 			var ary=new Array();
 			$.each(data,function(index,item){
-				var cks="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'/>"+item.name;
-				ary.push(cks);
+				var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				ary.push(ck);
 			})
 			var html=ary.join("");
-			$("#"+the_id).html(html);
+			$("#edt").html(html);
 		}
 
 	});
+	function imgFormatter(value,row,index){
+		 if('' != value && null != value){
+		var strs = new Array(); //定义一数组 
+		if(value.substr(value.length-1,1)==","){
+			value=value.substr(0,value.length-1)
+		}
+			strs = value.split(","); //字符分割 
+	  var rvalue ="";		   
+		for (i=0;i<strs.length ;i++ ){ 
+			console.log(strs[i]);
+			rvalue += "<img onclick=download(\""+strs[i]+"\") style='width:66px; height:60px;margin-left:3px;' src='http://localhost:8080/photo-library" + strs[i] + "' title='点击查看图片'/>";
+			} 
+	    return  rvalue; 	 
+		 }
+		}
+	function download(img){
+		var simg = "http://localhost:8080/photo-library"+ img;
+		$('#dlg').dialog({
+		    title: '预览',
+		    width: 150,
+		    height:100,
+		    resizable:true,
+		    closed: false,
+		    cache: false,
+		    modal: true
+		});
+		$("#simg").attr("src",simg);
+		
+	}	
 </script>
 <table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
 	style="width: 100%; min-height: 300px;"
-	data-options="rownumbers:true,singleSelect:true,url:'show!showPhoto.action',toolbar:'#tbar',pagination:true,loadMsg:'加载中...'">
+	data-options="rownumbers:true,singleSelect:true,url:'photo!showPhoto.action',toolbar:'#tbar',pagination:true,loadMsg:'加载中...'">
 	<thead>
 		<tr>
 			<th data-options="field:'cks',checkbox:true"></th>
 			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'name',width:200">文件名</th>
 			<th data-options="field:'date',width:200">日期</th>
-			<th data-options="field:'minpath',width:100">保存路径</th>
+			<th data-options="field:'minpath',width:300,formatter:imgFormatter">图片预览</th>
 			<th data-options="field:'tagName',width:500">标签名</th>
 			<th data-options="field:'year',width:500">年</th>
 			<th data-options="field:'month',width:500">月</th>
@@ -158,7 +204,7 @@
             <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" data-bind="click:closeImportClick" href="javascript:void(0)">关闭</a>
         </div>
         <div id="cgTagDiv"></div>
-		</form>
+    </form>
     </div>
     <div id="edtPWin" style="padding: 10px;" class="easyui-window"
 		title="编辑图片标签"
@@ -171,6 +217,9 @@
 			<a id="updateptag" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
 		</div>
 		</form>
-	</div>
+		<div id="dlg">
+		<img id="simg"/>
+		</div>
+</div>
 </div>
 

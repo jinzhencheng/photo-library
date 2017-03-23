@@ -157,8 +157,17 @@ public class PhotoAction extends ActionSupport {
 		this.photos = pDal.getPicture(Pagination.NULL, year, month);
 		pDal.dispose();
 		return "picture";
+    
+	public String getBigPicture() {
+		PhotoDal pDal = new PhotoDal();
+		this.photos = pDal.getBigPicture(Pagination.NULL, minPath);
+		return "bigPicture";
 	}
 
+	public void setResults(Map<String, Object> results) {
+		this.results = results;
+	}
+	
 	public String getTags() {
 		return tags;
 	}
@@ -216,7 +225,7 @@ public class PhotoAction extends ActionSupport {
 	}
 
 	public String getSavePath() {
-		return ServletActionContext.getServletContext().getRealPath("/WEB-INF/" + savePath);
+		return ServletActionContext.getServletContext().getRealPath(savePath);
 	}
 
 	public void setSavePath(String savePath) {
@@ -226,6 +235,42 @@ public class PhotoAction extends ActionSupport {
 		return photos;
 	}
 
+	public String execute() throws IOException {
+		Photo photo = new Photo();
+		String timeName = System.currentTimeMillis() + uploadFileName;
+		Date date = new Date();
+		String[] yearMonth = DateToString.getResult(date);
+		photo.setName(timeName);
+		photo.setTheDate(date);
+		photo.setYear(yearMonth[0]);
+		photo.setMonth(yearMonth[1]);
+		photo.setPath(savePath + "/" + photo.getName());
+		photo.setMinpath(savePath + "/m" + photo.getName());
+		PhotoDal phoDal = new PhotoDal();
+		phoDal.savePhoto(photo);
+		phoDal.dispose();
+		List<PhotoAgent> photoAgents = new ArrayList<PhotoAgent>();
+		String[] tg = tags.split("-");
+		for (String tagid : tg) {
+			PhotoAgent pa = new PhotoAgent();
+			pa.setPhotoId(photo.getId());
+			pa.setTagId(Integer.parseInt(tagid));
+			photoAgents.add(pa);
+
+		}
+		PhotoAgentDal paDal = new PhotoAgentDal();
+		paDal.batchAdd(photoAgents);
+		paDal.dispose();
+		  String filePath = getSavePath(); 
+	      File myFilePath = new File(filePath); 
+	      if (!myFilePath.exists()) { 
+	        myFilePath.mkdir(); 
+	      } 
+		File goalFile = new File(getSavePath(),timeName);
+		File minFile = new File(getSavePath(),"m" + timeName);
+		FileUtils.copyFile(upload, goalFile);
+		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+    
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
