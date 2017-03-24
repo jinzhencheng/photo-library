@@ -47,6 +47,9 @@
 			<result name="success" type="json">
 				<param name="root">result</param>
 			</result>
+			<result name="ok" type="json">
+				<param name="root">results</param>
+			</result>
 		</action>
 		<action name="user" class="jh.studio.ctl.UserAction">
 			<result name="success" type="json">

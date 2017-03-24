@@ -34,7 +34,7 @@ $(function(){
 			});		
 		}
 
-		$("#subBtn").click(function(){
+		$("#sb").click(function(){
 			var id=$("#statement_id").val();
 			var content=encodeURI($("#statement_content").val());
 			var flag="2";
@@ -47,5 +47,5 @@ $(function(){
 		<input  id="statement_flag" type="hidden" name="setting.flag"/>
 		<input class="easyui-textbox" type="text" id="statement_content" name="setting.content" data-options="required:true,multiline:true" 
 		style="width:600px;height:150px"/><br/><br/>
-		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="subBtn">提交</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="sb">提交</a>
 	</div>

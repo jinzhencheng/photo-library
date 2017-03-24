@@ -1,0 +1,36 @@
+
+<meta charset="UTF-8">
+<script type="text/javascript">
+var content=null;
+function operate_formatter(value, row, index) {
+	content=row.content;
+    return "<a href='javascript:detail()' class='easyui-linkbutton'>查看详情</a>";
+}
+	function detail(){
+		 $("#content").text(content);
+		 $("#lookWin").window("open");
+	 }
+</script>
+
+<table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
+	style="width: 100%; min-height: 300px;"
+	data-options="rownumbers:true,singleSelect:true,url:'opinion!show.action',pagination:true,loadMsg:'加载中...'">
+	<thead>
+		<tr>
+			<th data-options="field:'cks',checkbox:true"></th>
+			<th data-options="field:'id',width:200">文件ID
+			<th data-options="field:'theDate',width:200">日期</th>
+		    <th data-options="field:'content',width:'15%',align:'center',formatter:operate_formatter">操作</th>
+		</tr>
+	</thead>
+</table>
+<div id="lookWin" style="padding: 10px;" class="easyui-window"
+		title="查看反馈"
+		data-options="iconCls:'icon-edit',width:350,minimizable:false,
+		closed:true,maximizable:false,collapsible:false,modal:true">
+		<div id="content"></div>		
+</div>
+
+
+
+
