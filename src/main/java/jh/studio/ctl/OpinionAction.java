@@ -7,9 +7,7 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import jh.studio.condition.OpinionCond;
 import jh.studio.dal.OpinionDal;
-import jh.studio.entity.Condition;
 import jh.studio.entity.Opinion;
 import jh.studio.entity.Pagination;
 
@@ -19,19 +17,11 @@ public class OpinionAction extends ActionSupport{
 
 	private String content;
 	private String result;
-	private Opinion opinion=new Opinion();
 	private int page;
 	private int rows;
 	private Map<String, Object> results = new HashMap<String, Object>();
 	
 	
-
-	public Opinion getOpinion() {
-		return opinion;
-	}
-	public void setOpinion(Opinion opinion) {
-		this.opinion = opinion;
-	}
 	public Map<String, Object> getResults() {
 		return results;
 	}
@@ -61,19 +51,18 @@ public class OpinionAction extends ActionSupport{
 		result="finished";
 		return SUCCESS;
 	}
-    public String find(){
-    		Condition condition=new OpinionCond(opinion.getContent());
-        	Pagination pager = new Pagination();
-    		pager.setPage(page);
-    		pager.setRows(rows);
-    		OpinionDal dal=new OpinionDal();
-        	List<Opinion> result=dal.search(condition, pager);
-        	dal.dispose();
-    		int total = pager.getTotal();
-    		results.put("rows", result);
-    		results.put("total", total);
-    		return "ok";
+    public String show(){
     	
+    	Pagination pager = new Pagination();
+		pager.setPage(page);
+		pager.setRows(rows);
+		OpinionDal dal=new OpinionDal();
+    	List<Opinion> result=dal.getAll(pager);
+    	dal.dispose();
+		int total = pager.getTotal();
+		results.put("rows", result);
+		results.put("total", total);
+		return "ok";
     	
     }
 	public void setContent(String content) {

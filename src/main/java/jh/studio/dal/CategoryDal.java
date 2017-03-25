@@ -139,12 +139,4 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 		List<Category> list=query.getResultList();
 		return list;
 	}
-	
-	public List<Category> getCategoryList(Integer categoryId)
-	{
-		String sql = "select * from category where isValid=1 and parent_id="+categoryId;
-		Query<Category> query=super.session.createNativeQuery(sql, Category.class);
-		List<Category> list=query.getResultList();
-		return list;
-	}
 }

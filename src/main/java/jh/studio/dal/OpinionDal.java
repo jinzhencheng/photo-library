@@ -5,12 +5,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
 
-import jh.studio.entity.Condition;
 import jh.studio.entity.Opinion;
 import jh.studio.entity.Pagination;
-import jh.studio.inter.IDal;
 
-public class OpinionDal extends BaseDal<Opinion> implements IDal<Opinion>{
+public class OpinionDal extends BaseDal<Opinion>{
 
 	private Logger logger=null;
 
@@ -31,35 +29,5 @@ public class OpinionDal extends BaseDal<Opinion> implements IDal<Opinion>{
 		Query<Opinion> query=session.createNativeQuery(sql,Opinion.class);
 		List<Opinion> list = super.toList(query, page);
 		return list;
-	}
-	@Override
-	public List<Opinion> search(Condition condition, Pagination page) {
-		String sql="select * from opinion";
-		if(null != condition && null!=condition.getName()){
-			sql+=" where content like '%"+condition.getName()+"%'";
-		}
-		sql+=" order by the_date desc";
-		Query<Opinion> query=super.session.createNativeQuery(sql, Opinion.class);
-		List<Opinion> list=super.toList(query, page);
-		return list;
-		
-	}
-
-	@Override
-	public void saveOrUpdate(Opinion entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Opinion entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Opinion entity) {
-		// TODO Auto-generated method stub
-		
 	}
 }

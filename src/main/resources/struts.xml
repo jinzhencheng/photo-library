@@ -6,6 +6,9 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
+		<action name="theCollection" class="jh.studio.ctl.CollectionAction">
+			<result name="listByCollect">/page/collection.jsp</result>
+		</action>
 		<action name="admin" class="jh.studio.ctl.AdminAction">
 			<result name="success" type="redirect">/page/layout.html</result>
 			<result name="error" type="redirect">/login.jsp</result>
@@ -27,10 +30,6 @@
 	<package name="ajax-nav" namespace="/" extends="json-default">
 		<action name="collection" class="jh.studio.ctl.CollectionAction">
 			<result type="json" name="insert">
-				<param name="excludeNullProperties">true</param>
-			</result>
-			<result type="json" name="listByCollect">
-				<param name="root">list</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
 			<result type="json" name="del">

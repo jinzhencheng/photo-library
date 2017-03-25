@@ -7,19 +7,15 @@ import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
 
 import jh.studio.entity.Collection;
-import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
-import jh.studio.entity.PhotoResult;
-import jh.studio.inter.IDal;
 
-public class CollectionDal extends BaseDal<Collection> implements IDal<Collection>{
+public class CollectionDal extends BaseDal<Collection> {
 	private Logger logger=null;
 	public CollectionDal(){
 		logger=Logger.getLogger(CategoryDal.class);
 	}
 	
-	@Override
 	public void add(Collection entity) {
 		if(entity==null){
 			logger.error("添加对象为空");
@@ -28,32 +24,21 @@ public class CollectionDal extends BaseDal<Collection> implements IDal<Collectio
 		super.session.save(entity);
 		super.transaction.commit();
 	}
-	@Override
-	public void update(Collection entity) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void delete(Collection entity) {
-		
-	}
-	@Override
-	public List<Collection> getAll(Pagination page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Collection> search(Condition condition, Pagination page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void saveOrUpdate(Collection entity) {
-		// TODO Auto-generated method stub
-		
-	}
-	public List<Photo> list(Integer userId,Pagination page)
-	{
+
+	public void batchDel(String ids[],int userId){
+		String sql="delete from collection where user_id="+userId+" and photo_id in (";
+		for(int i=0;i<ids.length;++i){
+			sql+=ids[i];
+			if(i!=ids.length-1){
+				sql+=",";
+			}
+		}
+		sql+=")";
+		super.session.createNativeQuery(sql).executeUpdate();
+		super.transaction.commit();
+	}	
+
+	public List<Photo> list(Integer userId,Pagination page){
 		String sql = "SELECT p.id,p.name,p.the_path,p.the_minpath,p.year,p.month"
 				+ " FROM photo p, collection c"
 	               +" WHERE p.id = c.photo_id and c.user_id="+userId;

@@ -6,7 +6,12 @@ public class Pagination {
 	private int page;
 	private int total;
 	private int rows=10;
+	private int pageCount;
 	
+	public int getPageCount(){
+		this.pageCount=(total-1)/rows+1;
+		return pageCount;
+	}
 	public int getTotal() {
 		return total;
 	}

@@ -94,14 +94,6 @@ public class CategoryAction extends ActionSupport{
 			dal.dispose();
 		}
 	}
-	
-	public String getCategoryByParentId()
-	{
-		CategoryDal dal=new CategoryDal();
-		this.categories = dal.getCategoryList(categoryId);
-		return "categoryListByParentId";
-	}
-	
 	public void save(){
 		CategoryDal dal=new CategoryDal();
 		Category t = dal.getOne(categoryId);
