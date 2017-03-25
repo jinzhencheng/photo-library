@@ -168,7 +168,7 @@ public class CategoryAction extends ActionSupport{
 				category.setName(categoryName);
 				category.setSequence(categorySequence);
 				category.setIsValid(1);//有效
-				if(!categoryParentId.equals("未选择"))
+				if(!categoryParentId.equals("-1"))
 				{
 					category.setParentId(Integer.parseInt(categoryParentId));
 				}
