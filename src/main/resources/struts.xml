@@ -173,6 +173,10 @@
 				<param name="root">categories</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="categoryListByParentId">
+				<param name="root">categories</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 		</action>
 	</package>
 </struts> 
