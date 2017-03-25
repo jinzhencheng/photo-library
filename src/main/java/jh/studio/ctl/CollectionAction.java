@@ -3,6 +3,10 @@ package jh.studio.ctl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.dal.CollectionDal;
@@ -18,8 +22,10 @@ public class CollectionAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer photoId;
-	private Integer userId;
-	public List<Photo> list;
+	private Integer userId=1;
+	private List<Photo> list=null;
+	private String photoIds;
+	private int pageIndex=1;
 	
 	public String insertCollect()
 	{
@@ -35,10 +41,15 @@ public class CollectionAction extends ActionSupport{
 	
 	public String listByCollect()
 	{
+		Pagination page=new Pagination();
+		page.setPage(pageIndex);
 		CollectionDal cDal = new CollectionDal();
-		this.list = cDal.list(userId, Pagination.NULL);
+		this.list = cDal.list(userId,page);
 		cDal.dispose();
-		return "list";
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setAttribute("list", list);
+		request.setAttribute("page", page);
+		return "listByCollect";
 	}
 	
 	public String delCollect()
@@ -47,6 +58,13 @@ public class CollectionAction extends ActionSupport{
 		cDal.delCollection(photoId, userId);
 		cDal.dispose();
 		return "del";
+	}
+	public String delCollectList(){
+		String[] photoIdArray=photoIds.split("-");
+		CollectionDal dal=new CollectionDal();
+		dal.batchDel(photoIdArray,userId);
+		dal.dispose();
+		return listByCollect();
 	}
 	public Integer getPhotoId() {
 		return photoId;
@@ -60,5 +78,13 @@ public class CollectionAction extends ActionSupport{
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
+	public List<Photo> getList(){
+		return list;
+	}
+	public void setPhotoIds(String photoIds){
+		this.photoIds=photoIds;
+	}
+	public void setPageIndex(int pageIndex){
+		this.pageIndex=pageIndex;
+	}
 }

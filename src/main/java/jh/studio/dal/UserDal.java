@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Tag;
 import jh.studio.entity.User;
-
 public class UserDal extends BaseDal<User> {
 	public List<User> getAll(Pagination page) {
 

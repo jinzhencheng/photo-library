@@ -1,31 +1,31 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 var dataList=[];
-
 function operate_formatter(value, row, index) {
 	var map={"rowId":row.id, "content":value}
 	dataList.push(map)
     return value.substr(0,20)+"<a href='javascript:detail("+row.id+");' class='easyui-linkbutton'>查看详情</a>";
 }
-	function detail(rowId){
-		var value=$searcher(rowId);
-		 $("#content").text(value);
-		 $("#lookWin").window("open");
-	 }
-	var $searcher=function(rowId){
-		var theValue=null;
-		$.each(dataList,function(index,item){
-			console.log(item);
-			if(item.rowId==rowId){
-				theValue=item.content;	
-				return false;
-			}	
-		});	
-		return theValue;
-	}
-	$("#Osearch").click(function(){
-		$(".easyui-datagrid").datagrid("load",{"opinion.content":$("#search").val()});
-	})
+function detail(rowId){
+	var value=$searcher(rowId);
+	 $("#content").text(value);
+	 $("#lookWin").window("open");
+ }
+		var $searcher=function(rowId){
+			var theValue=null;
+			$.each(dataList,function(index,item){
+				console.log(item);
+				if(item.rowId==rowId){
+					theValue=item.content;	
+					return false;
+				}	
+			});	
+			return theValue;
+		}
+		$("#Osearch").click(function(){
+			$(".easyui-datagrid").datagrid("load",{"opinion.content":$("#search").val()});
+		})
+
 </script>
 
 <table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
@@ -36,15 +36,16 @@ function operate_formatter(value, row, index) {
 			<th data-options="field:'cks',checkbox:true"></th>
 			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'theDate',width:200">日期</th>
-		    <th data-options="field:'content',width:400,align:'center',formatter:operate_formatter">操作</th>
+			<th
+				data-options="field:'content',width:400,align:'center',formatter:operate_formatter">操作</th>
 		</tr>
 	</thead>
 </table>
 <div id="lookWin" style="padding: 10px;" class="easyui-window"
-		title="查看反馈"
-		data-options="iconCls:'icon-edit',width:350,minimizable:false,
+	title="查看反馈"
+	data-options="iconCls:'icon-edit',width:350,minimizable:false,
 		closed:true,maximizable:false,collapsible:false,modal:true">
-		<div id="content"></div>		
+	<div id="content"></div>
 </div>
 <div id="bar" style="padding: 5px;">
 	<input class="easyui-textbox" id="search" /> <a id="Osearch" href="#"

@@ -14,11 +14,13 @@ import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import jh.studio.condition.PhotoCond;
 import jh.studio.dal.PhotoAgentDal;
 import jh.studio.dal.PhotoDal;
 import jh.studio.dal.PhotoResultDal;
 import jh.studio.dal.TagDal;
 import jh.studio.dal.UserDal;
+import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
 import jh.studio.entity.PhotoAgent;
@@ -39,7 +41,7 @@ public class PhotoAction extends ActionSupport {
 	private String uploadContentType;
 	private String savePath;
 	private String tags;
-// private List<String> tags;
+	private String pname;
 	private int page;
 	private int rows;
 	private int photo_id;
@@ -50,6 +52,24 @@ public class PhotoAction extends ActionSupport {
 	private String month;
 	private String minPath;
 	private List<String> result = new ArrayList<String>();
+	private Photo photo = new Photo();
+	
+
+	public Photo getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Photo photo) {
+		this.photo = photo;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
 
 	public Map<String, Object> getResults() {
 		return results;
@@ -196,16 +216,16 @@ public class PhotoAction extends ActionSupport {
 	}
 
 	public String execute() throws IOException {
-		Photo photo = new Photo();
+		Photo photo=new Photo();
 		String timeName = System.currentTimeMillis() + uploadFileName;
 		Date date = new Date();
 		String[] yearMonth = DateToString.getResult(date);
-		photo.setName(timeName);
+		photo.setName(pname);
 		photo.setTheDate(date);
 		photo.setYear(yearMonth[0]);
 		photo.setMonth(yearMonth[1]);
-		photo.setPath(savePath + "/" + photo.getName());
-		photo.setMinpath(savePath + "/m" + photo.getName());
+		photo.setPath(savePath + "/" +timeName);
+		photo.setMinpath(savePath + "/m" +timeName);
 		PhotoDal phoDal = new PhotoDal();
 		phoDal.savePhoto(photo);
 		phoDal.dispose();
@@ -236,12 +256,14 @@ public class PhotoAction extends ActionSupport {
 	}
 
 	public String showPhoto() {
+		System.out.println(photo.getName());
+		Condition condition=new PhotoCond(photo.getName());
 		Pagination pager = new Pagination();
 		pager.setPage(page);
 		pager.setRows(rows);
 
 		PhotoResultDal dal = new PhotoResultDal();
-		photore = dal.getAll(pager);
+		photore = dal.search(condition, pager);
 		dal.dispose();
 		int total = pager.getTotal();
 		results.put("rows", photore);
