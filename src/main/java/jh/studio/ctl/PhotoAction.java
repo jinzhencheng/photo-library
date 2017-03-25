@@ -10,21 +10,16 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
-import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.dal.PhotoAgentDal;
 import jh.studio.dal.PhotoDal;
 import jh.studio.dal.PhotoResultDal;
-import jh.studio.dal.TagDal;
-import jh.studio.dal.UserDal;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
 import jh.studio.entity.PhotoAgent;
 import jh.studio.entity.PhotoResult;
-import jh.studio.entity.Tag;
-import jh.studio.entity.User;
 import jh.studio.util.DateToString;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -106,18 +101,21 @@ public class PhotoAction extends ActionSupport {
 	public String getYear() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getYear(Pagination.NULL);
+		pDal.dispose();
 		return "allYear";
 	}
 
 	public String getMonth() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getMonth(Pagination.NULL, year);
+		pDal.dispose();
 		return "month";
 	}
 
 	public String getPicture() {
 		PhotoDal pDal = new PhotoDal();
 		this.photos = pDal.getPicture(Pagination.NULL, year, month);
+		pDal.dispose();
 		return "picture";
 	}
 
