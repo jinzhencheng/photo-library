@@ -1,26 +1,42 @@
-
 <meta charset="UTF-8">
 <script type="text/javascript">
-var content=null;
+var dataList=[];
+
 function operate_formatter(value, row, index) {
-	content=row.content;
-    return "<a href='javascript:detail()' class='easyui-linkbutton'>查看详情</a>";
+	var map={"rowId":row.id, "content":value}
+	dataList.push(map)
+    return value.substr(0,20)+"<a href='javascript:detail("+row.id+");' class='easyui-linkbutton'>查看详情</a>";
 }
-	function detail(){
-		 $("#content").text(content);
+	function detail(rowId){
+		var value=$searcher(rowId);
+		 $("#content").text(value);
 		 $("#lookWin").window("open");
 	 }
+	var $searcher=function(rowId){
+		var theValue=null;
+		$.each(dataList,function(index,item){
+			console.log(item);
+			if(item.rowId==rowId){
+				theValue=item.content;	
+				return false;
+			}	
+		});	
+		return theValue;
+	}
+	$("#Osearch").click(function(){
+		$(".easyui-datagrid").datagrid("load",{"opinion.content":$("#search").val()});
+	})
 </script>
 
 <table class="easyui-datagrid" title="标签列表" idFiled="id" hideColumn='id'
 	style="width: 100%; min-height: 300px;"
-	data-options="rownumbers:true,singleSelect:true,url:'opinion!show.action',pagination:true,loadMsg:'加载中...'">
+	data-options="rownumbers:true,singleSelect:true,url:'opinion!find.action',toolbar:'#bar',pagination:true,loadMsg:'加载中...'">
 	<thead>
 		<tr>
 			<th data-options="field:'cks',checkbox:true"></th>
 			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'theDate',width:200">日期</th>
-		    <th data-options="field:'content',width:'15%',align:'center',formatter:operate_formatter">操作</th>
+		    <th data-options="field:'content',width:400,align:'center',formatter:operate_formatter">操作</th>
 		</tr>
 	</thead>
 </table>
@@ -30,7 +46,8 @@ function operate_formatter(value, row, index) {
 		closed:true,maximizable:false,collapsible:false,modal:true">
 		<div id="content"></div>		
 </div>
-
-
-
-
+<div id="bar" style="padding: 5px;">
+	<input class="easyui-textbox" id="search" /> <a id="Osearch" href="#"
+		class="easyui-linkbutton"
+		data-options="iconCls:'icon-search',plain:true">查询</a>
+</div>
