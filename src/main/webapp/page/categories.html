@@ -194,21 +194,27 @@
 					}
 				});
 			});
-			
+		 
 			$("#cgDelTag").click(function(){
 				var row=$checkSelected();
 				if(row==null){
 					return;
 				}
-				$.ajax({
-					url:'category!delCategory.action',
-					data:{"categoryId":row.id},
-					success:function(data){
-						$(".easyui-datagrid").datagrid("reload");
-						$("#cgEditWin").window("close");
-					},
-					error:function(){
-						$.messager.alert("错误","操作失败","error");
+				$.messager.confirm('确认','您确认想要删除记录吗？',function(r){
+					if(r)
+					{
+						
+						$.ajax({
+							url:'category!delCategory.action',
+							data:{"categoryId":row.id},
+							success:function(data){
+								$(".easyui-datagrid").datagrid("reload");
+								$("#cgEditWin").window("close");
+							},
+							error:function(){
+								$.messager.alert("错误","操作失败","error");
+							}
+						});
 					}
 				});
 			});
@@ -241,7 +247,7 @@
 		<div id="cgEditWin" style="padding:10px;"  class="easyui-window" title="编辑类别" 
 		data-options="iconCls:'icon-edit',width:350,minimizable:false,
 		closed:true,maximizable:false,collapsible:false,modal:true,footer:'#cgEditFooter'">
-			<form id="cgEditForm" method="post">
+			<form id="cgEditForm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="category.id" id="categoryId"/>
 				名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input class="easyui-textbox" type="text" name="category.name" id="categoryName" data-options="required:true"/><br/>
 				编码顺序：<input class="easyui-textbox" type="text" name="category.sequence" id="categorySequence" data-options="required:true"/><br/>
@@ -249,6 +255,7 @@
 				一级类别：<!-- <div id="categoryOneLevel"></div> --><input id="cgSelectOneLevel" name="cgSelectOneLevel" value="未选择" style="width:180px;"><br/>
 				标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;签：
 				<div id="cgTagDiv"></div>
+				缩略图上传：<input type="file"  id="uploadMin" name="uploadMin" >
 			</form>
 		</div>
 		<div id="cgEditFooter" style="text-align:right;">

@@ -161,18 +161,26 @@
 				if(row==null){
 					return;
 				}
-				$.ajax({
-					url:'tag!delTag.action',
-					data:{"tagId":row.id},
-					success:function(data){
-						$(".easyui-datagrid").datagrid("reload");
-						$("#editWin").window("close");
-					},
-					error:function(){
-						$.messager.alert("错误","操作失败","error");
+				$.messager.confirm('确认','您确认想要删除记录吗？',function(r){
+					if(r)
+					{
+						$.ajax({
+							url:'tag!delTag.action',
+							data:{"tagId":row.id},
+							success:function(data){
+								$(".easyui-datagrid").datagrid("reload");
+								$("#editWin").window("close");
+							},
+							error:function(){
+								$.messager.alert("错误","操作失败","error");
+							}
+						});
 					}
 				});
+				
 			});
+			
+			
 		});
 		
 		
