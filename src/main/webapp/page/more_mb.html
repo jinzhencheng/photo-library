@@ -146,10 +146,8 @@
 				url:"setInfo!findBoth.action",
 				type:"JSON",
 				success:function(data){
-					console.log(data.about);
-					console.log(data.statement);
-					$("#about-content").text(data.about);	
-					$("#statement-content").text(data.statement);	
+					$("#about-content").html(data.about);	
+					$("#statement-content").html(data.statement);	
 				},
 				error:function(){
 					$.alert('数据加载时出错');
@@ -168,7 +166,7 @@
 						}
 					},
 					error:function(){
-							$.alert("提交失败，请重试");	
+						$.alert("提交失败，请重试");	
 					}	
 				});
 			});

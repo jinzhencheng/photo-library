@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import="jh.studio.entity.Admin" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta charset="UTF-8">
 	<title>SunCool后台管理</title>
 	<style>
 		#the-north{height:80px;background:#003366;color:white;padding-left:20px;line-height:70px;font-size:35px;font-family:'华文行楷'}
@@ -9,16 +11,18 @@
 	</style>
 	<link rel="stylesheet" type="text/css" href="../css/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../css/icon.css">
-	<link  rel="stylesheet" href="../css/simditor.css"/>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/module.min.js"></script>
-	<script type="text/javascript" src="../js/hotkeys.min.js"></script>
-	<script type="text/javascript" src="../js/uploader.min.js"></script>
-	<script type="text/javascript" src="../js/simditor.min.js"></script>
 	<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="../js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			<%
+			if(session.getAttribute("admin")==null){
+			%>	
+			window.location.href="../login.jsp";
+			<%
+			}
+			%>
 			$("#search").click(function(){
 				console.log("====");
 			});

@@ -42,6 +42,7 @@ public class CategoryAction extends ActionSupport{
 	private String uploadMinFileName;
 	private String uploadMinContentType;
 	private String savePath;
+
 	public String fetchAll(){
 		CategoryDal dal=new CategoryDal();
 		this.categories=dal.getAll(Pagination.NULL);
@@ -235,6 +236,21 @@ public class CategoryAction extends ActionSupport{
 				logger.debug(e);
 			}
 		}
+	}
+	
+	public String fetchParentCategory(){
+		CategoryDal dal=new CategoryDal();
+		this.categories=dal.getOneLevelCategory(Pagination.NULL);
+		dal.dispose();
+		ServletActionContext.getRequest().setAttribute("categories", categories);
+		return "fetchParentCategory";
+	}
+	public String fetchCategoryByParent(){
+		CategoryDal dal=new CategoryDal();
+		this.categories = dal.getCategoryList(categoryId);
+		dal.dispose();
+		ServletActionContext.getRequest().setAttribute("categories", categories);
+		return "fetchCategoryByParent";
 	}
 
 	public int getPage() {

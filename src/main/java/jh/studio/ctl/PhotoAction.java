@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
@@ -17,15 +19,12 @@ import jh.studio.condition.PhotoCond;
 import jh.studio.dal.PhotoAgentDal;
 import jh.studio.dal.PhotoDal;
 import jh.studio.dal.PhotoResultDal;
-import jh.studio.dal.TagDal;
-import jh.studio.dal.UserDal;
 import jh.studio.entity.Condition;
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
 import jh.studio.entity.PhotoAgent;
 import jh.studio.entity.PhotoResult;
-import jh.studio.entity.Tag;
-import jh.studio.entity.User;
+import jh.studio.util.ConstantManager;
 import jh.studio.util.DateToString;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -52,7 +51,12 @@ public class PhotoAction extends ActionSupport {
 	private String minPath;
 	private List<String> result = new ArrayList<String>();
 	private Photo photo = new Photo();
+	private int categoryId;
 	
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
 
 	public Photo getPhoto() {
 		return photo;
@@ -307,4 +311,36 @@ public class PhotoAction extends ActionSupport {
 		return "ok";
 	}
 
+	public String fetchPhotoByCategory(){
+		Pagination pager=new Pagination();
+		pager.setPage(page);
+		pager.setRows(ConstantManager.DEFALT_PHOTO_SHOW_ITEM);
+		PhotoDal dal=new PhotoDal();
+		photos=dal.searchByCategory(categoryId, pager);
+		dal.dispose();
+		ServletRequest request=ServletActionContext.getRequest();
+		request.setAttribute("photos", photos);
+		request.setAttribute("pager", pager);
+		return "fetchPhotoByCategory";
+	}
+	public String fetchYearAndMonth(){
+		PhotoDal dal=new PhotoDal();
+		Map<String,List<String>> map=dal.fetchYearAndMonth();
+		dal.dispose();
+		ServletRequest request=ServletActionContext.getRequest();
+		request.setAttribute("map", map);
+		return "fetchYearAndMonth";
+	}
+	public String fetchPictureByDate() {
+		Pagination pager=new Pagination();
+		pager.setPage(page);
+		pager.setRows(ConstantManager.DEFALT_PHOTO_SHOW_ITEM);
+		PhotoDal pDal = new PhotoDal();
+		this.photos = pDal.getPicture(pager, year, month);
+		pDal.dispose();
+		ServletRequest request=ServletActionContext.getRequest();
+		request.setAttribute("photos",photos);
+		request.setAttribute("pager", pager);
+		return "fetchPictureByDate";
+	}
 }

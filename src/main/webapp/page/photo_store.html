@@ -22,9 +22,9 @@
 				async : false,
 				success:function(data){
 					tags=data;
-			
 				},
 				error:function(error){
+					console.log(error.responseText);
 					$.messager.alert('错误','数据初始化失败',"error");
 				}
 			});	
@@ -178,9 +178,9 @@
 			<th data-options="field:'date',width:200">日期</th>
 			<th data-options="field:'minpath',width:300,formatter:imgFormatter">图片预览</th>
 			<th data-options="field:'path',width:0,hidden:true">
-			<th data-options="field:'tagName',width:500">标签名</th>
-			<th data-options="field:'year',width:500,hidden:true">年</th>
-			<th data-options="field:'month',width:500,hidden:true">月</th>
+			<th data-options="field:'tagName',width:400">标签名</th>
+			<th data-options="field:'year',hidden:true">年</th>
+			<th data-options="field:'month',hidden:true">月</th>
 		</tr>
 	</thead>
 </table>

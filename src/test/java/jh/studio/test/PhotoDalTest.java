@@ -1,6 +1,7 @@
 package jh.studio.test;
 
 import java.util.List;
+import java.util.Map;
 
 import jh.studio.dal.PhotoDal;
 import jh.studio.entity.Pagination;
@@ -9,6 +10,11 @@ import junit.framework.TestCase;
 
 public class PhotoDalTest extends TestCase{
 	
+	public void testFetchYearAndMonth(){
+		PhotoDal dal=new PhotoDal();
+		Map<String,List<String>> map=dal.fetchYearAndMonth();
+		dal.dispose();
+	}
 	public void testGetYear()
 	{
 		PhotoDal pDal = new PhotoDal();

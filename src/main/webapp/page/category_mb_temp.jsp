@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="jh.studio.entity.Category" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,6 +12,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+	<style type="text/css">
+		.category-nav{color:orange;}
+		.time-year{width:100px;height:auto;}
+		.time-month{width:100px;height:auto;display:none;}
+		#show-info{font-size:12px;color:orange;}
+	</style>
+	
   </head>
   <body>
         <div class="page">
@@ -38,10 +49,40 @@
 
             <!-- 内容区 -->
             <div class="content">
-				<iframe src="theCategory!fetchParentCategory.action" frameborder="0" width="100%" height="100%"></iframe>
+				<div class="row no-gutter">
+					  <div class="col-25">
+					  	<div class="list-block" style="margin-top:0px;" id="category-nav-div">
+							<ul>
+							  <li class="item-content">
+								  <div class="item-title category-nav" link='thePhoto!fetchYearAndMonth.action'>时间轴</div>
+							  </li>
+							  <li class="item-content">
+								  <div class="item-title" link="category_tag_mb.html">热门标签</div>
+							  </li>
+							  <%
+							  	List<Category> list=(List<Category>)request.getAttribute("categories");
+							  	for(Category c:list){
+							  %>
+							  <li class="item-content">
+								  <div class="item-title" link="theCategory!fetchCategoryByParent.action?categoryId=<%=c.getId() %>"><%=c.getName() %></div>
+							  </li>
+							  <%
+							  	}
+							  %>
+							  </ul>
+						  </div>
+					  </div>
+					  <div class="col-75" id="category-content">
+					  	<div id="show-info">正在加载...</div>
+					  	<div id="show-content"></div>
+
+					  </div>
+					</div>
+                </div>
 			</div>
-		</div>
     <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+	<script type="text/javascript" src="../js/photo-library-pub.js"></script>
   </body>
 </html>
