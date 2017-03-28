@@ -11,7 +11,18 @@ public class PhotoResult {
 	private String tagName;
     private String year;
     private String month;
+    private String path;
     
+    
+    
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -33,11 +33,11 @@ public class PhotoResultDal extends BaseDal<PhotoResult> implements IDal<PhotoRe
 	public List<PhotoResult> search(Condition condition, Pagination page) {
 		String sql ="";
 		if(null != condition && null!=condition.getName()){
-			sql+="SELECT p.id, p.name,p.the_date,p.the_minpath,p.year,p.month,GROUP_CONCAT(t.`name`) FROM photo p, photo_agent pa, tag t"
+			sql+="SELECT p.id, p.name,p.the_date,p.the_minpath,p.year,p.month,GROUP_CONCAT(t.`name`),p.the_path FROM photo p, photo_agent pa, tag t"
 		               +" WHERE p.id = pa.`photo_id` AND pa.tag_id=t.id";
 			sql+=" and p.name like '%"+condition.getName()+"%' GROUP BY p.id desc";
 		}else{
-			sql="SELECT p.id, p.name,p.the_date,p.the_minpath,p.year,p.month,GROUP_CONCAT(t.`name`) FROM photo p, photo_agent pa, tag t"
+			sql="SELECT p.id, p.name,p.the_date,p.the_minpath,p.year,p.month,GROUP_CONCAT(t.`name`),p.the_path FROM photo p, photo_agent pa, tag t"
 		               +" WHERE p.id = pa.`photo_id` AND pa.tag_id=t.id GROUP BY p.id desc";
 		}
 			Query query = super.session.createNativeQuery(sql);
@@ -54,6 +54,7 @@ public class PhotoResultDal extends BaseDal<PhotoResult> implements IDal<PhotoRe
 					re.setYear(o[4].toString());
 					re.setMonth(o[5].toString());
 					re.setTagName(o[6].toString());
+					re.setPath(o[7].toString());
 					pr.add(re);
 				
 			}
