@@ -12,7 +12,7 @@ public class Category {
 	private Integer isValid;
 	private Set<CategoryAgent> tags;
 	private String parentName;
-
+	private String minPicture;
 	public Category(){}
 	public Category(int id,String name){
 		this.id=id;
@@ -66,6 +66,12 @@ public class Category {
 	}
 	public void setParentName(String parentName) {
 		this.parentName = parentName;
+	}
+	public String getMinPicture() {
+		return minPicture;
+	}
+	public void setMinPicture(String minPicture) {
+		this.minPicture = minPicture;
 	}
 	
 }

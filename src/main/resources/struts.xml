@@ -159,6 +159,7 @@
 		</action>
 
 		<action name="category" class="jh.studio.ctl.CategoryAction">
+			<param name="savePath">/upload</param>
 			<result type="json" name="fetchAll">
 				<param name="root">categories</param>
 				<param name="excludeNullProperties">true</param>
@@ -180,6 +181,7 @@
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
+		
 	</package>
 </struts> 
 
