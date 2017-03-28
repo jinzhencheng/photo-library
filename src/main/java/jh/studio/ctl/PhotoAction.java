@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
-import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -126,18 +125,21 @@ public class PhotoAction extends ActionSupport {
 	public String getYear() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getYear(Pagination.NULL);
+		pDal.dispose();
 		return "allYear";
 	}
 
 	public String getMonth() {
 		PhotoDal pDal = new PhotoDal();
 		this.result = pDal.getMonth(Pagination.NULL, year);
+		pDal.dispose();
 		return "month";
 	}
 
 	public String getPicture() {
 		PhotoDal pDal = new PhotoDal();
 		this.photos = pDal.getPicture(Pagination.NULL, year, month);
+		pDal.dispose();
 		return "picture";
 	}
 

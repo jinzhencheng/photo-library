@@ -22,6 +22,7 @@
 				async : false,
 				success:function(data){
 					tags=data;
+			
 				},
 				error:function(error){
 					$.messager.alert('错误','数据初始化失败',"error");
@@ -104,7 +105,7 @@
 				ary.push(cks);
 			})
 			var html=ary.join("");
-			$("#cgTagDiv").html(html);
+			$("#Tag").html(html);
 		}
 		$("#updateptag").click(function(){
 			var tagAry=new Array();
@@ -180,7 +181,6 @@
 	<thead>
 		<tr>
 			<th data-options="field:'cks',checkbox:true"></th>
-			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'name',width:200">文件名</th>
 			<th data-options="field:'date',width:200">日期</th>
 			<th data-options="field:'minpath',width:300,formatter:imgFormatter">图片预览</th>
@@ -212,7 +212,7 @@
             <a id="uploadFile" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" data-bind="click:importFileClick" href="javascript:void(0)">上传</a>
             <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" data-bind="click:closeImportClick" href="javascript:void(0)">关闭</a>
         </div>
-        <div id="cgTagDiv"></div>
+        <div id="Tag"></div>
     </form>
     </div>
     <div id="edtPWin" style="padding: 10px;" class="easyui-window"
