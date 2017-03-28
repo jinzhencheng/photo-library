@@ -22,6 +22,7 @@
 				async : false,
 				success:function(data){
 					tags=data;
+			
 				},
 				error:function(error){
 					$.messager.alert('错误','数据初始化失败',"error");
@@ -70,11 +71,11 @@
 			}else{
 				var tagIds=tagAry.join("-");
 				var upload=$("#upload").val();
-				
+			    var pName=$("#pName").val();	
 				$("#importFileForm").form("submit",{
 					url:"upload.action",
 					onSubmit:function(param){
-						param.tags=tagIds;	
+						param.tags=tagIds;
 					},
 					success:function(){
 						
@@ -104,7 +105,7 @@
 				ary.push(cks);
 			})
 			var html=ary.join("");
-			$("#cgTagDiv").html(html);
+			$("#Tag").html(html);
 		}
 		$("#updateptag").click(function(){
 			var tagAry=new Array();
@@ -140,27 +141,24 @@
 		}
 
 	});
+	$("#searchphoto").click(function(){
+		console.log($("#pName").val());
+		$(".easyui-datagrid").datagrid("load",{"photo.name":$("#pName").val()});
+	})
 	function imgFormatter(value,row,index){
-		 if('' != value && null != value){
-		var strs = new Array(); //定义一数组 
-		if(value.substr(value.length-1,1)==","){
-			value=value.substr(0,value.length-1)
-		}
-			strs = value.split(","); //字符分割 
-	  var rvalue ="";		   
-		for (i=0;i<strs.length ;i++ ){ 
-			console.log(strs[i]);
-			rvalue += "<img onclick=download(\""+strs[i]+"\") style='width:66px; height:60px;margin-left:3px;' src='http://localhost:8080/photo-library" + strs[i] + "' title='点击查看图片'/>";
-			} 
-	    return  rvalue; 	 
-		 }
+		console.log(row);
+	    var rvalue ="";		   
+		var path=row.path;
+		console.log(path);
+			rvalue += "<img onclick=download(\""+path+"\") style='width:66px; height:60px;margin-left:3px;' src='http://localhost:8080/photo-library" + row.minpath + "' title='点击查看图片'/>";
+	    return  rvalue; 
 		}
 	function download(img){
 		var simg = "http://localhost:8080/photo-library"+ img;
 		$('#dlg').dialog({
 		    title: '预览',
-		    width: 150,
-		    height:100,
+		    width: 700,
+		    height:500,
 		    resizable:true,
 		    closed: false,
 		    cache: false,
@@ -176,18 +174,18 @@
 	<thead>
 		<tr>
 			<th data-options="field:'cks',checkbox:true"></th>
-			<th data-options="field:'id',width:200">文件ID
 			<th data-options="field:'name',width:200">文件名</th>
 			<th data-options="field:'date',width:200">日期</th>
 			<th data-options="field:'minpath',width:300,formatter:imgFormatter">图片预览</th>
+			<th data-options="field:'path',width:0,hidden:true">
 			<th data-options="field:'tagName',width:500">标签名</th>
-			<th data-options="field:'year',width:500">年</th>
-			<th data-options="field:'month',width:500">月</th>
+			<th data-options="field:'year',width:500,hidden:true">年</th>
+			<th data-options="field:'month',width:500,hidden:true">月</th>
 		</tr>
 	</thead>
 </table>
 <div id="tbar" style="padding: 5px;">
-	<input class="easyui-textbox" id="name" /> <a id="search" href="#"
+	<input class="easyui-textbox" id="pName" /> <a id="searchphoto" href="#"
 		class="easyui-linkbutton"
 		data-options="iconCls:'icon-search',plain:true">查询</a> <a id="addphoto"
 		href="#" class="easyui-linkbutton"
@@ -203,11 +201,12 @@
 		closed:true,maximizable:false,collapsible:false,modal:true">
 		<form id="importFileForm" method="post" enctype="multipart/form-data">
 		<input type="file"  id="upload" name="upload" >
+		<br>
+		图片名称<input type="text" id="pname" name="pname">
         <div style="text-align:center;clear:both;margin:5px;">
             <a id="uploadFile" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" data-bind="click:importFileClick" href="javascript:void(0)">上传</a>
-            <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" data-bind="click:closeImportClick" href="javascript:void(0)">关闭</a>
         </div>
-        <div id="cgTagDiv"></div>
+        <div id="Tag"></div>
     </form>
     </div>
     <div id="edtPWin" style="padding: 10px;" class="easyui-window"
