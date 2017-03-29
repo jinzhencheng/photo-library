@@ -250,7 +250,7 @@ public class PhotoAction extends ActionSupport {
 		PhotoAgentDal paDal = new PhotoAgentDal();
 		paDal.batchAdd(photoAgents);
 		paDal.dispose();
-	   
+	   //
 		if(upload!=null){
 			File goalFile = new File(getSavePath(),timeName);
 			File minFile = new File(getSavePath(),"m" + timeName);
