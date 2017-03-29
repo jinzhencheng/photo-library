@@ -13,6 +13,7 @@
 				}
 			});
 			$("#add").click(function(){
+				$("#tagId").val("0");
 				var categories=$fetchCategory();
 				$buildCheckboxOne(categories);
 				$("#editWin").window("open");
