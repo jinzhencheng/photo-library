@@ -83,7 +83,7 @@ public class CategoryAction extends ActionSupport{
 	        
 	        os.close();
 	        is.close();
-		    return root + timeName;
+		    return "/upload/"+timeName;
 		}
 		catch(Exception e)
 		{
