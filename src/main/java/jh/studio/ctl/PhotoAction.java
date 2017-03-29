@@ -250,15 +250,17 @@ public class PhotoAction extends ActionSupport {
 		PhotoAgentDal paDal = new PhotoAgentDal();
 		paDal.batchAdd(photoAgents);
 		paDal.dispose();
-		  String filePath = getSavePath(); 
-	      File myFilePath = new File(filePath); 
-	      if (!myFilePath.exists()) { 
-	        myFilePath.mkdir(); 
-	      } 
-		File goalFile = new File(getSavePath(),timeName);
-		File minFile = new File(getSavePath(),"m" + timeName);
-		FileUtils.copyFile(upload, goalFile);
-		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+	   
+		if(upload!=null){
+			File goalFile = new File(getSavePath(),timeName);
+			File minFile = new File(getSavePath(),"m" + timeName);
+			if(!goalFile.getParentFile().exists()){
+				goalFile.getParentFile().mkdirs();
+			}
+			FileUtils.copyFile(upload, goalFile);
+			FileUtils.copyFile(upload, minFile);
+			Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+		}
 
 		return SUCCESS;
 

@@ -148,7 +148,7 @@
 	    var rvalue ="";		   
 		var path=row.path;
 		console.log(path);
-			rvalue += "<img onclick=download(\""+path+"\") style='width:66px; height:60px;margin-left:3px;' src='http://localhost:8080/photo-library" + row.minpath + "' title='点击查看图片'/>";
+			rvalue += "<img onclick=download(\""+path+"\") style='width:66px; height:60px;margin-left:3px;' src='.." + row.minpath + "' title='点击查看图片'/>";
 	    return  rvalue; 
 		}
 	function download(img){

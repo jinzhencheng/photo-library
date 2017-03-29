@@ -19,12 +19,6 @@ public class Category {
 		this.name=name;
 	}
 	
-	public String getMinPicture() {
-		return minPicture;
-	}
-	public void setMinPicture(String minPicture) {
-		this.minPicture = minPicture;
-	}
 	public Set<CategoryAgent> getTags() {
 		return tags;
 	}
