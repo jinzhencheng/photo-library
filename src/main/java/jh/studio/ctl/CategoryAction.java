@@ -56,6 +56,7 @@ public class CategoryAction extends ActionSupport{
 	
 	public String uploadFile()
 	{
+		if(uploadMin == null || uploadMinFileName == null) return null;
 		try
 		{
 			String timeName = System.currentTimeMillis() + uploadMinFileName;
@@ -153,7 +154,7 @@ public class CategoryAction extends ActionSupport{
 	public void save(){
 		CategoryDal dal=new CategoryDal();
 		Category t = dal.getOne(categoryId);
-		if(t != null)
+		if(t != null && t.getIsValid().equals(1))
 		{
 			
 			Category tt = new Category();
@@ -192,23 +193,26 @@ public class CategoryAction extends ActionSupport{
 			{
 				ids += c.getTagId().getId()+"-";
 			}
-			String[] tagIdArray = tagIds.split("-");
-			for(String c:tagIdArray)
+			if(!StringUtils.isBlank(tagIds))
 			{
-				if(!ids.contains("-"+c+"-"))
+				String[] tagIdArray = tagIds.split("-");
+				for(String c:tagIdArray)
 				{
-					CategoryAgent ca = new CategoryAgent();
-					
-					Tag t1 = new Tag();
-					t1.setId(Integer.parseInt(c));
-					
-					Category cg = new Category();
-					cg.setId(categoryId);
-					
-					ca.setCategoryId(cg);
-					ca.setTagId(t1);
-					
-					insertList.add(ca);
+					if(!ids.contains("-"+c+"-"))
+					{
+						CategoryAgent ca = new CategoryAgent();
+						
+						Tag t1 = new Tag();
+						t1.setId(Integer.parseInt(c));
+						
+						Category cg = new Category();
+						cg.setId(categoryId);
+						
+						ca.setCategoryId(cg);
+						ca.setTagId(t1);
+						
+						insertList.add(ca);
+					}
 				}
 			}
 			
