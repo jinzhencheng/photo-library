@@ -15,6 +15,7 @@
 			$("#cgAdd").click(function(){
 				var tags=$fetchTag();
 				$buildCheckboxOne(tags);
+				$("#categoryId").val("0");
 				$('#cgSelectOneLevel').combobox({
 				    url:'category!fetchOneLevel.action',
 				    valueField:'id',
