@@ -73,5 +73,11 @@ public class Category {
 	public void setParentName(String parentName) {
 		this.parentName = parentName;
 	}
+	public String getMinPicture() {
+		return minPicture;
+	}
+	public void setMinPicture(String minPicture) {
+		this.minPicture = minPicture;
+	}
 	
 }

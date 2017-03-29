@@ -11,18 +11,6 @@ public class LoginInterceptor implements Interceptor {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		  String actionName=invocation.getProxy().getActionName();
 	        if("admin".equals(actionName)){
@@ -30,9 +18,21 @@ public class LoginInterceptor implements Interceptor {
 	        }
 		Object loginUserName = ActionContext.getContext().getSession().get("username");
         if(null  == loginUserName){
-            return  Action.LOGIN;  // 这里返回用户登录页面视图
+            return  Action.LOGIN;  
         }
         return invocation.invoke();
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

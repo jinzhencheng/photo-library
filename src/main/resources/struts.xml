@@ -6,6 +6,15 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 	<!-- normal request -->
 	<package name="default" namespace="/" extends="struts-default">
+		<action name="theCategory" class="jh.studio.ctl.CategoryAction">
+			<result name="fetchParentCategory">/page/category_mb.jsp</result>
+			<result name="fetchCategoryByParent">/page/category_show_mb.jsp</result>
+		</action>
+		<action name="thePhoto" class="jh.studio.ctl.PhotoAction">
+			<result name="fetchPhotoByCategory">/page/category_photo_mb.jsp</result>
+			<result name="fetchYearAndMonth">/page/category_time_mb.jsp</result>
+			<result name="fetchPictureByDate">/page/gallery_mb.jsp</result>
+		</action>
 		<action name="theCollection" class="jh.studio.ctl.CollectionAction">
 			<result name="listByCollect">/page/collection.jsp</result>
 		</action>
@@ -159,6 +168,7 @@
 		</action>
 
 		<action name="category" class="jh.studio.ctl.CategoryAction">
+			<param name="savePath">/upload</param>
 			<result type="json" name="fetchAll">
 				<param name="root">categories</param>
 				<param name="excludeNullProperties">true</param>
@@ -180,6 +190,7 @@
 				<param name="excludeNullProperties">true</param>
 			</result>
 		</action>
+		
 	</package>
 </struts> 
 
