@@ -1,10 +1,6 @@
 package jh.studio.ctl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,34 +52,17 @@ public class CategoryAction extends ActionSupport{
 	
 	public String uploadFile()
 	{
-		if(uploadMin == null || uploadMinFileName == null) return null;
 		try
 		{
 			String timeName = System.currentTimeMillis() + uploadMinFileName;
-//			String filePath = getSavePath(); 
-//		    File myFilePath = new File(filePath); 
-//		    if (!myFilePath.exists()) {
-//		    	myFilePath.mkdir();
-//		    }
-//		    File minFile = new File(getSavePath(),"m" + timeName);
-//		    FileUtils.copyFile(uploadMin, minFile);
-//		    
-//		    
-		    
-		    
-		    String root = ServletActionContext.getServletContext().getRealPath("/upload");
-	        InputStream is = new FileInputStream(uploadMin);
-	        OutputStream os = new FileOutputStream(new File(root, timeName));
-	        byte[] buffer = new byte[500];
-	        int length = 0;
-	        while(-1 != (length = is.read(buffer, 0, buffer.length)))
-	        {
-	            os.write(buffer);
-	        }
-	        
-	        os.close();
-	        is.close();
-		    return "/upload/"+timeName;
+			String filePath = getSavePath(); 
+		    File myFilePath = new File(filePath); 
+		    if (!myFilePath.exists()) {
+		    	myFilePath.mkdir();
+		    }
+		    File minFile = new File(getSavePath(),"m" + timeName);
+		    FileUtils.copyFile(uploadMin, minFile);
+		    return savePath + "/m" + timeName;
 		}
 		catch(Exception e)
 		{
@@ -143,20 +122,17 @@ public class CategoryAction extends ActionSupport{
 			dal.dispose();
 		}
 	}
-	
 	public String getCategoryByParentId()
-	{
-		CategoryDal dal=new CategoryDal();
-		this.categories = dal.getCategoryList(categoryId);
-		return "categoryListByParentId";
-	}
-	
+		{
+			CategoryDal dal=new CategoryDal();
+			this.categories = dal.getCategoryList(categoryId);
+			return "categoryListByParentId";
+		}
 	public void save(){
 		CategoryDal dal=new CategoryDal();
 		Category t = dal.getOne(categoryId);
-		if(t != null && t.getIsValid().equals(1))
+		if(t != null)
 		{
-			
 			Category tt = new Category();
 			tt.setId(categoryId);
 			tt.setName(categoryName);
@@ -193,26 +169,23 @@ public class CategoryAction extends ActionSupport{
 			{
 				ids += c.getTagId().getId()+"-";
 			}
-			if(!StringUtils.isBlank(tagIds))
+			String[] tagIdArray = tagIds.split("-");
+			for(String c:tagIdArray)
 			{
-				String[] tagIdArray = tagIds.split("-");
-				for(String c:tagIdArray)
+				if(!ids.contains("-"+c+"-"))
 				{
-					if(!ids.contains("-"+c+"-"))
-					{
-						CategoryAgent ca = new CategoryAgent();
-						
-						Tag t1 = new Tag();
-						t1.setId(Integer.parseInt(c));
-						
-						Category cg = new Category();
-						cg.setId(categoryId);
-						
-						ca.setCategoryId(cg);
-						ca.setTagId(t1);
-						
-						insertList.add(ca);
-					}
+					CategoryAgent ca = new CategoryAgent();
+					
+					Tag t1 = new Tag();
+					t1.setId(Integer.parseInt(c));
+					
+					Category cg = new Category();
+					cg.setId(categoryId);
+					
+					ca.setCategoryId(cg);
+					ca.setTagId(t1);
+					
+					insertList.add(ca);
 				}
 			}
 			
