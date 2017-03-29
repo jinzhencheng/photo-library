@@ -1,6 +1,10 @@
 package jh.studio.ctl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,14 +59,30 @@ public class CategoryAction extends ActionSupport{
 		try
 		{
 			String timeName = System.currentTimeMillis() + uploadMinFileName;
-			String filePath = getSavePath(); 
-		    File myFilePath = new File(filePath); 
-		    if (!myFilePath.exists()) {
-		    	myFilePath.mkdir();
-		    }
-		    File minFile = new File(getSavePath(),"m" + timeName);
-		    FileUtils.copyFile(uploadMin, minFile);
-		    return savePath + "/m" + timeName;
+//			String filePath = getSavePath(); 
+//		    File myFilePath = new File(filePath); 
+//		    if (!myFilePath.exists()) {
+//		    	myFilePath.mkdir();
+//		    }
+//		    File minFile = new File(getSavePath(),"m" + timeName);
+//		    FileUtils.copyFile(uploadMin, minFile);
+//		    
+//		    
+		    
+		    
+		    String root = ServletActionContext.getServletContext().getRealPath("/upload");
+	        InputStream is = new FileInputStream(uploadMin);
+	        OutputStream os = new FileOutputStream(new File(root, timeName));
+	        byte[] buffer = new byte[500];
+	        int length = 0;
+	        while(-1 != (length = is.read(buffer, 0, buffer.length)))
+	        {
+	            os.write(buffer);
+	        }
+	        
+	        os.close();
+	        is.close();
+		    return root + timeName;
 		}
 		catch(Exception e)
 		{
