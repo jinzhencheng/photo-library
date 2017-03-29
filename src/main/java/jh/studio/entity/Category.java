@@ -12,13 +12,19 @@ public class Category {
 	private Integer isValid;
 	private Set<CategoryAgent> tags;
 	private String parentName;
-
+	private String minPicture;
 	public Category(){}
 	public Category(int id,String name){
 		this.id=id;
 		this.name=name;
 	}
 	
+	public String getMinPicture() {
+		return minPicture;
+	}
+	public void setMinPicture(String minPicture) {
+		this.minPicture = minPicture;
+	}
 	public Set<CategoryAgent> getTags() {
 		return tags;
 	}

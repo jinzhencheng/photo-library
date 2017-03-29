@@ -1,12 +1,17 @@
 <meta charset="UTF-8">
-<script type="text/javascript">
+
+	<script type="text/javascript">
 $(function(){
+		var editor = new Simditor({
+		  textarea: $('#statement_content'),
+		  toolbar:['title','bold','italic','underline','strikethrough','fontScale','color']
+		});
 		$.ajax({
 			url:'setInfo!findInfo.action',
 			data:{"flag":2},
 			success:function(data){
 				if(!data){return;}
-				$("#statement_content").textbox('setValue',data.content);
+				editor.setValue(data.content);
 				$("#statement_id").val(data.id);
 				$("#statement_flag").val(data.flag);
 			 },
@@ -34,18 +39,18 @@ $(function(){
 			});		
 		}
 
-		$("#sb").click(function(){
+		$("#suBtn").click(function(){
+			$(this).attr("disabled","true");
 			var id=$("#statement_id").val();
-			var content=encodeURI($("#statement_content").val());
-			var flag="2";
+			var flag=$("#statement_flag").val();
+			var content=encodeURI(editor.getValue());
 			$saveInfo(id,content,flag);
 		});
 	});
 </script>
-	<div id="thePanel" class="easyui-panel" title="免责声明" data-options="toolbar:'#tb'" style="width:650px;height:300px;padding:10px;">
-		<input  id="statement_id" type="hidden" name="setting.id"/>
-		<input  id="statement_flag" type="hidden" name="setting.flag"/>
-		<input class="easyui-textbox" type="text" id="statement_content" name="setting.content" data-options="required:true,multiline:true" 
-		style="width:600px;height:150px"/><br/><br/>
-		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="sb">提交</a>
+	<div id="thePanel" class="easyui-panel" title="免责声明" data-options="border:0"> 
+			<input  id="statement_id" type="hidden" name="setting.id"/>
+			<input  id="statement_flag" type="hidden" name="setting.flag" value="2"/>
+			<textarea id="statement_content" placeholder="请输入免责声明" autofocus name="setting.content"></textarea>
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="suBtn">提交</a><br/>
 	</div>

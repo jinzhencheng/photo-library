@@ -1,14 +1,18 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 $(function(){
+		var editor = new Simditor({
+		  textarea: $('#about_content'),
+		  toolbar:['title','bold','italic','underline','strikethrough','fontScale','color']
+		});
 		$.ajax({
 			url:'setInfo!findInfo.action',
 			data:{"flag":1},
 			success:function(data){
 				if(!data){return;}
-				$("#content").textbox('setValue',data.content);
-				$("#aid").val(data.id);
-				$("#aflag").val(data.flag);
+				editor.setValue(data.content);
+				$("#about_id").val(data.id);
+				$("#about_flag").val(data.flag);
 			 },
 			error:function(){
 				$.messager.alert("错误","加载数据失败","error");
@@ -33,18 +37,17 @@ $(function(){
 			});		
 		}
 
-		$("#subBtn").click(function(){
-			var id=$("#aid").val();
-			var content=encodeURI($("#content").val());
-			var flag="1";
+		$("#suBtn").click(function(){
+			var id=$("#about_id").val();
+			var flag=$("#about_flag").val();
+			var content=encodeURI(editor.getValue());
 			$saveInfo(id,content,flag);
 		});
 	});
 </script>
-	<div id="thePanel" class="easyui-panel" title="关于我们" data-options="toolbar:'#tb'" style="width:650px;height:300px;padding:10px;">
-		<input  id="aid" type="hidden" name="setting.id"/>
-		<input  id="aflag" type="hidden" name="setting.flag"/>
-		<input class="easyui-textbox" type="text" id="content" name="setting.content" data-options="required:true,multiline:true" 
-		style="width:600px;height:150px"/><br/><br/>
-		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="subBtn">提交</a>
+	<div id="thePanel" class="easyui-panel" title="关于我们" data-options="border:0"> 
+			<input  id="about_id" type="hidden" name="setting.id"/>
+			<input  id="about_flag" type="hidden" name="setting.flag" value="1"/>
+			<textarea id="about_content" placeholder="请输入免责声明" autofocus name="setting.content"></textarea>
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'" id="suBtn">提交</a><br/>
 	</div>

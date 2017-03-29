@@ -145,10 +145,14 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 	}
 	public List<Tag> getTag(String tagIds)
 	{
+		if(StringUtils.isBlank(tagIds))
+		{
+			return new ArrayList<Tag>();
+		}
 		List<Integer> idList = translate(tagIds);
 		if(idList == null)
 		{
-			return null;
+			return new ArrayList<Tag>();
 		}
 		String sql="select * from tag where isValid=1 and id in("+idList.get(0);
 		for(Integer id:idList)

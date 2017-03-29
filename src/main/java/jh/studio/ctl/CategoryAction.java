@@ -1,5 +1,6 @@
 package jh.studio.ctl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,10 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import jh.studio.condition.CategoryCond;
-import jh.studio.condition.TagCond;
 import jh.studio.dal.CategoryAgentDal;
 import jh.studio.dal.CategoryDal;
 import jh.studio.dal.TagDal;
@@ -21,7 +26,7 @@ import jh.studio.entity.Pagination;
 import jh.studio.entity.Tag;
 
 public class CategoryAction extends ActionSupport{
-	
+	private Logger logger= Logger.getLogger(CategoryDal.class);
 	private static final long serialVersionUID = 1L;
 	private List<Category> categories=null;
 	private int page;
@@ -33,7 +38,11 @@ public class CategoryAction extends ActionSupport{
 	private String categoryName;
 	private int categorySequence;
 	private String categoryParentId;
-	
+	private File uploadMin;
+	private String uploadMinFileName;
+	private String uploadMinContentType;
+	private String savePath;
+
 	public String fetchAll(){
 		CategoryDal dal=new CategoryDal();
 		this.categories=dal.getAll(Pagination.NULL);
@@ -41,7 +50,26 @@ public class CategoryAction extends ActionSupport{
 		return "fetchAll";
 	}
 	
-	
+	public String uploadFile()
+	{
+		try
+		{
+			String timeName = System.currentTimeMillis() + uploadMinFileName;
+			String filePath = getSavePath(); 
+		    File myFilePath = new File(filePath); 
+		    if (!myFilePath.exists()) {
+		    	myFilePath.mkdir();
+		    }
+		    File minFile = new File(getSavePath(),"m" + timeName);
+		    FileUtils.copyFile(uploadMin, minFile);
+		    return savePath + "/m" + timeName;
+		}
+		catch(Exception e)
+		{
+			logger.debug(e);
+			return null;
+		}
+	}
 	public String list(){
 		Condition condition=new CategoryCond(category.getName()); 
 		Pagination pager=new Pagination();
@@ -109,7 +137,12 @@ public class CategoryAction extends ActionSupport{
 			tt.setId(categoryId);
 			tt.setName(categoryName);
 			tt.setSequence(categorySequence);
-			if(!categoryParentId.equals("-1"))
+			if(!StringUtils.isBlank(uploadMinFileName) && uploadMin != null)
+			{
+				String path = uploadFile();
+				tt.setMinPicture(path);
+			}
+			if(!categoryParentId.equals("未选择"))
 			{
 				tt.setParentId(Integer.parseInt(categoryParentId));
 			}
@@ -123,22 +156,23 @@ public class CategoryAction extends ActionSupport{
 			
 			for(CategoryAgent c:set)
 			{
-				String id = c.getTagId().getId()+"";
-				if(c.getCategoryId().getId() == categoryId && !tagIds.contains(id))
+				String tempTagId = "-"+tagIds+"-";
+				String id = "-"+c.getTagId().getId()+"-";
+				if(c.getCategoryId().getId() == categoryId && !tempTagId.contains(id))
 				{
 					delList.add(c.getTagId().getId());
 				}
 			}
 			
-			String ids = "";
+			String ids = "-";
 			for(CategoryAgent c:set)
 			{
-				ids += c.getTagId().getId();
+				ids += c.getTagId().getId()+"-";
 			}
 			String[] tagIdArray = tagIds.split("-");
 			for(String c:tagIdArray)
 			{
-				if(!ids.contains(c))
+				if(!ids.contains("-"+c+"-"))
 				{
 					CategoryAgent ca = new CategoryAgent();
 					
@@ -167,6 +201,10 @@ public class CategoryAction extends ActionSupport{
 				Set<CategoryAgent> tagSet = new HashSet<CategoryAgent>();
 				TagDal tDal = new TagDal();
 				List<Tag> tagList = tDal.getTag(tagIds);
+				if(tagList == null)
+				{
+					tagList = new ArrayList<Tag>();
+				}
 				tDal.dispose();
 				
 				Category category = new Category();
@@ -174,7 +212,7 @@ public class CategoryAction extends ActionSupport{
 				category.setName(categoryName);
 				category.setSequence(categorySequence);
 				category.setIsValid(1);//有效
-				if(!categoryParentId.equals("-1"))
+				if(!categoryParentId.equals("未选择"))
 				{
 					category.setParentId(Integer.parseInt(categoryParentId));
 				}
@@ -187,13 +225,30 @@ public class CategoryAction extends ActionSupport{
 					tagSet.add(ca);
 				}
 				category.setTags(tagSet);
+				String path = uploadFile();
+				category.setMinPicture(path);
 				dal.add(category);
 				dal.dispose();
 			}catch(Exception e)
 			{
-				e.printStackTrace();
+				logger.debug(e);
 			}
 		}
+	}
+	
+	public String fetchParentCategory(){
+		CategoryDal dal=new CategoryDal();
+		this.categories=dal.getOneLevelCategory(Pagination.NULL);
+		dal.dispose();
+		ServletActionContext.getRequest().setAttribute("categories", categories);
+		return "fetchParentCategory";
+	}
+	public String fetchCategoryByParent(){
+		CategoryDal dal=new CategoryDal();
+		this.categories = dal.getCategoryList(categoryId);
+		dal.dispose();
+		ServletActionContext.getRequest().setAttribute("categories", categories);
+		return "fetchCategoryByParent";
 	}
 
 	public int getPage() {
@@ -280,7 +335,46 @@ public class CategoryAction extends ActionSupport{
 	public void setCategoryParentId(String categoryParentId) {
 		this.categoryParentId = categoryParentId;
 	}
-	
-	
+
+
+	public File getUploadMin() {
+		return uploadMin;
+	}
+
+
+	public void setUploadMin(File uploadMin) {
+		this.uploadMin = uploadMin;
+	}
+
+
+	public String getUploadMinFileName() {
+		return uploadMinFileName;
+	}
+
+
+	public void setUploadMinFileName(String uploadMinFileName) {
+		this.uploadMinFileName = uploadMinFileName;
+	}
+
+
+	public String getUploadMinContentType() {
+		return uploadMinContentType;
+	}
+
+
+	public void setUploadMinContentType(String uploadMinContentType) {
+		this.uploadMinContentType = uploadMinContentType;
+	}
+
+
+	public String getSavePath() {
+		return ServletActionContext.getServletContext().getRealPath(savePath);
+	}
+
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+
 
 }

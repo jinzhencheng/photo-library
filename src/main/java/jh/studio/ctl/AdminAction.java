@@ -23,7 +23,7 @@ public class AdminAction extends ActionSupport {
 		if (find) {
 			Map<String, Object> session = ActionContext.getContext().getSession();
 			ServletActionContext.getRequest().getSession().setMaxInactiveInterval(300);
-			session.put("username", admin.getUsername());
+			session.put("admin", admin);
 			dal.dispose();
 			return SUCCESS;
 		}

@@ -53,7 +53,26 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	
 	public void updateCategory(Category entity)
 	{
-		String sql="update category set name='"+entity.getName()+"',sequence="+entity.getSequence()+",parent_id="+entity.getParentId()+" where id="+entity.getId();
+		if (entity == null) return ;
+		//String sql="update category set name='"+entity.getName()+"',sequence="+entity.getSequence()+",parent_id="+entity.getParentId()+" where id="+entity.getId();
+		String sql = "update category set id="+entity.getId();
+		if(!StringUtils.isBlank(entity.getName()))
+		{
+			sql += ",name='"+entity.getName()+"'";
+		}
+		if(entity.getSequence() != null)
+		{
+			sql += ",sequence="+entity.getSequence();
+		}
+		if(entity.getParentId() != null)
+		{
+			sql += ",parent_id="+entity.getParentId();
+		}
+		if(!StringUtils.isBlank(entity.getMinPicture()))
+		{
+			sql += ",min_picture='"+entity.getMinPicture()+"'";
+		}
+		sql += " where id="+entity.getId();
 		super.session.createNativeQuery(sql).executeUpdate();
 	}
 	public List<Category> getOneLevelCategory(Pagination page)
@@ -97,13 +116,22 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	
 	String findParentList(List<Category> list ,Category t)
 	{
-		for(Category c:list)
+//		for(Category c:list)
+//		{
+//			if(t.getParentId() != null && t.getParentId().equals(c.getId()))
+//			{
+//				return c.getName();
+//			}
+//		}
+		if(t == null || t.getParentId() == null) return null;
+		String sql="select * from category where isValid=1 and id="+t.getParentId();
+		Query<Category> query=super.session.createNativeQuery(sql, Category.class);
+		List<Category> list1=query.getResultList();
+		if(list1 != null && list1.size() > 0)
 		{
-			if(t.getParentId() != null && t.getParentId().equals(c.getId()))
-			{
-				return c.getName();
-			}
+			return list1.get(0).getName();
 		}
+		
 		return null;
 	}
 	@Override
@@ -124,10 +152,14 @@ public class CategoryDal extends BaseDal<Category> implements IDal<Category>{
 	}
 	public List<Category> getCategory(String categoryIds)
 	{
+		if(StringUtils.isBlank(categoryIds))
+		{
+			return new ArrayList<Category>();
+		}
 		List<Integer> idList = translate(categoryIds);
 		if(idList == null)
 		{
-			return null;
+			return  new ArrayList<Category>();
 		}
 		String sql="select * from category where isValid=1 and id in("+idList.get(0);
 		for(Integer id:idList)

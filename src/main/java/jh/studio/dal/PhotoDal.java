@@ -1,7 +1,10 @@
 package jh.studio.dal;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.query.Query;
@@ -106,5 +109,29 @@ public class PhotoDal extends BaseDal<Photo> {
 		super.session.createNativeQuery(sql).executeUpdate();
 		transaction.commit();	
 	}
-
+	public List<Photo> searchByCategory(int categoryId,Pagination page){
+		String sql="select * from photo where id in "
+				+ "(select photo_id from category_agent as ca left join photo_agent as pa on ca.tag_id = pa.tag_id where ca.category_id =1)";
+		Query<Photo> query=super.session.createNativeQuery(sql,Photo.class);
+		List<Photo> list=super.toList(query, page);
+		return list;
+	}
+	public Map<String,List<String>>  fetchYearAndMonth(){
+		String sql="select year,month from photo group by year,month";
+		List<?> list=super.session.createNativeQuery(sql).getResultList();
+		Map<String,List<String>> map=new HashMap<String,List<String>>();
+		for(Object obj:list){
+			String year=Array.get(obj,0).toString();
+			String month=Array.get(obj,1).toString();
+			if(map.containsKey(year)){
+				List<String> months=map.get(year);
+				months.add(month);
+			}else{
+				List<String> months=new ArrayList<String>();
+				months.add(month);
+				map.put(year,months);
+			}
+		}
+		return map;
+	}
 }
