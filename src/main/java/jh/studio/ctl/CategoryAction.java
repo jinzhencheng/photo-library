@@ -159,22 +159,23 @@ public class CategoryAction extends ActionSupport{
 			
 			for(CategoryAgent c:set)
 			{
-				String id = c.getTagId().getId()+"";
-				if(c.getCategoryId().getId() == categoryId && !tagIds.contains(id))
+				String tempTagId = "-"+tagIds+"-";
+				String id = "-"+c.getTagId().getId()+"-";
+				if(c.getCategoryId().getId() == categoryId && !tempTagId.contains(id))
 				{
 					delList.add(c.getTagId().getId());
 				}
 			}
 			
-			String ids = "";
+			String ids = "-";
 			for(CategoryAgent c:set)
 			{
-				ids += c.getTagId().getId();
+				ids += c.getTagId().getId()+"-";
 			}
 			String[] tagIdArray = tagIds.split("-");
 			for(String c:tagIdArray)
 			{
-				if(!ids.contains(c))
+				if(!ids.contains("-"+c+"-"))
 				{
 					CategoryAgent ca = new CategoryAgent();
 					
