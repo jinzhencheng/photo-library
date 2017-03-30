@@ -103,6 +103,10 @@
 				<param name="root">result</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<result type="json" name="ok">
+				<param name="root">myTags</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
 			<result type="json" name="month">
 				<param name="root">result</param>
 				<param name="excludeNullProperties">true</param>

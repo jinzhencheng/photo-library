@@ -23,7 +23,7 @@ public class PhotoAgentDal extends BaseDal<PhotoAgent>{
 		{
 			return ;
 		}
-		String sql="delete from photo_agent where photo_id in ("+list.get(0);
+		String sql = "delete from photo_agent where photo_id in (" + list.get(0);
 		String ids = "";
 		for(Integer i:list)
 		{
@@ -57,5 +57,21 @@ public class PhotoAgentDal extends BaseDal<PhotoAgent>{
 				pr.add(p);
 			}
 	        return pr;	
+	}
+
+	public List<PhotoAgent> getTagId(int photoId) {
+		String sql = "select * from photo_agent where photo_id=" + photoId;
+		Query query = super.session.createNativeQuery(sql);
+		List<PhotoAgent> pa = new ArrayList();
+		List list = query.getResultList();
+		for (int i = 0; i < list.size(); i++) {
+			Object[] o = (Object[]) list.get(i);
+			PhotoAgent p= new PhotoAgent();
+			p.setId(Integer.parseInt(o[0].toString()));
+			p.setPhotoId(Integer.parseInt(o[1].toString()));
+			p.setTagId(Integer.parseInt(o[2].toString()));
+			pa.add(p);
+		}
+		return pa;
 	}
 }

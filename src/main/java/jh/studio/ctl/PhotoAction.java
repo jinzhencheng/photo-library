@@ -52,7 +52,16 @@ public class PhotoAction extends ActionSupport {
 	private List<String> result = new ArrayList<String>();
 	private Photo photo = new Photo();
 	private int categoryId;
+	private List<PhotoAgent> myTags=new ArrayList();
 	
+	
+	public List<PhotoAgent> getMyTags() {
+		return myTags;
+	}
+
+	public void setMyTags(List<PhotoAgent> myTags) {
+		this.myTags = myTags;
+	}
 
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
@@ -221,9 +230,12 @@ public class PhotoAction extends ActionSupport {
 		this.savePath = savePath;
 	}
 
-	public String execute() throws IOException {
+	public String upfile() throws IOException {
 		Photo photo=new Photo();
-		String timeName = System.currentTimeMillis() + uploadFileName;
+		String[] oldName=uploadFileName.split("\\.");
+		System.out.println(uploadFileName);
+		System.out.println(oldName.length);
+		String timeName = System.currentTimeMillis() +"."+oldName[1];
 		Date date = new Date();
 		String[] yearMonth = DateToString.getResult(date);
 		photo.setName(pname);
@@ -247,15 +259,17 @@ public class PhotoAction extends ActionSupport {
 		PhotoAgentDal paDal = new PhotoAgentDal();
 		paDal.batchAdd(photoAgents);
 		paDal.dispose();
-		  String filePath = getSavePath(); 
-	      File myFilePath = new File(filePath); 
-	      if (!myFilePath.exists()) { 
-	        myFilePath.mkdir(); 
-	      } 
-		File goalFile = new File(getSavePath(),timeName);
-		File minFile = new File(getSavePath(),"m" + timeName);
-		FileUtils.copyFile(upload, goalFile);
-		Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+	   //
+		if(upload!=null){
+			File goalFile = new File(getSavePath(),timeName);
+			File minFile = new File(getSavePath(),"m" + timeName);
+			if(!goalFile.getParentFile().exists()){
+				goalFile.getParentFile().mkdirs();
+			}
+			FileUtils.copyFile(upload, goalFile);
+			FileUtils.copyFile(upload, minFile);
+			Thumbnails.of(goalFile.toString()).size(200, 300).toFile(minFile.toString());
+		}
 
 		return SUCCESS;
 
@@ -342,5 +356,11 @@ public class PhotoAction extends ActionSupport {
 		request.setAttribute("photos",photos);
 		request.setAttribute("pager", pager);
 		return "fetchPictureByDate";
+	}
+	public String TagIds(){
+		PhotoAgentDal dal=new PhotoAgentDal();
+	    myTags=dal.getTagId(photo_id);
+		dal.dispose();
+		return "ok";
 	}
 }
