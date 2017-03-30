@@ -52,7 +52,16 @@ public class PhotoAction extends ActionSupport {
 	private List<String> result = new ArrayList<String>();
 	private Photo photo = new Photo();
 	private int categoryId;
+	private List<PhotoAgent> myTags=new ArrayList();
 	
+	
+	public List<PhotoAgent> getMyTags() {
+		return myTags;
+	}
+
+	public void setMyTags(List<PhotoAgent> myTags) {
+		this.myTags = myTags;
+	}
 
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
@@ -347,5 +356,11 @@ public class PhotoAction extends ActionSupport {
 		request.setAttribute("photos",photos);
 		request.setAttribute("pager", pager);
 		return "fetchPictureByDate";
+	}
+	public String TagIds(){
+		PhotoAgentDal dal=new PhotoAgentDal();
+	    myTags=dal.getTagId(photo_id);
+		dal.dispose();
+		return "ok";
 	}
 }

@@ -30,6 +30,28 @@
 			});	
 			return tags;
 		}
+		var $fetchMyTag=function(){
+			var row=$checkSelected();
+			if(row==null){
+				return;
+			}
+			var mytags="";
+			$.ajax({
+				url:'photo!TagIds.action',
+				data:{"photo_id":row.id},
+				dataType:"json",
+				async : false,
+				success:function(resultdata){
+					mytags=resultdata;
+				},
+				error:function(error){
+					console.log(error.responseText);
+					$.messager.alert('错误','数据初始化失败',"error");
+				}
+			});	
+			console.log(mytags);
+			return mytags;
+		}
 		var $checkSelected=function(){
 			var row=$('.easyui-datagrid').datagrid('getSelected');
 			if(!row){
@@ -61,7 +83,7 @@
 		});
 		$("#uploadFile").click(function(){
 			var tagAry=new Array();
-			$("input[name='tag']:checked").each(function(index,value){
+			$("input[name='cks']:checked").each(function(index,value){
 				tagAry.push($(this).val());
 			});
 			if(tagAry.length==0){
@@ -77,7 +99,7 @@
 						param.tags=tagIds;
 					},
 					success:function(){
-						
+						$("#Tag").empty();
 						$("#addPWin").window("close");
 						$(".easyui-datagrid").datagrid("reload");
 						
@@ -93,14 +115,15 @@
 			}
 			$("#photoid").val(row.id);
 			var tags=$fetchTag();
-			$buildCheckboxOneChange(tags);	
+			var ownTags=$fetchMyTag();
+			$buildCheckboxOneChange(tags,ownTags);	
 			$("#edtPWin").window("open");
 		});	
 		var $buildCheckboxOne=function(data){
 			if(!data){return;}
 			var ary=new Array();
 			$.each(data,function(index,item){
-				var cks="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				var cks="<input type='checkbox' name='cks' value='"+item.id+"' id='"+item.id+"'>"+item.name;
 				ary.push(cks);
 			})
 			var html=ary.join("");
@@ -121,18 +144,28 @@
 					param.photo_id=photo_id;
 				},
 				success:function(){
-					
+					$("#edt").empty();
 					$("#edtPWin").window("close");
 					$(".easyui-datagrid").datagrid("reload");
 					
 				}
 			});
 		});
-		var $buildCheckboxOneChange=function(data){
+		var $buildCheckboxOneChange=function(data,owndata){
 			if(!data){return;}
 			var ary=new Array();
+			var ids = ",";
+			$.each(owndata,function(index,item){
+				ids+=item.tagId+",";
+			});
 			$.each(data,function(index,item){
-				var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				if(ids.indexOf(","+item.id+",") != -1)
+				{
+				  var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'checked>"+item.name;
+				}else{
+				  var ck="<input type='checkbox' name='tag' value='"+item.id+"' id='"+item.id+"'>"+item.name;
+				}
+				
 				ary.push(ck);
 			})
 			var html=ary.join("");
@@ -144,10 +177,8 @@
 		$(".easyui-datagrid").datagrid("load",{"photo.name":$("#pName").val()});
 	})
 	function imgFormatter(value,row,index){
-		console.log(row);
 	    var rvalue ="";		   
 		var path=row.path;
-		console.log(path);
 			rvalue += "<img onclick=download(\""+path+"\") style='width:66px; height:60px;margin-left:3px;' src='.." + row.minpath + "' title='点击查看图片'/>";
 	    return  rvalue; 
 		}
@@ -200,7 +231,7 @@
 		<form id="importFileForm" method="post" enctype="multipart/form-data">
 		<input type="file"  id="upload" name="upload" >
 		<br>
-		图片名称<input type="text" id="pname" name="pname">
+		图片名称<input type="text" class="easyui-textbox" id="pname" name="pname" data-options="required:true">
         <div style="text-align:center;clear:both;margin:5px;">
             <a id="uploadFile" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" data-bind="click:importFileClick" href="javascript:void(0)">上传</a>
         </div>
