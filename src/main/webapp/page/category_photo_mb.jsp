@@ -20,7 +20,7 @@
 		.gallery:after { clear:both; content:"."; display: block; height: 0; visibility: hidden; }
 		.gallery li { float:left; width:33.33333333%; text-align:center;}
 		.gallery li a{ display:block; margin:2px;margin-bottom:-1px; border:1px solid #ccc; }
-		.gallery li img { display:block; width:100%; height:auto;} 
+		.gallery li img { display:block; width:100%; height:5rem;} 
 		.btn{width:45%;!important;height:auto;background:orange;border:solid 1px white;color:white;min-height:30px;border-radius:3px;}
 		#nextBtn{float:right;}
 		#preBtn{float:left;}
@@ -74,6 +74,10 @@
 		int pageCount=pager.getPageCount();
 		String nextDisabled="";
 		String preDisabled="";
+		String isShow="block";
+		if(pageIndex+1==pageCount){
+			isShow="none";	
+		}
 		if(pageCount-pageIndex <= 0){
 			nextDisabled="disabled='true'";
 		}
@@ -81,8 +85,10 @@
 			preDisabled="disabled='true'";
 		}
 	%>
-  	<button id="preBtn" class="btn" <%=preDisabled %> pageIndex="<%=pageIndex %>">上一页</button>	
-  	<button id="nextBtn" class="btn" <%=nextDisabled %> pageIndex="<%=pageIndex %>">下一页</button>	
+	<div style="display:<%=isShow %>">
+		  <button id="preBtn" class="btn" <%=preDisabled %> pageIndex="<%=pageIndex %>">上一页</button>	
+		  <button id="nextBtn" class="btn" <%=nextDisabled %> pageIndex="<%=pageIndex %>">下一页</button>	
+	</div>
   	
   </body>
 </html>

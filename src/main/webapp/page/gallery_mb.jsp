@@ -8,10 +8,10 @@
 	.gallery:after { clear:both; content:"."; display: block; height: 0; visibility: hidden; }
 	.gallery li { float:left; width:33.33333333%; text-align:center;}
 	.gallery li a{ display:block; margin:2px;margin-bottom:-1px; border:1px solid #ccc; }
-	.gallery li img { display:block; width:100%; height:auto;} 
+	.gallery li img { display:block; width:100%; height:5rem;} 
 </style>
 <script type="text/javascript" src="../js/klass.min.js"></script>
-<!--  <script type="text/javascript" src="../js/jquery.min.js"></script> -->
+<script type="text/javascript" src="../js/jquery.min.js"></script> 
 <script type="text/javascript" charset="utf-8" src="../js/code.photoswipe-3.0.5.js"></script>
 <script type="text/javascript" charset="utf-8" src="../js/jquery.transit.js"></script>
 <script type="text/javascript" charset="utf-8" src="../js/hammer.js"></script>

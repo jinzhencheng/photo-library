@@ -16,7 +16,7 @@
 	  <div class="list-block" style="margin-top:0px;" id="category-nav-div">
 		<ul>
 		  <li class="item-content">
-			  <div class="item-title category-nav" link='thePhoto!fetchYearAndMonth.action'>时间轴</div>
+			  <div class="item-title category-nav" link='thePhoto!fetchYearAndMonth.action'>时间轴线</div>
 		  </li>
 		  <li class="item-content">
 			  <div class="item-title" link="category_tag_mb.html">热门标签</div>

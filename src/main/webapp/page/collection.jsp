@@ -95,7 +95,7 @@
   </head>
   <body>
   	<div id="collect-toolbar">
-  		<a href="javascript:void(0);" id="edit">编辑</a>
+  		<a href="javascript:void(0);" id="edit">选择</a>
   		<a href="javascript:void(0);" id="del" style="float:right;">删除</a>
   		<span id="info">「点击图片下方区域选择图片」</span>
   	</div>
@@ -118,6 +118,10 @@
 		int pageCount=pager.getPageCount();
 		String nextDisabled="";
 		String preDisabled="";
+		String display="block";
+		if(pageIndex ==pageCount){
+			display="none";
+		}
 		if(pageCount-pageIndex <= 0){
 			nextDisabled="disabled='true'";
 		}
@@ -125,8 +129,8 @@
 			preDisabled="disabled='true'";
 		}
 	%>
-  	<button id="preBtn" class="btn" <%=preDisabled %> pageIndex="<%=pageIndex %>">上一页</button>	
-  	<button id="nextBtn" class="btn" <%=nextDisabled %> pageIndex="<%=pageIndex %>">下一页</button>	
+  	<button id="preBtn" class="btn" <%=preDisabled %> pageIndex="<%=pageIndex %>" style="display:<%=display%>">上一页</button>	
+  	<button id="nextBtn" class="btn" <%=nextDisabled %> pageIndex="<%=pageIndex%>" style="display:<%=display%>">下一页</button>	
   	
   </body>
 </html>

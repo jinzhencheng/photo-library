@@ -2,6 +2,7 @@ package jh.studio.ctl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class PhotoAction extends ActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	//TODO:当前硬编码
+	private int userId=1;
 	private String title;
 	private File upload;
 	private String uploadFileName;
@@ -53,10 +56,14 @@ public class PhotoAction extends ActionSupport {
 	private Photo photo = new Photo();
 	private int categoryId;
 	private List<PhotoAgent> myTags=new ArrayList();
-	
+	private String tagName;
 	
 	public List<PhotoAgent> getMyTags() {
 		return myTags;
+	}
+	
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
 	}
 
 	public void setMyTags(List<PhotoAgent> myTags) {
@@ -356,6 +363,18 @@ public class PhotoAction extends ActionSupport {
 		request.setAttribute("photos",photos);
 		request.setAttribute("pager", pager);
 		return "fetchPictureByDate";
+	}
+	public String fetchPictureByTag() throws Exception{
+		Pagination pager=new Pagination();
+		pager.setPage(page);
+		PhotoDal dal=new PhotoDal();
+		tagName=new String(tagName.getBytes("iso8859-1"),"utf-8");
+		photos=dal.searchByTag(userId, tagName, pager);
+		dal.dispose();
+		ServletRequest request=ServletActionContext.getRequest();
+		request.setAttribute("photos",photos);
+		request.setAttribute("pager", pager);
+		return "fetchPictureByTag";
 	}
 	public String TagIds(){
 		PhotoAgentDal dal=new PhotoAgentDal();

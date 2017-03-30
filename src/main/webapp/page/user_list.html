@@ -5,17 +5,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table class="easyui-datagrid" style="min-height:150px"
-			data-options="title:'用户列表',url:'user.action',fitColumns:true,
+<table class="easyui-datagrid" 
+			data-options="title:'用户列表',url:'user.action',fitColumns:true,width:480,
 					singleSelect:true,rownumber:true,pagination:true,toolbar:'#user_tb'">
     <thead>
 		<tr>
+			<th data-options="field:'id',width:30">ID号</th>
 			<th data-options="field:'openId',width:100">识别码</th>
 		</tr>
     </thead>
 </table>
 <div id="user_tb" style="padding:5px">
-	<span style="color:red;font-size:14px;">说明：该列表中仅显示用户唯一识别码</span>
+	<span style="color:red;font-size:14px;">说明：用户识别码由他端生成,用于区别唯一用户</span>
 </div>
 </body>
 </html>

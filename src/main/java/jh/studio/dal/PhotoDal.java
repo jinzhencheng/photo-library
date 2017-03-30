@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import jh.studio.entity.Pagination;
 import jh.studio.entity.Photo;
+import jh.studio.entity.Record;
 
 public class PhotoDal extends BaseDal<Photo> {
 	private Logger logger = null;
@@ -109,13 +110,35 @@ public class PhotoDal extends BaseDal<Photo> {
 		super.session.createNativeQuery(sql).executeUpdate();
 		transaction.commit();	
 	}
+
+	public List<Photo> searchByTag(int userId,String tagName,Pagination page){
+		String sql="select * from photo where id in "
+				+ "(select photo_id from photo_agent as pa left join tag as t on pa.tag_id=t.id "
+				+ "where t.name like '%"+tagName+"%')";
+		Query<Photo> query=super.session.createNativeQuery(sql,Photo.class);
+		String recordSql="select * from record where content ='"+tagName+"'";
+		List<Record> records=super.session.createNativeQuery(recordSql,Record.class).getResultList();
+		if(userId!=0){
+			if(records==null||records.size()==0){
+				Record entity=new Record();
+				entity.setUserId(userId);
+				entity.setContent(tagName);
+				super.session.save(entity);
+			}
+		}
+		List<Photo> list=super.toList(query, page);
+		super.transaction.commit();
+		return list;
+	}
+	
 	public List<Photo> searchByCategory(int categoryId,Pagination page){
 		String sql="select * from photo where id in "
-				+ "(select photo_id from category_agent as ca left join photo_agent as pa on ca.tag_id = pa.tag_id where ca.category_id =1)";
+				+ "(select photo_id from category_agent as ca left join photo_agent as pa on ca.tag_id = pa.tag_id where ca.category_id ="+categoryId+")";
 		Query<Photo> query=super.session.createNativeQuery(sql,Photo.class);
 		List<Photo> list=super.toList(query, page);
 		return list;
 	}
+
 	public Map<String,List<String>>  fetchYearAndMonth(){
 		String sql="select year,month from photo group by year,month";
 		List<?> list=super.session.createNativeQuery(sql).getResultList();

@@ -39,11 +39,14 @@
             <!-- 内容区 -->
             <div class="content">
 			  <div class="searchbar">
-				<a class="searchbar-cancel">取消</a>
-				<div class="search-input">
-				  <label class="icon icon-search" for="search"></label>
-				  <input type="search" id='search' placeholder='输入关键字...'/>
-				</div>
+				<div class="searchbar row">
+					<div class="search-input col-85">
+					<form action="thePhoto!fetchPictureByTag.action" method="post" id="searchForm">
+					  <input type="search" id='search' name="tagName" placeholder='输入关键字...'/>
+					</form>
+					</div>
+					<a class="button button-fill button-primary col-15" id="doSearch">搜索</a>
+				  </div>
 			  </div>
 
 			  <div class="content-block-title">搜索记录</div>
@@ -64,6 +67,9 @@
     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
     <script type="text/javascript">
     	$(function(){
+    		$("#doSearch").click(function(){
+    			$("#searchForm").submit();
+    		});
     		$.ajax({
     			url:"record!fetchRecord.action",
     			dataType:"json",
@@ -71,7 +77,7 @@
     			success:function(data){
     				var htmlStr="";	
     				$.each(data,function(index,item){
-    					htmlStr+="<a href='#'>"+item.content+"</a>";
+    					htmlStr+="<a href='thePhoto!fetchPictureByTag.action?tagName="+item.content+"'>"+item.content+"</a>  ";
     				});
     				if(htmlStr==""){
     					htmlStr="当前无搜索记录"
@@ -89,7 +95,7 @@
     			success:function(data){
 					var a_tag="";
 					$.each(data,function(index,item){
-						a_tag+="<a href='#' id='"+item.id+"'>"+item.name+"</a>  ";
+						a_tag+="<a href='thePhoto!fetchPictureByTag.action?tagName="+item.name+"' id='"+item.id+"'>"+item.name+"</a>  ";
 					});					
     				if(a_tag==""){
     					a_tag="暂无热门标签";

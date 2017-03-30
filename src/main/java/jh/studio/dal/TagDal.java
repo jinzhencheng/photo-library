@@ -57,7 +57,6 @@ public class TagDal extends BaseDal<Tag> implements IDal<Tag>{
 	public List<Tag> getHot(){
 		String hql="from Tag t where t.isHot=true";
 		Query<Tag> query=super.session.createQuery(hql,Tag.class);
-		super.transaction.commit();
 		return query.getResultList();
 	}
 

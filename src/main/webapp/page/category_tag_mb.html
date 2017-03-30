@@ -7,7 +7,7 @@
 			success:function(data){
 				var a_tag="";
 				$.each(data,function(index,item){
-					a_tag+="<a href='#' id='"+item.id+"'>"+item.name+"</a><br/>";
+					a_tag+="<a href='thePhoto!fetchPictureByTag.action?tagName="+item.name+"' id='"+item.id+"'>"+item.name+"</a><br/>";
 				});					
 
 				$("#hot-content").html(a_tag);

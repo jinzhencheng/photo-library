@@ -19,9 +19,6 @@
 	<script type="text/javascript" src="../js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$("#search").click(function(){
-				console.log("====");
-			});
 			$("#nav-tree").tree({
 				onClick:function(node){
 					if($("#nav-tree").tree("isLeaf",node.target)){
@@ -66,7 +63,7 @@
 				<span>系统设置</span>
 				<ul>
 					<li data-options="iconCls:'icon-admin',attributes:{'url':'admin_info.html'}"><span>修改密码</span></li>
-					<li data-options="iconCls:'icon-exit'">退出登录</li>
+					<li data-options="iconCls:'icon-exit'"><a href="../login.jsp" target="_self">退出登录</a></li>
 				</ul>
 			</li>
 		</ul>	

@@ -22,10 +22,17 @@
     	<% 
     		List<Category> list=(List<Category>)request.getAttribute("categories");
 			for(Category c:list){
+				String picPath=c.getMinPicture();
+				if(picPath==null){
+					picPath="../default/category_default.png";
+				}
     	%>
 		<li>
+			<!-- 
 			<a href="category_photo_mb.html?categoryId=<%=c.getId() %>" class="item-link item-content">
-				<div class="item-media"><img src="" style="width:4rem;" /></div>
+			-->
+			<a href="thePhoto!fetchPhotoByCategory.action?categoryId=<%=c.getId() %>" class="item-link item-content">
+				<div class="item-media"><img src="<%=picPath %>" style="width:4rem;" /></div>
 				<div class="item-inner">
 					<div class="item-title-row">
 					  <div class="item-title"><%=c.getName() %></div>

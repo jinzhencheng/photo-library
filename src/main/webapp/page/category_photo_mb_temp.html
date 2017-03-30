@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SunCool图库</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  </head>
+  <body>
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+            	<iframe id="photoIframe" src="#" frameborder="0" height="100%" width="100%"></iframe>	
+			</div>
+
+	<script type="text/javascript">
+		var urlInfo=window.document.location.href;
+		var offset=urlInfo.indexOf('?');
+		partUrl=urlInfo.substr(offset,urlInfo.length);
+		var categoryId=partUrl.split('=')[1]
+		console.log(categoryId);
+		document.getElementById("photoIframe").src="thePhoto!fetchPhotoByCategory.action?categoryId="+categoryId;	
+	</script>
+  </body>
+</html>

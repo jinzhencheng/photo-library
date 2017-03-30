@@ -4,27 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
+<title>Suncool后台管理</title>
+<style>
+	#submitBtn{width:200px;height:30px;border-radius:3px;background:orange;border:solid 1px orange;color:white;font-size:15px;cursor:pointer;}	
+	#loginForm{margin:0 auto;margin-top:200px;}
+</style>
 </head>
 <body>  
 <center>  
   
-<form method="POST" name="form" action="admin.action">  
-<table>  
-    <tr>  
-        <td>用户名 : </td>  
-        <td><input type="text" name="admin.username" /></td>  
-    </tr>  
-    <tr>  
-        <td>密 码 : </td>  
-        <td><input type="password" name="admin.password" /></td>  
-    </tr>  
-    <tr>  
-        <td colspan="2" align="center">  
-            <input type="submit" name="btnSubmit" value="登录"/>  
-        </td>  
-    </tr>  
-</table>  
+<form method="POST" name="form" action="admin.action" id="loginForm">  
+        用户名 :<input type="text" name="admin.username" style="margin-bottom:5px;"/><br/>
+        密&nbsp;&nbsp;&nbsp;码 :<input type="password" name="admin.password" style="margin-bottom:5px;"/><br/>
+	<input type="submit" name="btnSubmit" value="登录" id="submitBtn"/>  
 </form>  
   
 </center>  
